@@ -12,7 +12,7 @@ Timed memory read - not cached: 202
 Timed memory read - cached: 62
 Timed memory read - not cached: 196
 
-We use `rdscp`, it works the same as `rdsc` but also serializes the instruction stream.
+We use `rdtscp`, it works the same as `rdtsc` but also serializes the instruction stream.
 It also works using __cpuid to serialize instead, see older code.
 */
 
