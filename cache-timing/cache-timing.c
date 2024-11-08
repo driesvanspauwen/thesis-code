@@ -1,3 +1,20 @@
+/*
+Times memory reads for a cached and uncached variable.
+
+Example outputs:
+
+Timed memory read - cached: 108
+Timed memory read - not cached: 256
+
+Timed memory read - cached: 106
+Timed memory read - not cached: 226
+
+Timed memory read - cached: 108
+Timed memory read - not cached: 238
+
+Only works using __cpuid to serialize instruction stream!
+*/
+
 #include <stdio.h>
 #include <stdint.h>
 #include <x86intrin.h>  // For rdtsc and clflush
@@ -28,8 +45,6 @@ int main() {
     printf("Timed memory read - cached: %llu\n", timed_memory_read());
 
     _mm_clflush((const void *)&wr_var);
-    __asm__ __volatile__("" ::: "memory");
-    __builtin_ia32_pause();
     printf("Timed memory read - not cached: %llu\n", timed_memory_read());
 
     return 0;

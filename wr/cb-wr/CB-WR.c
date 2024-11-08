@@ -1,35 +1,41 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <x86intrin.h>  // For rdtsc and clflush
+#include <cpuid.h>      // For __cpuid
 
-#define CACHE_HIT_THRESHOLD 100  // Adjust based on your system
+#define CACHE_HIT_THRESHOLD 180
 
-volatile int wr_var = 0;  // Weird register variable
+volatile int wr_var = 0;
 
-// Function to read the timer
-uint64_t rdtsc() {
-    return __rdtsc();
-}
-
-// Function to write the WR (Cache to set to "1", Flush to set to "0")
+// Function to write to the WR
 void write_weird_register(int value) {
-    if (value == 1) {
+    if (value) {
         wr_var = 42;
     } else {
-        _mm_clflush(&wr_var);
+        _mm_clflush((const void *)&wr_var);
     }
 }
 
-// Function to read the WR
-int read_weird_register() {
+uint64_t timed_memory_read() {
     uint64_t start, end;
     int temp = 0;
 
-    start = rdtsc();
-    temp = wr_var;
-    end = rdtsc();
+    unsigned int aux;
+    __cpuid(0, aux, aux, aux, aux);
+    start = __rdtsc();
 
-    return (end - start) < CACHE_HIT_THRESHOLD ? 1 : 0;
+    temp = wr_var;
+
+    __cpuid(0, aux, aux, aux, aux);
+    end = __rdtsc();
+
+    return (end - start);
+}
+
+int read_weird_register() {
+    uint64_t time_to_read = timed_memory_read();
+
+    return time_to_read < CACHE_HIT_THRESHOLD ? 1 : 0;
 }
 
 int main() {
