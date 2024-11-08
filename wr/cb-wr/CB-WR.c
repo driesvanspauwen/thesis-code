@@ -1,3 +1,10 @@
+/*
+Implements a cache-based weird register (CB-WR) using Flush+Reload
+
+Value in cache -> logical 1
+Value not in cache -> logical 0
+*/
+
 #include <stdio.h>
 #include <stdint.h>
 #include <x86intrin.h>  // For rdtsc and clflush
