@@ -10,7 +10,7 @@ Value not in cache -> logical 0
 #include <x86intrin.h>  // For rdtsc and clflush
 #include <cpuid.h>      // For __cpuid
 
-#define CACHE_HIT_THRESHOLD 180
+#define CACHE_HIT_THRESHOLD 100  // See cache-timing/cache-timing.c
 
 volatile int wr_var = 0;
 
@@ -26,15 +26,13 @@ void write_weird_register(int value) {
 uint64_t timed_memory_read() {
     uint64_t start, end;
     int temp = 0;
-
     unsigned int aux;
-    __cpuid(0, aux, aux, aux, aux);
-    start = __rdtsc();
+
+    start = __rdtscp(&aux);
 
     temp = wr_var;
 
-    __cpuid(0, aux, aux, aux, aux);
-    end = __rdtsc();
+    end = __rdtscp(&aux);
 
     return (end - start);
 }

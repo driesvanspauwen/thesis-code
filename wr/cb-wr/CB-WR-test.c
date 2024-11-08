@@ -1,14 +1,8 @@
 /*
 Example output:
-Percentage of correct reads: 99.99%
----
-Percentage of correct reads: 99.98%
----
-Percentage of correct reads: 99.79%
----
-Percentage of correct reads: 99.74%
----
-Percentage of correct reads: 99.83%
+Percentage of correct reads: 100.00%
+
+-> gives almost always 100%
 */
 
 #include <stdio.h>
@@ -18,7 +12,7 @@ Percentage of correct reads: 99.83%
 #include <x86intrin.h>  // For rdtsc and clflush
 #include <cpuid.h>      // For __cpuid
 
-#define CACHE_HIT_THRESHOLD 180
+#define CACHE_HIT_THRESHOLD 100  // See cache-timing/cache-timing.c
 #define NUM_TESTS 10000
 
 volatile int wr_var = 0;
@@ -35,15 +29,13 @@ void write_weird_register(int value) {
 uint64_t timed_memory_read() {
     uint64_t start, end;
     int temp = 0;
-
     unsigned int aux;
-    __cpuid(0, aux, aux, aux, aux);
-    start = __rdtsc();
+
+    start = __rdtscp(&aux);
 
     temp = wr_var;
 
-    __cpuid(0, aux, aux, aux, aux);
-    end = __rdtsc();
+    end = __rdtscp(&aux);
 
     return (end - start);
 }

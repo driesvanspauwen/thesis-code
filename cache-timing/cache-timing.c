@@ -3,21 +3,22 @@ Times memory reads for a cached and uncached variable.
 
 Example outputs:
 
-Timed memory read - cached: 108
-Timed memory read - not cached: 256
+Timed memory read - cached: 78
+Timed memory read - not cached: 320
 
-Timed memory read - cached: 106
-Timed memory read - not cached: 226
+Timed memory read - cached: 34
+Timed memory read - not cached: 202
 
-Timed memory read - cached: 108
-Timed memory read - not cached: 238
+Timed memory read - cached: 62
+Timed memory read - not cached: 196
 
-Only works using __cpuid to serialize instruction stream!
+We use `rdscp`, it works the same as `rdsc` but also serializes the instruction stream.
+It also works using __cpuid to serialize instead, see older code.
 */
 
 #include <stdio.h>
 #include <stdint.h>
-#include <x86intrin.h>  // For rdtsc and clflush
+#include <x86intrin.h>  // For rdtscp and clflush
 #include <cpuid.h>
 
 volatile int wr_var = 0;
@@ -25,17 +26,13 @@ volatile int wr_var = 0;
 uint64_t timed_memory_read() {
     uint64_t start, end;
     int temp = 0;
-
-    // Serialize before reading the timestamp
     unsigned int aux;
-    __cpuid(0, aux, aux, aux, aux);
-    start = __rdtsc();
+
+    start = __rdtscp(&aux);
 
     temp = wr_var;
 
-    // Serialize after reading the timestamp
-    __cpuid(0, aux, aux, aux, aux);
-    end = __rdtsc();
+    end = __rdtscp(&aux);
 
     return (end - start);
 }
