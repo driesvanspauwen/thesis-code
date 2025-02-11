@@ -4,3 +4,6 @@
 [submodule "emulation/leakage-model-testing"]
 	path = emulation/leakage-model-testing
 	url = https://github.com/hw-sw-contracts/leakage-model-testing.git
+[submodule "unicorn"]
+	path = unicorn
+	url = https://github.com/driesvanspauwen/unicorn.git
