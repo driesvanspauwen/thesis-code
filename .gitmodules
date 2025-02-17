@@ -1,8 +1,5 @@
-[submodule "angr/angr_ctf"]
-	path = angr/angr_ctf
-	url = https://github.com/driesvanspauwen/angr_ctf.git
-[submodule "emulation/leakage-model-testing"]
-	path = emulation/leakage-model-testing
+[submodule "leakage-model-testing"]
+	path = leakage-model-testing
 	url = https://github.com/hw-sw-contracts/leakage-model-testing.git
 [submodule "unicorn"]
 	path = unicorn
