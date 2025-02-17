@@ -31,11 +31,10 @@ uint64_t timed_memory_read() {
     int temp = 0;
     unsigned int aux;
 
-    start = __rdtscp(&aux);
-
+    start = __rdtsc();
     temp = wr_var;
-
-    end = __rdtscp(&aux);
+    _mm_mfence();  // Memory fence to ensure proper ordering
+    end = __rdtsc();
 
     return (end - start);
 }

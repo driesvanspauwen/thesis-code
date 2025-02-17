@@ -5,7 +5,6 @@ Value in cache -> logical 1
 Value not in cache -> logical 0
 */
 
-#include <stdio.h>
 #include <stdint.h>
 #include <x86intrin.h>  // For rdtsc and clflush
 #include <cpuid.h>      // For __cpuid
@@ -45,10 +44,20 @@ int read_weird_register() {
 
 int main() {
     write_weird_register(1);
-    printf("WR set to 1, reading WR: %d\n", read_weird_register());
-
+    int result1 = read_weird_register();
+    
     write_weird_register(0);
-    printf("WR set to 0, reading WR: %d\n", read_weird_register());
-
-    return 0;
+    int result2 = read_weird_register();
+    
+    return result1 + result2;  // Just return values instead of printing
 }
+
+// int main() {
+//     write_weird_register(1);
+//     printf("WR set to 1, reading WR: %d\n", read_weird_register());
+
+//     write_weird_register(0);
+//     printf("WR set to 0, reading WR: %d\n", read_weird_register());
+
+//     return 0;
+// }
