@@ -4,3 +4,6 @@
 [submodule "unicorn"]
 	path = unicorn
 	url = https://github.com/driesvanspauwen/unicorn.git
+[submodule "sca-fuzzer"]
+	path = sca-fuzzer
+	url = https://github.com/driesvanspauwen/sca-fuzzer.git
