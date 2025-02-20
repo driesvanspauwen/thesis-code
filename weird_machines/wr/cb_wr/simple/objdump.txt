@@ -1,0 +1,36 @@
+
+cb_wr_simple:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000401000 <write_wr>:
+  401000:	85 ff                	test   edi,edi
+  401002:	74 0c                	je     401010 <write_wr.flush>
+  401004:	c7 04 25 00 20 40 00 	mov    DWORD PTR ds:0x402000,0x2a
+  40100b:	2a 00 00 00 
+  40100f:	c3                   	ret
+
+0000000000401010 <write_wr.flush>:
+  401010:	48 8d 04 25 00 20 40 	lea    rax,ds:0x402000
+  401017:	00 
+  401018:	0f ae 38             	clflush BYTE PTR [rax]
+  40101b:	c3                   	ret
+
+000000000040101c <read_wr>:
+  40101c:	53                   	push   rbx
+  40101d:	55                   	push   rbp
+  40101e:	48 83 ec 08          	sub    rsp,0x8
+  401022:	48 8d 3c 24          	lea    rdi,[rsp]
+  401026:	0f 01 f9             	rdtscp
+  401029:	89 c3                	mov    ebx,eax
+  40102b:	8b 04 25 00 20 40 00 	mov    eax,DWORD PTR ds:0x402000
+  401032:	48 8d 3c 24          	lea    rdi,[rsp]
+  401036:	0f 01 f9             	rdtscp
+  401039:	29 d8                	sub    eax,ebx
+  40103b:	83 f8 63             	cmp    eax,0x63
+  40103e:	0f 96 c0             	setbe  al
+  401041:	48 83 c4 08          	add    rsp,0x8
+  401045:	5d                   	pop    rbp
+  401046:	5b                   	pop    rbx
+  401047:	c3                   	ret
