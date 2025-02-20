@@ -6,5 +6,6 @@ RUN apt-get update && apt-get install -y \
     git \
     vim \
     wget \
-    curl
+    curl \
+    gdb
 WORKDIR /code
