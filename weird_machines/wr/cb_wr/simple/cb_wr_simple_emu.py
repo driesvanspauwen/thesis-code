@@ -15,7 +15,6 @@ def get_text_section(filename):
         text_section = elf.get_section_by_name('.text')
         return text_section.data()
 
-# Create/open a log file
 log_file = open('emulation_log.txt', 'w')
 
 def hook_code(mu, address, size, user_data):
@@ -29,7 +28,6 @@ def hook_error(uc, error, user_data):
     log_file.write(f"Error: {error}\n")
     return False
 
-# Write to log file instead of print
 log_file.write("Starting emulation...\n")
 
 # Initialize Unicorn Engine for x86_64
@@ -51,11 +49,17 @@ mu.reg_write(UC_X86_REG_RSP, STACK_BASE + STACK_SIZE - 1)
 mu.hook_add(UC_HOOK_CODE, hook_code)
 mu.hook_add(UC_HOOK_MEM_INVALID, hook_error)
 
-# Write to weird register (call write_wr(1))
+# Write to weird register
 log_file.write("\nCalling write_wr(1)\n")
 log_file.write(f"Running instructions from 0x{CODE_BASE:x} to 0x{CODE_BASE + 0x0f:x}\n")
+
+# write 1
 mu.reg_write(UC_X86_REG_EDI, 1) # Set first argument
 mu.emu_start(CODE_BASE, CODE_BASE + 0x0f) # Stop at ret
+
+# write 0
+# mu.reg_write(UC_X86_REG_EDI, 0) # Set first argument
+# mu.emu_start(CODE_BASE, CODE_BASE + 0x1b) # Stop at ret
 
 # Read from weird register (call read_wr())
 log_file.write("\nCalling read_wr()\n")
@@ -64,5 +68,4 @@ mu.emu_start(CODE_BASE + 0x1c, CODE_BASE + 0x47) # read_wr function
 result = mu.reg_read(UC_X86_REG_AL) # Result is in AL
 log_file.write(f"Result: {result}\n")
 
-# Close the log file
 log_file.close()
