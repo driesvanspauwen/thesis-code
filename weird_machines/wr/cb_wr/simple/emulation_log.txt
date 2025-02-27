@@ -1,30 +1,42 @@
 Starting emulation...
 
-Calling write_wr(1)
-Running instructions from 0x401000 to 0x40100f
-Tracing instruction at 0x401000, instruction size = 0x2
-Tracing instruction at 0x401002, instruction size = 0x2
-Tracing instruction at 0x401004, instruction size = 0xb
+--Calling write_wr(1)--
+--Running instructions from 0x401000 to 0x40100f--
+Executing instruction at 0x401000, instruction size = 0x2
+Executing instruction at 0x401002, instruction size = 0x2
+Executing instruction at 0x401004, instruction size = 0xb
+Memory write: address=0x402000, size=4, value=42
+	Current TSC value: 1013
 
-Calling read_wr()
-Running instructions from 0x40101c to 0x401047
-Tracing instruction at 0x40101c, instruction size = 0x1
-Tracing instruction at 0x40101d, instruction size = 0x1
-Tracing instruction at 0x40101e, instruction size = 0x4
-Tracing instruction at 0x401022, instruction size = 0x4
-Tracing instruction at 0x401026, instruction size = 0xf1f1f1f1
-Skipping rdtscp instruction at 0x401026
-Tracing instruction at 0x401027, instruction size = 0x2
-Tracing instruction at 0x401029, instruction size = 0x2
-Tracing instruction at 0x40102b, instruction size = 0x7
-Tracing instruction at 0x401032, instruction size = 0x4
-Tracing instruction at 0x401036, instruction size = 0xf1f1f1f1
-Skipping rdtscp instruction at 0x401036
-Tracing instruction at 0x401037, instruction size = 0x2
-Tracing instruction at 0x401039, instruction size = 0x2
-Tracing instruction at 0x40103b, instruction size = 0x3
-Tracing instruction at 0x40103e, instruction size = 0x3
-Tracing instruction at 0x401041, instruction size = 0x4
-Tracing instruction at 0x401045, instruction size = 0x1
-Tracing instruction at 0x401046, instruction size = 0x1
-Result: 1
+--Calling read_wr()--
+--Running instructions from 0x40101c to 0x401047--
+Executing instruction at 0x40101c, instruction size = 0x1
+Memory write: address=0xfffe8, size=8, value=0
+	Current TSC value: 1024
+Executing instruction at 0x40101d, instruction size = 0x1
+Memory write: address=0xfffe0, size=8, value=0
+	Current TSC value: 1035
+Executing instruction at 0x40101e, instruction size = 0x4
+Executing instruction at 0x401022, instruction size = 0x4
+Executing instruction at 0x401026, instruction size = 0xf1f1f1f1
+	Detected rdtscp instruction at 0x401026
+Executing instruction at 0x401027, instruction size = 0x2
+Executing instruction at 0x401029, instruction size = 0x2
+Executing instruction at 0x40102b, instruction size = 0x7
+Memory read: address=0x402000, size=4, CACHE HIT, TSC += 10
+	Current TSC value: 1051
+Executing instruction at 0x401032, instruction size = 0x4
+Executing instruction at 0x401036, instruction size = 0xf1f1f1f1
+	Detected rdtscp instruction at 0x401036
+Executing instruction at 0x401037, instruction size = 0x2
+Executing instruction at 0x401039, instruction size = 0x2
+Executing instruction at 0x40103b, instruction size = 0x3
+Executing instruction at 0x40103e, instruction size = 0x3
+Executing instruction at 0x401041, instruction size = 0x4
+Executing instruction at 0x401045, instruction size = 0x1
+Memory read: address=0xfffe0, size=8, CACHE MISS, TSC += 200
+	Current TSC value: 1259
+Executing instruction at 0x401046, instruction size = 0x1
+Memory read: address=0xfffe8, size=8, CACHE MISS, TSC += 200
+	Current TSC value: 1460
+READ RESULT: 1
