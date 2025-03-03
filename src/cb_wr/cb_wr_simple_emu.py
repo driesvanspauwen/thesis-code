@@ -122,7 +122,7 @@ if __name__ == "__main__":
     mu.hook_add(UC_HOOK_MEM_READ, hook_mem_read, user_data)
     mu.hook_add(UC_HOOK_MEM_WRITE, hook_mem_write, user_data)
 
-    wr_write_1(mu, log_file)
+    wr_write_0(mu, log_file)
     wr_read(mu, log_file)
 
     log_file.close()
