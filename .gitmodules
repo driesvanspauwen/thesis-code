@@ -7,3 +7,6 @@
 [submodule "sca-fuzzer"]
 	path = sca-fuzzer
 	url = https://github.com/driesvanspauwen/sca-fuzzer.git
+[submodule "weird_machines/ghost-is-the-machine/Transient-Weird-Machine"]
+	path = weird_machines/ghost-is-the-machine/Transient-Weird-Machine
+	url = https://github.com/driesvanspauwen/Transient-Weird-Machine.git
