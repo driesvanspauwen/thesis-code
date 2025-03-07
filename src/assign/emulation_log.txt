@@ -1,0 +1,12 @@
+Starting emulation...
+(re)starting emulation with start address 0x1000, exit address 0x100f
+Executing instruction at 0x1000, instruction size = 0x3
+Executing instruction at 0x1003, instruction size = 0x3
+Error interpreting instruction at 0x1003: Unhandled CPU exception (UC_ERR_EXCEPTION)
+Setting start address at 0x1006
+(re)starting emulation with start address 0x1006, exit address 0x100f
+Executing instruction at 0x1006, instruction size = 0x3
+Memory access at 0x2000, instruction size = 0x8
+Executing instruction at 0x1009, instruction size = 0x4
+Executing instruction at 0x100d, instruction size = 0x2
+Memory access at 0x2000, instruction size = 0x1
