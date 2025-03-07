@@ -6,11 +6,10 @@ section .text
 global _start
 
 _start:
-    ; Exception-based assign gate
-    xor rdx, rdx         ; Set rdx to 0
-    div rdx              ; Divide by zero to trigger exception
-    
-    ; Following instructions execute transiently
-    mov rcx, [r14]       ; Load input value
-    lea rdx, [r14 + rcx] ; Compute output address
-    mov dl, [rdx]        ; Load from output address (leaks via cache)
+mov [r14], byte 0          ; Caches the input register (sets input of assign gate to 1)
+xor rdx, rdx               ; rdx = 0 (clear rdx for division)
+div dl                     ; Divide rax by dl (rdx = 0)
+movzx rcx, byte [r14]      ; rcx = value at address pointed by r14
+mov rdx, rcx               ; Move rcx to rdx for output address calculation
+add rdx, r15               ; Add the base address of out1 to rdx
+mov dl, byte [rdx]         ; Load the value from memory at the calculated address into dl

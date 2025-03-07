@@ -5,8 +5,10 @@ assign_gate.o:     file format elf64-x86-64
 Disassembly of section .text:
 
 0000000000000000 <_start>:
-   0:	48 31 d2             	xor    %rdx,%rdx
-   3:	48 f7 f2             	div    %rdx
-   6:	49 8b 0e             	mov    (%r14),%rcx
-   9:	49 8d 14 0e          	lea    (%r14,%rcx,1),%rdx
-   d:	8a 12                	mov    (%rdx),%dl
+   0:	41 c6 06 00          	movb   $0x0,(%r14)
+   4:	48 31 d2             	xor    %rdx,%rdx
+   7:	f6 f2                	div    %dl
+   9:	49 0f b6 0e          	movzbq (%r14),%rcx
+   d:	48 89 ca             	mov    %rcx,%rdx
+  10:	4c 01 fa             	add    %r15,%rdx
+  13:	8a 12                	mov    (%rdx),%dl
