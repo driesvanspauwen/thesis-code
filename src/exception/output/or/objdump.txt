@@ -1,0 +1,17 @@
+
+output/or/assign_gate.o:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000000000 <_start>:
+   0:	41 c6 45 00 00       	movb   $0x0,0x0(%r13)
+   5:	41 c6 06 00          	movb   $0x0,(%r14)
+   9:	48 31 d2             	xor    %rdx,%rdx
+   c:	f6 f2                	div    %dl
+   e:	49 0f b6 4d 00       	movzbq 0x0(%r13),%rcx
+  13:	4c 01 f9             	add    %r15,%rcx
+  16:	8a 01                	mov    (%rcx),%al
+  18:	49 0f b6 0e          	movzbq (%r14),%rcx
+  1c:	4c 01 f9             	add    %r15,%rcx
+  1f:	8a 11                	mov    (%rcx),%dl

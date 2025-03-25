@@ -1,0 +1,20 @@
+Starting emulation of gate or...
+(re)starting emulation with start address 0x1000, exit address 0x1021
+Executing instruction at 0x1000, instruction size = 0x5
+	Memory write: address=0x2000, size=1, value=0
+Executing instruction at 0x1005, instruction size = 0x4
+	Memory write: address=0x2040, size=1, value=0
+Executing instruction at 0x1009, instruction size = 0x3
+Executing instruction at 0x100c, instruction size = 0x2
+	Error interpreting instruction at 0x100c: Unhandled CPU exception (UC_ERR_EXCEPTION)
+	Setting start address at 0x100e
+(re)starting emulation with start address 0x100e, exit address 0x1021
+Executing instruction at 0x100e, instruction size = 0x5
+	Memory read: address=0x2000, size=1, CACHE HIT, TSC += 10
+	Current speculation window size: 10
+Executing instruction at 0x1013, instruction size = 0x3
+Executing instruction at 0x1016, instruction size = 0x2
+	Memory read: address=0x2080, size=1, CACHE MISS, TSC += 300
+	Current speculation window size: 311
+Executing instruction at 0x1018, instruction size = 0x4
+Output value: True

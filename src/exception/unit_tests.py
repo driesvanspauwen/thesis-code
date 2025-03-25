@@ -32,7 +32,7 @@ def test_or_gate():
 
     emulator.logger.log(f"Output value: {emulator.cache.is_cached(output_address)}")
 
-
+# Run tests with `python unit_tests.py <test_name>`
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: python unit_tests.py <test_name>")
