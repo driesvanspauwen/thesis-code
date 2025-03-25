@@ -1,76 +1,19 @@
 from unicorn import *
 from unicorn.x86_const import *
 from typing import List, Tuple, Optional, Set, Dict
-import tempfile
-import subprocess
 import os
-import struct
 from logger import Logger
 from cache import L1DCache
-
-ASM_EXCEPTION_ASSIGN = """
-BITS 64
-DEFAULT REL
-
-section .text
-global _start
-
-_start:
-; Set input
-mov [r14], byte 0          ; Include this line to set logical input to 1 (by caching input register)
-
-; Trigger division by zero exception
-xor rdx, rdx               ; rdx = 0 (clear rdx for division)
-div dl                     ; Divide rax by dl (dl is lower 8 bits of rdx)
-
-; Set output (assign)
-movzx rcx, byte [r14]      ; rcx = value at address pointed by r14 (X[0])
-mov rdx, rcx               ; Move rcx to rdx for output address calculation
-add rdx, r15               ; Add the base address of out1 to rdx (Y[X[0]])
-mov dl, byte [rdx]         ; Cache the value at Y[X[0]] by loading it to dl
-"""
+from compiler import compile_asm
 
 Checkpoint = Tuple[object, int, int, int]
 
-def compile_asm(asm_code, output_bin="assign_gate.bin", output_obj="assign_gate.o", save_asm=True):
-    # Save the assembly to a file
-    asm_file = "assign_gate.asm"
-    with open(asm_file, 'w') as f:
-        f.write(asm_code)
-        print(f"Saved assembly to {asm_file}")
-    
-    try:
-        # Assemble using NASM
-        subprocess.run(['nasm', '-f', 'elf64', asm_file, '-o', output_obj], check=True)
-        print(f"Compiled object file to {output_obj}")
-
-        # Extract binary code
-        subprocess.run(['objcopy', '-O', 'binary', '-j', '.text', output_obj, output_bin], check=True)
-        print(f"Extracted binary to {output_bin}")
-        
-        # Generate objdump output
-        objdump_output_file = "objdump.txt"
-        subprocess.run(['objdump', '-d', output_obj], stdout=open(objdump_output_file, 'w'), check=True)
-        print(f"Objdump saved to {objdump_output_file}")
-
-        with open(output_bin, 'rb') as f:
-            machine_code = f.read()
-        
-        # objdump -d -M intel assign_gate.o
-        return machine_code
-    
-    except subprocess.CalledProcessError as e:
-        print(f"Compilation error: {e}")
-        return None
-
-class Executor():
+class ExceptionEmulator():
     CODE_BASE = 0x1000
     DATA_BASE = 0x2000
     STACK_BASE = 0x3000
     REGION_SIZE = 0x1000
 
-    machine_code = compile_asm(ASM_EXCEPTION_ASSIGN)
-    logger = Logger('emulation_log.txt')
     mu = Uc(UC_ARCH_X86, UC_MODE_64)
     pending_fault_id: int = 0
 
@@ -94,19 +37,23 @@ class Executor():
     previous_context = None
     MAX_SPEC_WINDOW = 250
 
-    def __init__(self):
+    def __init__(self, asm_code: str, gate_name: str):
+        self.gate_name = gate_name
+        output_dir = os.path.join("output", gate_name)
+
+        self.machine_code = compile_asm(asm_code, output_dir=output_dir)
+        self.logger = Logger(os.path.join(output_dir, 'emulation_log.txt'))
+
+        # Map memory regions
         self.mu.mem_map(self.CODE_BASE, self.REGION_SIZE, UC_PROT_ALL)
         self.mu.mem_map(self.DATA_BASE, self.REGION_SIZE, UC_PROT_READ | UC_PROT_WRITE)
         self.mu.mem_map(self.STACK_BASE, self.REGION_SIZE, UC_PROT_READ | UC_PROT_WRITE)
 
+        # Write machine code to memory
         self.mu.mem_write(self.CODE_BASE, self.machine_code)
         
         # Setup register state
         self.mu.reg_write(UC_X86_REG_RSP, self.STACK_BASE + self.REGION_SIZE - 8)  # Stack pointer
-        self.input_address = self.DATA_BASE
-        self.mu.reg_write(UC_X86_REG_R14, self.input_address)
-        self.output_address = self.DATA_BASE + self.cache.line_size
-        self.mu.reg_write(UC_X86_REG_R15, self.output_address)
 
         # Add hooks
         self.mu.hook_add(UC_HOOK_MEM_READ, self.mem_read_hook, self)
@@ -192,8 +139,8 @@ class Executor():
     def rollback(self):
         pass
 
-    def execute(self):
-        self.logger.log("Starting emulation...")
+    def emulate(self):
+        self.logger.log(f"Starting emulation of gate {self.gate_name}...")
         start_address = self.code_start_address
         while True:
             self.pending_fault_id = 0
@@ -206,7 +153,6 @@ class Executor():
             
             except Exception as e:
                 print(f"Unhandled exception (stopping emulation): {e}")
-                self.logger.log(f"Output value: {self.cache.is_cached(self.output_address)}")
                 self.mu.emu_stop()
                 break
 
@@ -229,7 +175,3 @@ class Executor():
             if self.in_speculation:
                 start_address = self.rollback()
                 continue
-
-if __name__ == "__main__":
-    executor = Executor()
-    executor.execute()

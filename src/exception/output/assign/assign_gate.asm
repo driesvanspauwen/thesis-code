@@ -7,7 +7,7 @@ global _start
 
 _start:
 ; Set input
-mov [r14], byte 0          ; Include this line to set logical input to 1 (by caching input register)
+; mov [r14], byte 0          ; Include this line to set logical input to 1 (by caching input register)
 
 ; Trigger division by zero exception
 xor rdx, rdx               ; rdx = 0 (clear rdx for division)
