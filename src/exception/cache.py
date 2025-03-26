@@ -94,3 +94,54 @@ class L1DCache:
         self.cache = {i: [] for i in range(self.sets)}
         if self.debug:
             print("Flushed complete cache")
+    
+    def pretty_print(self, max_sets=None, data_preview_bytes=16):
+        """
+        Print a human-readable representation of the cache state
+        
+        Args:
+            max_sets: Maximum number of sets to display (None = all)
+            data_preview_bytes: Number of bytes to preview for each cache line
+        """
+        if max_sets is None:
+            sets_to_print = self.sets
+        else:
+            sets_to_print = min(max_sets, self.sets)
+            
+        total_size_kb = (self.sets * self.ways * self.line_size) / 1024
+        occupancy = sum(len(ways) for ways in self.cache.values())
+        total_ways = self.sets * self.ways
+        
+        print(f"L1D Cache Status:")
+        print(f"  Configuration: {self.sets} sets x {self.ways} ways x {self.line_size} bytes")
+        print(f"  Total Size: {total_size_kb:.2f} KB")
+        print(f"  Occupancy: {occupancy}/{total_ways} lines ({occupancy/total_ways*100:.1f}%)")
+        print("-" * 80)
+        
+        for set_idx in range(sets_to_print):
+            ways = self.cache[set_idx]
+            if not ways and not self.debug:
+                continue  # Skip empty sets unless in debug mode
+                
+            print(f"Set {set_idx:3d}: {len(ways)}/{self.ways} ways occupied")
+            
+            for way_idx, (tag, data) in enumerate(ways):
+                # Calculate the full address from tag and set
+                addr = (tag * self.sets + set_idx) * self.line_size
+                
+                # Convert data to hex representation for display
+                if isinstance(data, bytes) or isinstance(data, bytearray):
+                    # Preview the first few bytes of data
+                    data_preview = binascii.hexlify(data[:data_preview_bytes]).decode()
+                    if len(data) > data_preview_bytes:
+                        data_preview += "..."
+                else:
+                    data_preview = str(data)
+                    
+                # LRU position (0 = Most Recently Used)
+                print(f"  Way {way_idx:2d} (LRU {way_idx:2d}): Tag 0x{tag:x}, Addr 0x{addr:x}, Data: {data_preview}")
+            
+            print()
+        
+        if sets_to_print < self.sets:
+            print(f"... {self.sets - sets_to_print} more sets ...")
