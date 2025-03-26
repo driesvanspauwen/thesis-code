@@ -26,7 +26,7 @@ def compile_asm(asm_code, output_dir, output_bin="assign_gate.bin", output_obj="
         print(f"Extracted binary to {output_bin}")
         
         # Generate objdump output
-        subprocess.run(['objdump', '-d', output_obj], stdout=open(objdump_output_file, 'w'), check=True)
+        subprocess.run(['objdump', '-M', 'intel', '-d', output_obj], stdout=open(objdump_output_file, 'w'), check=True)
         print(f"Objdump saved to {objdump_output_file}")
 
         with open(output_bin, 'rb') as f:
