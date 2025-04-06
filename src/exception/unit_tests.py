@@ -1,5 +1,6 @@
 import sys
 from exception_emulator import ExceptionEmulator
+from ooo_emulator import OOOEmulator
 from gates import *
 from unicorn.x86_const import *
 
@@ -18,7 +19,8 @@ def test_assign_gate():
 
 
 def test_or_gate():
-    emulator = ExceptionEmulator(ASM_EXCEPTION_OR, 'or')
+    # emulator = ExceptionEmulator(ASM_EXCEPTION_OR, 'or')
+    emulator = OOOEmulator(ASM_EXCEPTION_OR, 'or')
 
     # Set input and output addresses of OR gate
     input1_address = emulator.DATA_BASE

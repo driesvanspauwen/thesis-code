@@ -29,7 +29,7 @@ global _start
 
 _start:
 ; Set inputs
-mov [r13], byte 0
+; mov [r13], byte 0
 mov [r14], byte 0
 
 ; Trigger division by zero exception

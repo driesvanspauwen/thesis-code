@@ -5,6 +5,7 @@ import os
 from logger import Logger
 from cache import L1DCache
 from compiler import compile_asm
+from capstone import Cs, CS_ARCH_X86, CS_MODE_64, CsInsn
 
 Checkpoint = Tuple[object, int, int, int]
 
@@ -14,10 +15,16 @@ class ExceptionEmulator():
     STACK_BASE = 0x3000
     REGION_SIZE = 0x1000
 
+    # initialize unicorn
     mu = Uc(UC_ARCH_X86, UC_MODE_64)
     pending_fault_id: int = 0
 
+    # initialize capstone
+    cs = Cs(CS_ARCH_X86, CS_MODE_64)
+    cs.detail = True 
+
     # instructions
+    curr_instruction: CsInsn
     curr_instruction_addr: int = 0
     next_instruction_addr: int = 0
 
@@ -27,7 +34,7 @@ class ExceptionEmulator():
     # cache
     cache = L1DCache()
     CACHE_HIT_CYCLES = 10     # Typical CPU cycles for L1 cache hit
-    CACHE_MISS_CYCLES = 300   # Typical CPU cycles for memory 
+    CACHE_MISS_CYCLES = 300   # Typical CPU cycles for memory
     REGULAR_INSTR_CYCLES = 1  # Regular instruction timing
     
     # speculation control
@@ -96,12 +103,36 @@ class ExceptionEmulator():
             return next_addr
     
     def instruction_hook(self, uc, address, size, user_data):
+
+        # rax = uc.reg_read(UC_X86_REG_RAX)
+        # rcx = uc.reg_read(UC_X86_REG_RCX)
+        # rdx = uc.reg_read(UC_X86_REG_RDX)
+        # r13 = uc.reg_read(UC_X86_REG_R13)
+        # r14 = uc.reg_read(UC_X86_REG_R14)
+        # r15 = uc.reg_read(UC_X86_REG_R15)
+        # print(f"Executing instruction at 0x{address:x}")
+        # print(f"  RAX=0x{rax:x}, RCX=0x{rcx:x}, RDX=0x{rdx:x}")
+        # print(f"  R13=0x{r13:x}, R14=0x{r14:x}, R15=0x{r15:x}")
+        # print("\n")
+
         if self.exit_reached(address):
             self.mu.emu_stop()
             return
-        self.logger.log(f"Executing instruction at 0x{address:x}, instruction size = 0x{size:x}")
+        
         self.curr_instruction_addr = address
         self.next_instruction_addr = address + size
+        instruction_bytes = uc.mem_read(address, size)
+        
+        for insn in self.cs.disasm(instruction_bytes, address, 1):
+            self.curr_instruction = insn
+            self.logger.log(f"Executing 0x{address:x}: {insn.mnemonic} {insn.op_str}")
+            
+            # Check if we should execute this instruction based on dependencies
+            if self.in_speculation and not self.should_execute(insn):
+                # Skip this instruction by directly jumping to the next one
+                uc.reg_write(UC_X86_REG_RIP, address + size)
+                return
+
         self.previous_context = self.mu.context_save()
         
         # this is in trace_instruction (start at X86FaultModelAbstract) but i just put it in instruction_hook
@@ -114,24 +145,23 @@ class ExceptionEmulator():
             # and on expired speculation window
             if self.speculation_window > self.MAX_SPEC_WINDOW:
                 self.mu.emu_stop()
+            
+
 
     def mem_write_hook(self, uc, access, address, size, value, user_data):
         self.cache.write(address, value)
         self.logger.log(f"\tMemory write: address=0x{address:x}, size={size}, value={value}")
 
         if self.in_speculation:
-            self.speculation_window += self.CACHE_HIT_CYCLES
             self.logger.log(f"\tCurrent speculation window size: {self.speculation_window}")
 
     def mem_read_hook(self, uc, access, address, size, value, user_data):
         is_hit = self.cache.read(address, uc)
 
         if self.in_speculation:
-            if is_hit != None:
-                self.speculation_window += self.CACHE_HIT_CYCLES - self.REGULAR_INSTR_CYCLES  # because we already added REGULAR_INSTR_CYCLES in instruction_hook
+            if is_hit != None:  # cache hit
                 self.logger.log(f"\tMemory read: address=0x{address:x}, size={size}, CACHE HIT, TSC += {self.CACHE_HIT_CYCLES}")
-            else:
-                self.speculation_window += self.CACHE_MISS_CYCLES - self.REGULAR_INSTR_CYCLES  # because we already added REGULAR_INSTR_CYCLES in instruction_hook
+            else:  # cache miss
                 self.logger.log(f"\tMemory read: address=0x{address:x}, size={size}, CACHE MISS, TSC += {self.CACHE_MISS_CYCLES}")
 
         self.logger.log(f"\tCurrent speculation window size: {self.speculation_window}")
@@ -153,6 +183,7 @@ class ExceptionEmulator():
             
             except Exception as e:
                 print(f"Unhandled exception (stopping emulation): {e}")
+                self.persist_pending_loads()
                 self.mu.emu_stop()
                 break
 
