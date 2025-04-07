@@ -1,7 +1,15 @@
+import os
+
 class Logger():
     def __init__(self, log_file, debug: bool = True):
         self.debug = debug
         self.log_file = log_file
+
+        # Create the directory if it doesn't exist
+        log_dir = os.path.dirname(self.log_file)
+        if log_dir and not os.path.exists(log_dir):
+            os.makedirs(log_dir)
+        
         self.clear_log()
 
     def clear_log(self):

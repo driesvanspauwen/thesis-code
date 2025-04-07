@@ -50,3 +50,25 @@ def get_asm_exception_or(in1, in2):
         res += "mov [r14], byte 0\n"
     res += ASM_EXCEPTION_OR
     return res
+
+ASM_EXCEPTION_AND = """
+; Trigger division by zero exception
+xor rdx, rdx
+div dl
+
+; Set output (AND) - output is cached only if both inputs are cached
+movzx rcx, byte [r13]    ; Load the first input byte into rcx
+movzx rdx, byte [r14]    ; Load the second input byte into rdx
+add rcx, rdx             ; Add both values (will be the address offset)
+add rcx, r15             ; Add r15 (output base address) to rcx
+mov al, byte [rcx]       ; Access memory at rcx, causing cache side effect
+"""
+
+def get_asm_exception_and(in1, in2):
+    res = ASM_START
+    if in1: 
+        res += "mov [r13], byte 0\n"
+    if in2:
+        res += "mov [r14], byte 0\n"
+    res += ASM_EXCEPTION_AND
+    return res
