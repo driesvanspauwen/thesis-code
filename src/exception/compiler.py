@@ -1,7 +1,7 @@
 import subprocess
 import os
 
-def compile_asm(asm_code, output_dir, output_bin="assign_gate.bin", output_obj="assign_gate.o", save_asm=True):
+def compile_asm(asm_code, output_dir, output_bin="assign_gate.bin", output_obj="assign_gate.o", debug=False):
     # Create output directory if it doesn't exist
     os.makedirs(output_dir, exist_ok=True)
     
@@ -14,20 +14,24 @@ def compile_asm(asm_code, output_dir, output_bin="assign_gate.bin", output_obj="
     # Save the assembly to a file
     with open(asm_file, 'w') as f:
         f.write(asm_code)
-        print(f"Saved assembly to {asm_file}")
+        if debug:
+            print(f"Saved assembly to {asm_file}")
     
     try:
         # Assemble using NASM
         subprocess.run(['nasm', '-f', 'elf64', asm_file, '-o', output_obj], check=True)
-        print(f"Compiled object file to {output_obj}")
+        if debug:
+            print(f"Compiled object file to {output_obj}")
 
         # Extract binary code
         subprocess.run(['objcopy', '-O', 'binary', '-j', '.text', output_obj, output_bin], check=True)
-        print(f"Extracted binary to {output_bin}")
+        if debug:
+            print(f"Extracted binary to {output_bin}")
         
         # Generate objdump output
         subprocess.run(['objdump', '-M', 'intel', '-d', output_obj], stdout=open(objdump_output_file, 'w'), check=True)
-        print(f"Objdump saved to {objdump_output_file}")
+        if debug:
+            print(f"Objdump saved to {objdump_output_file}")
 
         with open(output_bin, 'rb') as f:
             machine_code = f.read()

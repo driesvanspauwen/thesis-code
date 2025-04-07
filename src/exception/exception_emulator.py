@@ -1,11 +1,12 @@
 from unicorn import *
 from unicorn.x86_const import *
 from typing import List, Tuple, Optional, Set, Dict
-import os
 from logger import Logger
 from cache import L1DCache
 from compiler import compile_asm
 from capstone import Cs, CS_ARCH_X86, CS_MODE_64, CsInsn
+import os
+import traceback
 
 Checkpoint = Tuple[object, int, int, int]
 
@@ -15,60 +16,61 @@ class ExceptionEmulator():
     STACK_BASE = 0x3000
     REGION_SIZE = 0x1000
 
-    # initialize unicorn
-    mu = Uc(UC_ARCH_X86, UC_MODE_64)
-    pending_fault_id: int = 0
-
     # initialize capstone
     cs = Cs(CS_ARCH_X86, CS_MODE_64)
-    cs.detail = True 
-
-    # instructions
-    curr_instruction: CsInsn
-    curr_instruction_addr: int = 0
-    next_instruction_addr: int = 0
-
-    # checkpointing
-    checkpoints: List[Checkpoint] = []
+    cs.detail = True
 
     # cache
-    cache = L1DCache()
     CACHE_HIT_CYCLES = 10     # Typical CPU cycles for L1 cache hit
     CACHE_MISS_CYCLES = 300   # Typical CPU cycles for memory
     REGULAR_INSTR_CYCLES = 1  # Regular instruction timing
-    
-    # speculation control
-    in_speculation: bool = False
-    nesting: int = 0
-    speculation_window: int = 0
-    previous_context = None
+
     MAX_SPEC_WINDOW = 250
 
-    def __init__(self, asm_code: str, gate_name: str):
+    def __init__(self, asm_code: str, gate_name: str, debug: bool = True):
+        # initialize unicorn
+        self.mu = Uc(UC_ARCH_X86, UC_MODE_64)
+        self.pending_fault_id: int = 0
+
+        # cache
+        self.cache = L1DCache()
+
+        # speculation control
+        self.in_speculation: bool = False
+        self.nesting: int = 0
+        self.speculation_window: int = 0
+        self.previous_context = None
+
+        # instructions
+        self.curr_instruction: CsInsn
+        self.curr_instruction_addr: int = 0
+        self.next_instruction_addr: int = 0
+
+        # checkpointing
+        self.checkpoints: List[Checkpoint] = []
+
+        # logging & compilation
         self.gate_name = gate_name
         output_dir = os.path.join("output", gate_name)
-
+        self.logger = Logger(os.path.join(output_dir, 'emulation_log.txt'), debug)
         self.machine_code = compile_asm(asm_code, output_dir=output_dir)
-        self.logger = Logger(os.path.join(output_dir, 'emulation_log.txt'))
 
-        # Map memory regions
+        # memory mappings
         self.mu.mem_map(self.CODE_BASE, self.REGION_SIZE, UC_PROT_ALL)
         self.mu.mem_map(self.DATA_BASE, self.REGION_SIZE, UC_PROT_READ | UC_PROT_WRITE)
         self.mu.mem_map(self.STACK_BASE, self.REGION_SIZE, UC_PROT_READ | UC_PROT_WRITE)
 
-        # Write machine code to memory
         self.mu.mem_write(self.CODE_BASE, self.machine_code)
         
-        # Setup register state
         self.mu.reg_write(UC_X86_REG_RSP, self.STACK_BASE + self.REGION_SIZE - 8)  # Stack pointer
 
-        # Add hooks
+        # hooks
         self.mu.hook_add(UC_HOOK_MEM_READ, self.mem_read_hook, self)
         self.mu.hook_add(UC_HOOK_MEM_WRITE, self.mem_write_hook, self)
         # self.mu.hook_add(UC_HOOK_MEM_UNMAPPED, self.trace_mem_access, self)
         self.mu.hook_add(UC_HOOK_CODE, self.instruction_hook, self)
         
-        # Define exit address and fault handler address
+        # helper addresses
         self.code_start_address = self.CODE_BASE
         self.code_exit_addr = self.CODE_BASE + len(self.machine_code)
         self.fault_handler_addr = self.code_exit_addr  # No fault handler in asm snippet
@@ -102,19 +104,10 @@ class ExceptionEmulator():
         if next_addr:
             return next_addr
     
-    def instruction_hook(self, uc, address, size, user_data):
+    def should_skip(insn):
+        return False
 
-        # rax = uc.reg_read(UC_X86_REG_RAX)
-        # rcx = uc.reg_read(UC_X86_REG_RCX)
-        # rdx = uc.reg_read(UC_X86_REG_RDX)
-        # r13 = uc.reg_read(UC_X86_REG_R13)
-        # r14 = uc.reg_read(UC_X86_REG_R14)
-        # r15 = uc.reg_read(UC_X86_REG_R15)
-        # print(f"Executing instruction at 0x{address:x}")
-        # print(f"  RAX=0x{rax:x}, RCX=0x{rcx:x}, RDX=0x{rdx:x}")
-        # print(f"  R13=0x{r13:x}, R14=0x{r14:x}, R15=0x{r15:x}")
-        # print("\n")
-
+    def instruction_hook(self, uc: Uc, address: int, size: int, user_data):
         if self.exit_reached(address):
             self.mu.emu_stop()
             return
@@ -128,7 +121,7 @@ class ExceptionEmulator():
             self.logger.log(f"Executing 0x{address:x}: {insn.mnemonic} {insn.op_str}")
             
             # Check if we should execute this instruction based on dependencies
-            if self.in_speculation and not self.should_execute(insn):
+            if self.in_speculation and self.should_skip(insn):
                 # Skip this instruction by directly jumping to the next one
                 uc.reg_write(UC_X86_REG_RIP, address + size)
                 return
@@ -145,8 +138,6 @@ class ExceptionEmulator():
             # and on expired speculation window
             if self.speculation_window > self.MAX_SPEC_WINDOW:
                 self.mu.emu_stop()
-            
-
 
     def mem_write_hook(self, uc, access, address, size, value, user_data):
         self.cache.write(address, value)
@@ -166,15 +157,27 @@ class ExceptionEmulator():
 
         self.logger.log(f"\tCurrent speculation window size: {self.speculation_window}")
 
+    def persist_pending_loads():
+        pass
+
     def rollback(self):
         pass
+
+    def finish_emulation(self):
+        self.persist_pending_loads()
+        self.mu.emu_stop()
 
     def emulate(self):
         self.logger.log(f"Starting emulation of gate {self.gate_name}...")
         start_address = self.code_start_address
         while True:
+            if start_address is None:
+                self.finish_emulation()
+                return
             self.pending_fault_id = 0
             try:
+                if self.in_speculation:
+                    self.logger.log("Entering speculative mode")
                 self.logger.log(f"(re)starting emulation with start address 0x{start_address:x}, exit address 0x{self.code_exit_addr:x}")
                 self.mu.emu_start(start_address, self.code_exit_addr, timeout=10 * UC_SECOND_SCALE)
             except UcError as e:
@@ -182,10 +185,12 @@ class ExceptionEmulator():
                 self.pending_fault_id = int(e.errno)
             
             except Exception as e:
-                print(f"Unhandled exception (stopping emulation): {e}")
-                self.persist_pending_loads()
-                self.mu.emu_stop()
-                break
+                error_msg = f"Unhandled exception (stopping emulation): {e}"
+                stack_trace = traceback.format_exc()
+                self.logger.log(f"{error_msg}\n{stack_trace}")
+                print(f"{error_msg}\n{stack_trace}")
+                self.finish_emulation()
+                return
 
             if self.pending_fault_id:
                 # workaround for a Unicorn bug: after catching an exception
@@ -196,9 +201,10 @@ class ExceptionEmulator():
                 self.mu.reg_write(UC_X86_REG_EFLAGS, self.mu.reg_read(UC_X86_REG_EFLAGS))
             
                 start_address = self.handle_fault(self.pending_fault_id)
-                self.logger.log(f"\tSetting start address at 0x{start_address:x}")
+
                 self.pending_fault_id = 0
                 if start_address and start_address != self.code_exit_addr:
+                    self.logger.log(f"\tSetting start address at 0x{start_address:x}")
                     continue
             
             # i think this is called when instruction_hook stops emulation because spec window is exceeded

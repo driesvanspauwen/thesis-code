@@ -4,8 +4,9 @@ from ooo_emulator import OOOEmulator
 from gates import *
 from unicorn.x86_const import *
 
-def test_assign_gate():
-    emulator = ExceptionEmulator(ASM_EXCEPTION_ASSIGN, 'assign')
+def run_assign(in1, debug=False):
+    code = get_asm_exception_assign(in1)
+    emulator = OOOEmulator(code, 'assign', debug)
 
     # Set input and output addresses of assign gate
     input_address = emulator.DATA_BASE
@@ -17,10 +18,23 @@ def test_assign_gate():
 
     emulator.logger.log(f"Output value: {emulator.cache.is_cached(output_address)}")
 
+    return emulator.cache.is_cached(output_address)
 
-def test_or_gate():
-    # emulator = ExceptionEmulator(ASM_EXCEPTION_OR, 'or')
-    emulator = OOOEmulator(ASM_EXCEPTION_OR, 'or')
+def test_assign():
+    for in1 in range(2):
+        res = run_assign(in1)
+        if res == in1:
+            print(f"Successful emulation of Assign({in1})")
+        else:
+            print(f"Unsuccessful emulation of Assign({in1}):")
+            print(f"\tExpected: {in1}")
+            print(f"\tResult: {res}")
+
+def run_or(in1, in2, debug=False):
+    code = get_asm_exception_or(in1, in2)
+    emulator = OOOEmulator(code, 'or', debug)
+
+    emulator.logger.log(f"Starting emulation of OR({in1}, {in2})...")
 
     # Set input and output addresses of OR gate
     input1_address = emulator.DATA_BASE
@@ -34,7 +48,22 @@ def test_or_gate():
 
     emulator.logger.log(f"Output value: {emulator.cache.is_cached(output_address)}")
 
-# Run tests with `python unit_tests.py <test_name>` 
+    return emulator.cache.is_cached(output_address)
+
+def test_or():
+    for in1 in range(2):
+        for in2 in range(2):
+            res = run_or(in1, in2)
+            if res == in1 or in2:
+                print(f"Successful emulation of OR({in1}, {in2})")
+            else:
+                print(f"Unsuccessful emulation of OR({in1}, {in2}):")
+                print(f"\tExpected: {in1 or in2}")
+                print(f"\tResult: {res}")
+
+print(run_assign(1, True))
+
+# Run tests with `python unit_tests.py <test_name>`
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: python unit_tests.py <test_name>")

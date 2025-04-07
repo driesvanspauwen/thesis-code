@@ -1,10 +1,11 @@
+from capstone import CsInsn
 from exception_emulator import ExceptionEmulator
 from cache import L1DCache
 from logger import Logger
 
 class OOOEmulator(ExceptionEmulator):
-    def __init__(self, asm_code: str, gate_name: str):
-        super().__init__(asm_code, gate_name)
+    def __init__(self, asm_code: str, gate_name: str, debug: bool = True):
+        super().__init__(asm_code, gate_name, debug)
         self.pending_registers = set()
         self.pending_memory_loads = set()
 
@@ -13,29 +14,27 @@ class OOOEmulator(ExceptionEmulator):
             is_hit = self.cache.read(address, uc)
             self.logger.log(f"\tMemory read: address=0x{address:x}, size={size}, cached={is_hit is not None}")
             return
+        
+        regs_read, regs_written = self.curr_instruction.regs_access()
 
-        # Read address not cached
+        # cache miss
         if not self.cache.is_cached(address):
             # Add address as pending memory load
             self.pending_memory_loads.add(address)
 
+            # If register used to dereference address, set register to pending
+            # TODO
+
             # Add receiving registers as pending registers
-            _, regs_written = self.curr_instruction.regs_access()
             for reg in regs_written:
                 self.pending_registers.add(reg)
-
+            
             self.logger.log(f"\tMemory read: address=0x{address:x}, size={size}, CACHE MISS")
         
-        # Read address cached
+        # cache hit
         else:
             self.cache.read(address, uc)
-
             # Remove address from pending memory loads
-            for reg in self.curr_instruction.regs_write:
-                self.pending_registers.discard(reg)
-
-            # Remove receiving registers from pending registers
-            _, regs_written = self.curr_instruction.regs_access()
             for reg in regs_written:
                 self.pending_registers.discard(reg)
 
@@ -58,48 +57,40 @@ class OOOEmulator(ExceptionEmulator):
         self._pretty_print_pending_state(indent=1)
         for address in self.pending_memory_loads:
             self.cache.write(address, self.mu.mem_read(address, self.cache.line_size))
-            self.logger.log(f"\tPersisting memory load: address=0x{address:x}")
         self.pending_memory_loads.clear()
 
-    def should_execute(self, insn):
+    def should_skip(self, insn: CsInsn):
         """
-        Determines if an instruction should execute based on register dependencies.
-        
-        Args:
-            insn: A Capstone instruction object
-            
-        Returns:
-            bool: True if the instruction can execute, False if it should be skipped
+        Determines if an instruction should be skipped based on register dependencies.
         """
-        # Check if we're not speculating - if not, always execute
         if not self.in_speculation:
-            return True
-            
-        # Get registers read by this instruction
-        regs_read, _ = insn.regs_access()
+            # only perform OOO execution in speculation
+            return False
         
-        # Check if any read registers are pending
+        read_from_pending = False
+            
+        regs_read, regs_written = insn.regs_access()
+        # self.logger.log(f"\tRegs read: {[f'{self.cs.reg_name(reg_id)}' for reg_id in regs_read]}")
+        # self.logger.log(f"\tRegs written: {[f'{self.cs.reg_name(reg_id)}' for reg_id in regs_written]}")
+        
+        # check if any read registers are pending
         for reg in regs_read:
             if reg in self.pending_registers:
-                self.logger.log(f"\tSkipping instruction (register dependency): {insn.mnemonic} {insn.op_str}")
-                self.logger.log(f"\tPending register found: {self.cs.reg_name(reg)}")
-                return False
+                self.logger.log(f"\tSkipping instruction because there is a dependency on a pending register: {self.cs.reg_name(reg)}")
+                read_from_pending = True
+                break
         
-        # # For memory reads, check if the address calculation uses pending registers
-        # if insn.mnemonic in ['mov', 'movzx'] and any(op.type == 3 for op in insn.operands):  # Memory operand (type 3)
-        #     # Check if this is a memory read operation
-        #     mem_op = next((op for op in insn.operands if op.type == 3), None)
-        #     if mem_op:
-        #         # Check if base or index registers are pending
-        #         base_reg = mem_op.mem.base
-        #         index_reg = mem_op.mem.index
-                
-        #         if (base_reg and base_reg in self.pending_registers) or \
-        #         (index_reg and index_reg in self.pending_registers):
-        #             self.logger.log(f"\tSkipping instruction (memory address dependency): {insn.mnemonic} {insn.op_str}")
-        #             return False
-        
-        return True
+        if read_from_pending:
+            # if read from pending register, add written registers as pending
+            for reg in regs_written:
+                self.pending_registers.add(reg)
+        else:
+            # pending registers are overwritten so can be removed
+            for reg in regs_written:
+                self.pending_registers.discard(reg)
+            
+
+        return read_from_pending
     
     def _pretty_print_pending_state(self, indent=0):
         """
