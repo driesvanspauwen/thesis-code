@@ -72,3 +72,32 @@ def get_asm_exception_and(in1, in2):
         res += "mov [r14], byte 0\n"
     res += ASM_EXCEPTION_AND
     return res
+
+ASM_EXCEPTION_AND_OR = """
+; Trigger division by zero exception
+xor rdx, rdx
+div dl
+
+; First part: compute In1[0] ∧ In2[0] and cache output if both are cached
+movzx rcx, byte [r13]    ; Load the first input (In1) byte into rcx
+movzx rdx, byte [r14]    ; Load the second input (In2) byte into rdx
+add rcx, rdx             ; Address offset depends on both inputs (both must be cached)
+add rcx, r15             ; Add output base address
+mov al, byte [rcx]       ; Cache the value if both inputs are cached (AND part)
+
+; Second part: compute OR with In3[0]
+movzx rcx, byte [r12]    ; Load the third input (In3) byte into rcx
+add rcx, r15             ; Add output base address
+mov al, byte [rcx]       ; Cache the value if In3 is cached (OR part)
+"""
+
+def get_asm_exception_and_or(in1, in2, in3):
+    res = ASM_START
+    if in1: 
+        res += "mov [r13], byte 0\n"
+    if in2:
+        res += "mov [r14], byte 0\n"
+    if in3:
+        res += "mov [r12], byte 0\n"
+    res += ASM_EXCEPTION_AND_OR
+    return res

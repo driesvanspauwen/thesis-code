@@ -93,6 +93,45 @@ def test_and():
                 print(f"\tExpected: {expected}")
                 print(f"\tResult: {res}")
 
+def run_and_or(in1, in2, in3, debug=False):
+    code = get_asm_exception_and_or(in1, in2, in3)
+    emulator = OOOEmulator(code, 'and_or', debug)
+
+    emulator.logger.log(f"Starting emulation of AND-OR({in1}, {in2}, {in3})...")
+
+    # Set input and output addresses
+    input1_address = emulator.DATA_BASE
+    emulator.mu.reg_write(UC_X86_REG_R13, input1_address)
+    
+    input2_address = emulator.DATA_BASE + emulator.cache.line_size
+    emulator.mu.reg_write(UC_X86_REG_R14, input2_address)
+    
+    input3_address = emulator.DATA_BASE + 2 * emulator.cache.line_size
+    emulator.mu.reg_write(UC_X86_REG_R12, input3_address)
+    
+    output_address = emulator.DATA_BASE + 3 * emulator.cache.line_size
+    emulator.mu.reg_write(UC_X86_REG_R15, output_address)
+
+    emulator.emulate()
+
+    result = emulator.cache.is_cached(output_address)
+    emulator.logger.log(f"Output value: {result}")
+
+    return result
+
+def test_and_or():
+    for in1 in range(2):
+        for in2 in range(2):
+            for in3 in range(2):
+                res = run_and_or(in1, in2, in3)
+                expected = (in1 and in2) or in3
+                if res == expected:
+                    print(f"Successful emulation of AND-OR({in1}, {in2}, {in3})")
+                else:
+                    print(f"Unsuccessful emulation of AND-OR({in1}, {in2}, {in3}):")
+                    print(f"\tExpected: {expected}")
+                    print(f"\tResult: {res}")
+
 # Run tests with `python unit_tests.py <test_name>`
 if __name__ == "__main__":
     if len(sys.argv) != 2:
