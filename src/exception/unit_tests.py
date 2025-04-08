@@ -24,9 +24,9 @@ def test_assign():
     for in1 in range(2):
         res = run_assign(in1)
         if res == in1:
-            print(f"Successful emulation of Assign({in1})")
+            print(f"Test passed for Assign({in1})")
         else:
-            print(f"Unsuccessful emulation of Assign({in1}):")
+            print(f"Test failed for Assign({in1}):")
             print(f"\tExpected: {in1}")
             print(f"\tResult: {res}")
 
@@ -55,9 +55,9 @@ def test_or():
         for in2 in range(2):
             res = run_or(in1, in2)
             if res == in1 or in2:
-                print(f"Successful emulation of OR({in1}, {in2})")
+                print(f"Test passed for OR({in1}, {in2})")
             else:
-                print(f"Unsuccessful emulation of OR({in1}, {in2}):")
+                print(f"Test failed for OR({in1}, {in2}):")
                 print(f"\tExpected: {in1 or in2}")
                 print(f"\tResult: {res}")
 
@@ -87,12 +87,13 @@ def test_and():
             res = run_and(in1, in2)
             expected = in1 and in2
             if res == expected:
-                print(f"Successful emulation of AND({in1}, {in2})")
+                print(f"Test passed for AND({in1}, {in2})")
             else:
-                print(f"Unsuccessful emulation of AND({in1}, {in2}):")
+                print(f"Test failed for AND({in1}, {in2}):")
                 print(f"\tExpected: {expected}")
                 print(f"\tResult: {res}")
 
+# Test Out[0] = (In1[0] ∧ In2[0]) ∨ In3[0]
 def run_and_or(in1, in2, in3, debug=False):
     code = get_asm_exception_and_or(in1, in2, in3)
     emulator = OOOEmulator(code, 'and_or', debug)
@@ -126,9 +127,9 @@ def test_and_or():
                 res = run_and_or(in1, in2, in3)
                 expected = (in1 and in2) or in3
                 if res == expected:
-                    print(f"Successful emulation of AND-OR({in1}, {in2}, {in3})")
+                    print(f"Test passed for AND-OR({in1}, {in2}, {in3})")
                 else:
-                    print(f"Unsuccessful emulation of AND-OR({in1}, {in2}, {in3}):")
+                    print(f"Test failed for AND-OR({in1}, {in2}, {in3}):")
                     print(f"\tExpected: {expected}")
                     print(f"\tResult: {res}")
 
@@ -146,7 +147,7 @@ if __name__ == "__main__":
     test_name = sys.argv[1]
     if test_name in globals() and test_name.startswith('test_'):
         globals()[test_name]()  # Run the requested test
-        print("Finished unit test")
+        print("Finished unit tests")
     else:
         print(f"Error: Test '{test_name}' not found")
         sys.exit(1)
