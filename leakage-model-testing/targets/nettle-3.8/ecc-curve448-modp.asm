@@ -1,1 +1,0 @@
-x86_64/ecc-curve448-modp.asm

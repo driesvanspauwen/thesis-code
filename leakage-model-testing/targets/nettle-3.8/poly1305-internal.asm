@@ -1,1 +1,0 @@
-x86_64/poly1305-internal.asm

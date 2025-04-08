@@ -1,1 +1,0 @@
-x86_64/fat/memxor-2.asm

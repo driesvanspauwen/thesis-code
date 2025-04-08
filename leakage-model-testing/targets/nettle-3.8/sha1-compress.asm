@@ -1,1 +1,0 @@
-x86_64/fat/sha1-compress.asm

@@ -1,1 +1,0 @@
-x86_64/ecc-secp192r1-modp.asm

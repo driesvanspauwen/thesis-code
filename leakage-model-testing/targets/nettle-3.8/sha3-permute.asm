@@ -1,1 +1,0 @@
-x86_64/sha3-permute.asm
