@@ -101,3 +101,21 @@ def get_asm_exception_and_or(in1, in2, in3):
         res += "mov [r12], byte 0\n"
     res += ASM_EXCEPTION_AND_OR
     return res
+
+ASM_EXCEPTION_NOT = """
+movzx rdx, byte [r13]   ; Load input byte into rdx
+mov dl, byte [rdx]      ; Address written into dl which is used for division
+
+div dl                  ; Division happens fast if input cached, slow otherwise
+
+movzx rcx, byte [r14]   ; Cause delay by loading flushed auxiliary variable
+add rcx, r15            ; Add output base address
+mov al, byte [rcx]      ; Cache the output if input was NOT cached
+"""
+
+def get_asm_exception_not(in1):
+    res = ASM_START
+    if in1:
+        res += "mov [r13], byte 0\n"
+    res += ASM_EXCEPTION_NOT
+    return res
