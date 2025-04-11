@@ -21,7 +21,6 @@ class ExceptionEmulator():
     cs.detail = True
 
     # cache
-    CACHE_HIT_CYCLES = 10     # Typical CPU cycles for L1 cache hit
     CACHE_MISS_CYCLES = 300   # Typical CPU cycles for memory
     REGULAR_INSTR_CYCLES = 1  # Regular instruction timing
     MAX_SPEC_WINDOW = 250
@@ -41,13 +40,13 @@ class ExceptionEmulator():
         self.previous_context = None
 
         # OoOE
-        self.pending_registers = set()
+        self.pending_registers: Dict[str, int] = {}
         self.pending_memory_loads = set()
 
         # instructions
-        self.curr_instruction: CsInsn
+        self.curr_insn: CsInsn
         self.curr_instruction_addr: int = 0
-        self.next_instruction_addr: int = 0
+        self.next_insn_addr: int = 0
 
         # checkpointing
         self.checkpoints: List[Checkpoint] = []
@@ -84,8 +83,7 @@ class ExceptionEmulator():
     def checkpoint(self, emulator: Uc, next_instruction):
         flags = emulator.reg_read(UC_X86_REG_EFLAGS)
         context = emulator.context_save()
-        spec_window = self.speculation_depth
-        self.checkpoints.append((context, next_instruction, flags, spec_window))
+        self.checkpoints.append((context, next_instruction, flags, self.speculation_depth))
 
     def speculate_fault(self, errno: int) -> int:
         # speculates only division by zero errors currently
@@ -96,88 +94,89 @@ class ExceptionEmulator():
         self.checkpoint(self.mu, self.fault_handler_addr)
         
         self.in_speculation = True
+        self.speculation_limit = self.MAX_SPEC_WINDOW
         # if self.cache.is_cached()
 
         # real processors cant rewrite these registers because they cant reorder instructions that might depend on this data
         self.mu.reg_write(UC_X86_REG_RAX, 0)
         self.mu.reg_write(UC_X86_REG_RDX, 0)
 
-        return self.next_instruction_addr
+        return self.next_insn_addr
 
     def handle_fault(self, errno: int) -> int:
         next_addr = self.speculate_fault(errno)
         if next_addr:
             return next_addr
+    
+    def skip_curr_insn(self) -> None:
+        """Skips current instruction by directly jumping to the next one"""
+        address = self.curr_insn.address
+        size = self.curr_insn.size
+        self.mu.reg_write(UC_X86_REG_RIP, address + size)
 
     def instruction_hook(self, uc: Uc, address: int, size: int, user_data):
         if self.exit_reached(address):
             self.mu.emu_stop()
             return
         
-        self.curr_instruction_addr = address
-        self.next_instruction_addr = address + size
-        instruction_bytes = uc.mem_read(address, size)
+        insn_bytes = uc.mem_read(address, size)
         
-        for insn in self.cs.disasm(instruction_bytes, address, 1):
-            self.curr_instruction = insn
+        for insn in self.cs.disasm(insn_bytes, address, 1):
+            self.curr_insn = insn
+            self.next_insn_addr = address + size
             self.logger.log(f"Executing 0x{address:x}: {insn.mnemonic} {insn.op_str}")
             
             # Check if we should execute this instruction based on dependencies
-            if self.should_skip(insn):
-                # Skip this instruction by directly jumping to the next one
-                uc.reg_write(UC_X86_REG_RIP, address + size)
+            if not self.can_resolve_deps(insn):
+                self.logger.log(f"\tSkipping instruction (resolving dependencies will exceed speculation limit)")
+                self.skip_curr_insn()
                 return
 
         self.previous_context = self.mu.context_save()
         
-        # this is in trace_instruction (start at X86FaultModelAbstract) but i just put it in instruction_hook
-        if self.in_speculation:
-            self.speculation_depth += self.REGULAR_INSTR_CYCLES
-            # rollback on a serializing instruction
-            # if self.current_instruction.name in self.uc_target_desc.barriers:
-            #     self.mu.emu_stop()
+        # # this is in trace_instruction (start at X86FaultModelAbstract) but i just put it in instruction_hook
+        # if self.in_speculation:
+        #     self.speculation_depth += self.REGULAR_INSTR_CYCLES
+        #     # rollback on a serializing instruction
+        #     # if self.current_instruction.name in self.uc_target_desc.barriers:
+        #     #     self.mu.emu_stop()
 
-            # and on expired speculation window
-            if self.speculation_depth > self.MAX_SPEC_WINDOW:
-                self.mu.emu_stop()
+        #     # and on expired speculation window
+        #     if self.speculation_depth > self.MAX_SPEC_WINDOW:
+        #         self.mu.emu_stop()
 
-    def mem_read_hook(self, uc, access, address, size, value, user_data):
+    def mem_read_hook(self, uc: Uc, access, address: int, size: int, value, user_data):
+        # not in speculation
         if not self.in_speculation:
             is_hit = self.cache.read(address, uc)
             self.logger.log(f"\tMemory read: address=0x{address:x}, size={size}, cached={is_hit is not None}")
             return
         
-        regs_read, regs_written = self.curr_instruction.regs_access()
+        regs_read, regs_written = self.curr_insn.regs_access()
 
-        # cache miss
+        # cache miss: add address and registers to pending
         if not self.cache.is_cached(address):
-            # Add address as pending memory load
             self.pending_memory_loads.add(address)
-
-            # If register used to dereference address, set register to pending
-            # TODO
-
-            # Add receiving registers as pending registers
             for reg in regs_written:
-                self.pending_registers.add(reg)
-            
+                self.pending_registers[reg] = self.CACHE_MISS_CYCLES
+                if self.CACHE_MISS_CYCLES > self.speculation_limit:
+                    self.logger.log(f"\tSkipping instruction (execution will exceed speculation limit)")
+                    self.skip_curr_insn()
             self.logger.log(f"\tMemory read: address=0x{address:x}, size={size}, CACHE MISS")
         
-        # cache hit
+        # cache hit: remove address and registers from pending
         else:
             self.cache.read(address, uc)
-            # Remove address from pending memory loads
+            self.pending_memory_loads.discard(address)
             for reg in regs_written:
-                self.pending_registers.discard(reg)
+                self.pending_registers.pop(reg, None)
 
             self.logger.log(f"\tMemory read: address=0x{address:x}, size={size}, CACHE HIT")
-
+        
         self._pretty_print_pending_state(indent=1)
 
     def mem_write_hook(self, uc, access, address, size, value, user_data):
         self.cache.write(address, value)
-        for reg in self.curr_instruction.regs_write:
-            self.pending_registers.discard(reg)
 
         self.logger.log(f"\tMemory write: address=0x{address:x}, size={size}")
 
@@ -194,38 +193,35 @@ class ExceptionEmulator():
             self.cache.write(address, self.mu.mem_read(address, self.cache.line_size))
         self.pending_memory_loads.clear()
 
-    def should_skip(self, insn: CsInsn):
+    def can_resolve_deps(self, insn: CsInsn):
         """
-        Determines if an instruction should be skipped based on register dependencies.
+        Determines if an instruction can resolve its dependencies within the speculative limit.
         """
         if not self.in_speculation:
             # only perform OOO execution in speculation
-            return False
-        
-        read_from_pending = False
+            return True
             
         regs_read, regs_written = insn.regs_access()
         # self.logger.log(f"\tRegs read: {[f'{self.cs.reg_name(reg_id)}' for reg_id in regs_read]}")
         # self.logger.log(f"\tRegs written: {[f'{self.cs.reg_name(reg_id)}' for reg_id in regs_written]}")
-        
-        # check if any read registers are pending
-        for reg in regs_read:
-            if reg in self.pending_registers:
-                self.logger.log(f"\tSkipping instruction because there is a dependency on a pending register: {self.cs.reg_name(reg)}")
-                read_from_pending = True
-                break
-        
-        if read_from_pending:
-            # if read from pending register, add written registers as pending
-            for reg in regs_written:
-                self.pending_registers.add(reg)
-        else:
-            # pending registers are overwritten so can be removed
-            for reg in regs_written:
-                self.pending_registers.discard(reg)
-            
 
-        return read_from_pending
+        # check if any read registers are pending
+        max_cycle_wait = max((self.pending_registers.get(reg, 0) for reg in regs_read), default=0)
+        self.logger.log(f"\tMaximum cycle wait: {max_cycle_wait}")
+
+        # no dependencies
+        if max_cycle_wait == 0:
+            for reg in regs_written:
+                self.pending_registers.pop(reg, None)
+
+            return True
+
+        # update resolve times for affected registers
+        for reg in regs_written:
+            self.pending_registers[reg] = max_cycle_wait
+
+        return max_cycle_wait <= self.speculation_limit
+    
     
     def emulate(self):
         self.logger.log(f"Starting emulation of gate {self.gate_name}...")
@@ -283,4 +279,7 @@ class ExceptionEmulator():
         """
         indent_str = "\t" * indent
         self.logger.log(f"{indent_str}Pending memory loads: {[f'0x{address:x}' for address in self.pending_memory_loads]}")
-        self.logger.log(f"{indent_str}Pending registers: {[f'{self.cs.reg_name(reg_id)}' for reg_id in self.pending_registers]}")
+        
+        # Update to show both register names and cycle counts
+        reg_entries = [f"{self.cs.reg_name(reg_id)}:{cycles}" for reg_id, cycles in self.pending_registers.items()]
+        self.logger.log(f"{indent_str}Pending registers: {reg_entries}")
