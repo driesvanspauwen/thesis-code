@@ -1,12 +1,11 @@
 import sys
 from exception_emulator import ExceptionEmulator
-from ooo_emulator import OOOEmulator
 from gates import *
 from unicorn.x86_const import *
 
 def run_assign(in1, debug=False):
     code = get_asm_exception_assign(in1)
-    emulator = OOOEmulator(code, 'assign', debug)
+    emulator = ExceptionEmulator(code, 'assign', debug)
 
     # Set input and output addresses of assign gate
     input_address = emulator.DATA_BASE
@@ -32,7 +31,7 @@ def test_assign():
 
 def run_or(in1, in2, debug=False):
     code = get_asm_exception_or(in1, in2)
-    emulator = OOOEmulator(code, 'or', debug)
+    emulator = ExceptionEmulator(code, 'or', debug)
 
     emulator.logger.log(f"Starting emulation of OR({in1}, {in2})...")
 
@@ -63,7 +62,7 @@ def test_or():
 
 def run_and(in1, in2, debug=False):
     code = get_asm_exception_and(in1, in2)
-    emulator = OOOEmulator(code, 'and', debug)
+    emulator = ExceptionEmulator(code, 'and', debug)
 
     emulator.logger.log(f"Starting emulation of AND({in1}, {in2})...")
 
@@ -96,7 +95,7 @@ def test_and():
 # Test Out[0] = (In1[0] ∧ In2[0]) ∨ In3[0]
 def run_and_or(in1, in2, in3, debug=False):
     code = get_asm_exception_and_or(in1, in2, in3)
-    emulator = OOOEmulator(code, 'and_or', debug)
+    emulator = ExceptionEmulator(code, 'and_or', debug)
 
     emulator.logger.log(f"Starting emulation of AND-OR({in1}, {in2}, {in3})...")
 
@@ -132,6 +131,32 @@ def test_and_or():
                     print(f"Test failed for AND-OR({in1}, {in2}, {in3}):")
                     print(f"\tExpected: {expected}")
                     print(f"\tResult: {res}")
+
+def test_not():
+    in1 = 1
+    code = get_asm_exception_not(in1)
+    emulator = ExceptionEmulator(code, 'not', True)
+
+    emulator.logger.log(f"Starting emulation of NOT({in1})...")
+
+    # Set input and output addresses
+    input1_address = emulator.DATA_BASE
+    emulator.mu.reg_write(UC_X86_REG_R13, input1_address)
+    
+    input2_address = emulator.DATA_BASE + emulator.cache.line_size
+    emulator.mu.reg_write(UC_X86_REG_R14, input2_address)
+
+    output_address = emulator.DATA_BASE + 3 * emulator.cache.line_size
+    emulator.mu.reg_write(UC_X86_REG_R15, output_address)
+
+    emulator.emulate()
+
+    result = emulator.cache.is_cached(output_address)
+    emulator.logger.log(f"Output value: {result}")
+
+    return result
+
+run_or(0, 1, True)
 
 # Run tests with `python unit_tests.py <test_name>`
 if __name__ == "__main__":

@@ -24,7 +24,6 @@ class ExceptionEmulator():
     CACHE_HIT_CYCLES = 10     # Typical CPU cycles for L1 cache hit
     CACHE_MISS_CYCLES = 300   # Typical CPU cycles for memory
     REGULAR_INSTR_CYCLES = 1  # Regular instruction timing
-
     MAX_SPEC_WINDOW = 250
 
     def __init__(self, asm_code: str, gate_name: str, debug: bool = True):
@@ -37,9 +36,13 @@ class ExceptionEmulator():
 
         # speculation control
         self.in_speculation: bool = False
-        self.nesting: int = 0
-        self.speculation_window: int = 0
+        self.speculation_depth: int = 0
+        self.speculation_limit: int = 0
         self.previous_context = None
+
+        # OoOE
+        self.pending_registers = set()
+        self.pending_memory_loads = set()
 
         # instructions
         self.curr_instruction: CsInsn
@@ -81,9 +84,8 @@ class ExceptionEmulator():
     def checkpoint(self, emulator: Uc, next_instruction):
         flags = emulator.reg_read(UC_X86_REG_EFLAGS)
         context = emulator.context_save()
-        spec_window = self.speculation_window
+        spec_window = self.speculation_depth
         self.checkpoints.append((context, next_instruction, flags, spec_window))
-        self.in_speculation = True
 
     def speculate_fault(self, errno: int) -> int:
         # speculates only division by zero errors currently
@@ -92,6 +94,9 @@ class ExceptionEmulator():
             return 0
         
         self.checkpoint(self.mu, self.fault_handler_addr)
+        
+        self.in_speculation = True
+        # if self.cache.is_cached()
 
         # real processors cant rewrite these registers because they cant reorder instructions that might depend on this data
         self.mu.reg_write(UC_X86_REG_RAX, 0)
@@ -103,9 +108,6 @@ class ExceptionEmulator():
         next_addr = self.speculate_fault(errno)
         if next_addr:
             return next_addr
-    
-    def should_skip(insn):
-        return False
 
     def instruction_hook(self, uc: Uc, address: int, size: int, user_data):
         if self.exit_reached(address):
@@ -121,7 +123,7 @@ class ExceptionEmulator():
             self.logger.log(f"Executing 0x{address:x}: {insn.mnemonic} {insn.op_str}")
             
             # Check if we should execute this instruction based on dependencies
-            if self.in_speculation and self.should_skip(insn):
+            if self.should_skip(insn):
                 # Skip this instruction by directly jumping to the next one
                 uc.reg_write(UC_X86_REG_RIP, address + size)
                 return
@@ -130,43 +132,101 @@ class ExceptionEmulator():
         
         # this is in trace_instruction (start at X86FaultModelAbstract) but i just put it in instruction_hook
         if self.in_speculation:
-            self.speculation_window += self.REGULAR_INSTR_CYCLES
+            self.speculation_depth += self.REGULAR_INSTR_CYCLES
             # rollback on a serializing instruction
             # if self.current_instruction.name in self.uc_target_desc.barriers:
             #     self.mu.emu_stop()
 
             # and on expired speculation window
-            if self.speculation_window > self.MAX_SPEC_WINDOW:
+            if self.speculation_depth > self.MAX_SPEC_WINDOW:
                 self.mu.emu_stop()
+
+    def mem_read_hook(self, uc, access, address, size, value, user_data):
+        if not self.in_speculation:
+            is_hit = self.cache.read(address, uc)
+            self.logger.log(f"\tMemory read: address=0x{address:x}, size={size}, cached={is_hit is not None}")
+            return
+        
+        regs_read, regs_written = self.curr_instruction.regs_access()
+
+        # cache miss
+        if not self.cache.is_cached(address):
+            # Add address as pending memory load
+            self.pending_memory_loads.add(address)
+
+            # If register used to dereference address, set register to pending
+            # TODO
+
+            # Add receiving registers as pending registers
+            for reg in regs_written:
+                self.pending_registers.add(reg)
+            
+            self.logger.log(f"\tMemory read: address=0x{address:x}, size={size}, CACHE MISS")
+        
+        # cache hit
+        else:
+            self.cache.read(address, uc)
+            # Remove address from pending memory loads
+            for reg in regs_written:
+                self.pending_registers.discard(reg)
+
+            self.logger.log(f"\tMemory read: address=0x{address:x}, size={size}, CACHE HIT")
+
+        self._pretty_print_pending_state(indent=1)
 
     def mem_write_hook(self, uc, access, address, size, value, user_data):
         self.cache.write(address, value)
-        self.logger.log(f"\tMemory write: address=0x{address:x}, size={size}, value={value}")
+        for reg in self.curr_instruction.regs_write:
+            self.pending_registers.discard(reg)
 
-        if self.in_speculation:
-            self.logger.log(f"\tCurrent speculation window size: {self.speculation_window}")
-
-    def mem_read_hook(self, uc, access, address, size, value, user_data):
-        is_hit = self.cache.read(address, uc)
-
-        if self.in_speculation:
-            if is_hit != None:  # cache hit
-                self.logger.log(f"\tMemory read: address=0x{address:x}, size={size}, CACHE HIT, TSC += {self.CACHE_HIT_CYCLES}")
-            else:  # cache miss
-                self.logger.log(f"\tMemory read: address=0x{address:x}, size={size}, CACHE MISS, TSC += {self.CACHE_MISS_CYCLES}")
-
-        self.logger.log(f"\tCurrent speculation window size: {self.speculation_window}")
-
-    def persist_pending_loads():
-        pass
+        self.logger.log(f"\tMemory write: address=0x{address:x}, size={size}")
 
     def rollback(self):
         pass
+    
+    def persist_pending_loads(self):
+        """
+        Persist pending memory loads to the cache.
+        """
+        self.logger.log("Persisting pending memory loads...")
+        self._pretty_print_pending_state(indent=1)
+        for address in self.pending_memory_loads:
+            self.cache.write(address, self.mu.mem_read(address, self.cache.line_size))
+        self.pending_memory_loads.clear()
 
-    def finish_emulation(self):
-        self.persist_pending_loads()
-        self.mu.emu_stop()
+    def should_skip(self, insn: CsInsn):
+        """
+        Determines if an instruction should be skipped based on register dependencies.
+        """
+        if not self.in_speculation:
+            # only perform OOO execution in speculation
+            return False
+        
+        read_from_pending = False
+            
+        regs_read, regs_written = insn.regs_access()
+        # self.logger.log(f"\tRegs read: {[f'{self.cs.reg_name(reg_id)}' for reg_id in regs_read]}")
+        # self.logger.log(f"\tRegs written: {[f'{self.cs.reg_name(reg_id)}' for reg_id in regs_written]}")
+        
+        # check if any read registers are pending
+        for reg in regs_read:
+            if reg in self.pending_registers:
+                self.logger.log(f"\tSkipping instruction because there is a dependency on a pending register: {self.cs.reg_name(reg)}")
+                read_from_pending = True
+                break
+        
+        if read_from_pending:
+            # if read from pending register, add written registers as pending
+            for reg in regs_written:
+                self.pending_registers.add(reg)
+        else:
+            # pending registers are overwritten so can be removed
+            for reg in regs_written:
+                self.pending_registers.discard(reg)
+            
 
+        return read_from_pending
+    
     def emulate(self):
         self.logger.log(f"Starting emulation of gate {self.gate_name}...")
         start_address = self.code_start_address
@@ -212,3 +272,15 @@ class ExceptionEmulator():
             if self.in_speculation:
                 start_address = self.rollback()
                 continue
+    
+    def finish_emulation(self):
+        self.persist_pending_loads()
+        self.mu.emu_stop()
+
+    def _pretty_print_pending_state(self, indent=0):
+        """
+        Pretty prints the current state of pending memory loads and registers.
+        """
+        indent_str = "\t" * indent
+        self.logger.log(f"{indent_str}Pending memory loads: {[f'0x{address:x}' for address in self.pending_memory_loads]}")
+        self.logger.log(f"{indent_str}Pending registers: {[f'{self.cs.reg_name(reg_id)}' for reg_id in self.pending_registers]}")
