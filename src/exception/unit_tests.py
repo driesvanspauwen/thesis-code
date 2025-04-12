@@ -132,8 +132,7 @@ def test_and_or():
                     print(f"\tExpected: {expected}")
                     print(f"\tResult: {res}")
 
-def test_not():
-    in1 = 1
+def run_not(in1, debug=False):
     code = get_asm_exception_not(in1)
     emulator = ExceptionEmulator(code, 'not', True)
 
@@ -156,12 +155,36 @@ def test_not():
 
     return result
 
-run_or(0, 1, True)
+def test_not():
+    for in1 in range(2):
+        res = run_not(in1)
+        expected = not in1
+        if res == expected:
+            print(f"Test passed for NOT({in1})")
+        else:
+            print(f"Test failed for NOT({in1}):")
+            print(f"\tExpected: {expected}")
+            print(f"\tResult: {res}")
 
-# Run tests with `python unit_tests.py <test_name>`
+def run_all_tests():
+    """
+    Run all test functions in this module (functions that start with 'test_').
+    """
+    test_functions = [name for name in globals() 
+                     if name.startswith('test_') and callable(globals()[name])]
+    
+    print(f"Running {len(test_functions)} tests:")
+    for test_func_name in test_functions:
+        print(f"\n--- Running {test_func_name} ---")
+        globals()[test_func_name]()
+    
+    print("\nAll tests completed!")
+
+# Run tests with `python unit_tests.py <test_name>` or `python unit_tests.py all`
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: python unit_tests.py <test_name>")
+        print("       python unit_tests.py all (to run all tests)")
         print("Available tests:")
         # List all functions that start with 'test_'
         tests = [name for name in globals() if name.startswith('test_')]
@@ -170,7 +193,9 @@ if __name__ == "__main__":
         sys.exit(1)
 
     test_name = sys.argv[1]
-    if test_name in globals() and test_name.startswith('test_'):
+    if test_name.lower() == 'all':
+        run_all_tests()
+    elif test_name in globals() and test_name.startswith('test_'):
         globals()[test_name]()  # Run the requested test
         print("Finished unit tests")
     else:

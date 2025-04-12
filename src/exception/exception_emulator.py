@@ -1,5 +1,6 @@
 from unicorn import *
 from unicorn.x86_const import *
+from helper import *
 from typing import List, Tuple, Optional, Set, Dict
 from logger import Logger
 from cache import L1DCache
@@ -95,7 +96,8 @@ class ExceptionEmulator():
         
         self.in_speculation = True
         self.speculation_limit = self.MAX_SPEC_WINDOW
-        # if self.cache.is_cached()
+        regs_read, regs_written = self.curr_insn.regs_access()
+        self.speculation_limit += self.get_max_cycle_wait_for_registers(regs_read)
 
         # real processors cant rewrite these registers because they cant reorder instructions that might depend on this data
         self.mu.reg_write(UC_X86_REG_RAX, 0)
@@ -147,10 +149,9 @@ class ExceptionEmulator():
 
     def mem_read_hook(self, uc: Uc, access, address: int, size: int, value, user_data):
         # not in speculation
-        if not self.in_speculation:
-            is_hit = self.cache.read(address, uc)
-            self.logger.log(f"\tMemory read: address=0x{address:x}, size={size}, cached={is_hit is not None}")
-            return
+        # if not self.in_speculation:
+        #     is_hit = 
+        #     self.logger.log(f"\tMemory read: address=0x{address:x}, size={size}, cached={is_hit is not None}")
         
         regs_read, regs_written = self.curr_insn.regs_access()
 
@@ -159,9 +160,12 @@ class ExceptionEmulator():
             self.pending_memory_loads.add(address)
             for reg in regs_written:
                 self.pending_registers[reg] = self.CACHE_MISS_CYCLES
-                if self.CACHE_MISS_CYCLES > self.speculation_limit:
-                    self.logger.log(f"\tSkipping instruction (execution will exceed speculation limit)")
-                    self.skip_curr_insn()
+                if self.in_speculation:
+                    if self.CACHE_MISS_CYCLES > self.speculation_limit:
+                        self.logger.log(f"\tSkipping instruction (execution will exceed speculation limit)")
+                        self.skip_curr_insn()
+                else:
+                    self.cache.read(address, uc)
             self.logger.log(f"\tMemory read: address=0x{address:x}, size={size}, CACHE MISS")
         
         # cache hit: remove address and registers from pending
@@ -206,7 +210,7 @@ class ExceptionEmulator():
         # self.logger.log(f"\tRegs written: {[f'{self.cs.reg_name(reg_id)}' for reg_id in regs_written]}")
 
         # check if any read registers are pending
-        max_cycle_wait = max((self.pending_registers.get(reg, 0) for reg in regs_read), default=0)
+        max_cycle_wait = self.get_max_cycle_wait_for_registers(regs_read)
         self.logger.log(f"\tMaximum cycle wait: {max_cycle_wait}")
 
         # no dependencies
@@ -222,9 +226,28 @@ class ExceptionEmulator():
 
         return max_cycle_wait <= self.speculation_limit
     
+    def get_max_cycle_wait_for_registers(self, regs_read):
+        """
+        Calculate the maximum cycle wait time for the given list of register dependencies. Checks both direct dependencies and aliased register dependencies.
+        """
+        max_cycle_wait = 0
+        
+        for reg_read in regs_read:
+            # Check direct dependencies
+            if reg_read in self.pending_registers:
+                max_cycle_wait = max(max_cycle_wait, self.pending_registers[reg_read])
+                continue
+                
+            # Check for aliasing dependencies
+            for pending_reg, cycles in self.pending_registers.items():
+                if registers_alias(reg_read, pending_reg):
+                    max_cycle_wait = max(max_cycle_wait, cycles)
+                    break
+                    
+        return max_cycle_wait
+
     
     def emulate(self):
-        self.logger.log(f"Starting emulation of gate {self.gate_name}...")
         start_address = self.code_start_address
         while True:
             if start_address is None:
@@ -233,7 +256,7 @@ class ExceptionEmulator():
             self.pending_fault_id = 0
             try:
                 if self.in_speculation:
-                    self.logger.log("Entering speculative mode")
+                    self.logger.log(f"Entering speculative window with limit {self.speculation_limit}")
                 self.logger.log(f"(re)starting emulation with start address 0x{start_address:x}, exit address 0x{self.code_exit_addr:x}")
                 self.mu.emu_start(start_address, self.code_exit_addr, timeout=10 * UC_SECOND_SCALE)
             except UcError as e:
