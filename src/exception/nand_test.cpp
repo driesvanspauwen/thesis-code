@@ -1,4 +1,5 @@
 // g++ -O2 -o nand_test.elf nand_test.cpp -lm
+// for non-dynamically linked: g++ -O2 -static -o nand_test.elf nand_test.cpp -lm
 // objdump -M intel -d nand_test.elf > objdump.txt
 #include <stdio.h>
 #include <stdint.h>
