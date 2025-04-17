@@ -1,0 +1,4215 @@
+    Data written: 0x4f8 bytes at 0x400000
+    Data written: 0x7de2d bytes at 0x401000
+    Data written: 0x25878 bytes at 0x47f000
+    Data written: 0x5b70 bytes at 0x4a5f50
+    Zeroed: 0x8f88 bytes at 0x4abac0
+TLS mapped at 0x7ffff7ffa000, size: 0x2000
+Starting emulation at 0x4018e0, ending at 0x14018e0
+Mapped null page to catch null pointer accesses
+>>> Executing 0x4018e0: endbr64 
+>>> Executing 0x4018e4: xor ebp, ebp
+>>> Executing 0x4018e6: mov r9, rdx
+>>> Executing 0x4018e9: pop rsi
+>>> Executing 0x4018ea: mov rdx, rsp
+>>> Executing 0x4018ed: and rsp, 0xfffffffffffffff0
+>>> Executing 0x4018f1: push rax
+>>> Executing 0x4018f2: push rsp
+>>> Executing 0x4018f3: xor r8d, r8d
+>>> Executing 0x4018f6: xor ecx, ecx
+>>> Executing 0x4018f8: mov rdi, 0x401790
+>>> Executing 0x4018ff: call 0x404200
+>>> Executing 0x404200: endbr64 
+>>> Executing 0x404204: push rbp
+>>> Executing 0x404205: movsxd rax, esi
+>>> Executing 0x404208: mov rbp, rsp
+>>> Executing 0x40420b: push r15
+>>> Executing 0x40420d: push r14
+>>> Executing 0x40420f: push r13
+>>> Executing 0x404211: push r12
+>>> Executing 0x404213: mov r12, rdx
+>>> Executing 0x404216: push rbx
+>>> Executing 0x404217: mov rbx, rax
+>>> Executing 0x40421a: sub rsp, 0x18
+>>> Executing 0x40421e: mov qword ptr [rbp - 0x40], rdi
+>>> Executing 0x404222: lea rdi, [rdx + rax*8 + 8]
+>>> Executing 0x404227: mov rax, qword ptr [rbp + 0x10]
+>>> Executing 0x40422b: mov qword ptr [rbp - 0x38], r9
+>>> Executing 0x40422f: mov qword ptr [rip + 0xafe8a], rdi
+>>> Executing 0x404236: mov qword ptr [rip + 0xa581b], rax
+>>> Executing 0x40423d: nop dword ptr [rax]
+>>> Executing 0x404240: add rdi, 8
+>>> Executing 0x404244: cmp qword ptr [rdi - 8], 0
+>>> Executing 0x404249: jne 0x404240
+>>> Executing 0x40424b: call 0x422ca0
+>>> Executing 0x422ca0: endbr64 
+>>> Executing 0x422ca4: push rbp
+>>> Executing 0x422ca5: mov rdx, rdi
+>>> Executing 0x422ca8: xor eax, eax
+>>> Executing 0x422caa: mov ecx, 0x34
+>>> Executing 0x422caf: mov rbp, rsp
+>>> Executing 0x422cb2: sub rsp, 0x1a0
+>>> Executing 0x422cb9: mov qword ptr [rip + 0x91528], rdi
+>>> Executing 0x422cc0: lea rsi, [rbp - 0x1a0]
+>>> Executing 0x422cc7: mov rdi, rsi
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422cca: rep stosq qword ptr [rdi], rax
+>>> Executing 0x422ccd: lea rax, [rip - 0x213f4]
+>>> Executing 0x422cd4: mov qword ptr [rbp - 0x170], 0x1000
+>>> Executing 0x422cdf: mov qword ptr [rbp - 0x158], rax
+>>> Executing 0x422ce6: mov rax, qword ptr [rdx]
+>>> Executing 0x422ce9: mov qword ptr [rbp - 0x110], 0x37f
+>>> Executing 0x422cf4: test rax, rax
+>>> Executing 0x422cf7: je 0x422e2e
+>>> Executing 0x422e2e: mov edx, 0x37f
+>>> Executing 0x422e33: mov ecx, 0x1000
+>>> Executing 0x422e38: jmp 0x422d34
+>>> Executing 0x422d34: mov qword ptr [rip + 0x883dd], rcx
+>>> Executing 0x422d3b: mov rcx, qword ptr [rbp - 0xe8]
+>>> Executing 0x422d42: mov word ptr [rip + 0x883c3], dx
+>>> Executing 0x422d49: mov rdx, qword ptr [rbp - 0xd8]
+>>> Executing 0x422d50: mov dword ptr [rip + 0x88982], ecx
+>>> Executing 0x422d56: mov rcx, qword ptr [rbp - 0x128]
+>>> Executing 0x422d5d: mov qword ptr [rip + 0x914ac], rax
+>>> Executing 0x422d64: mov rax, qword ptr [rbp - 0x98]
+>>> Executing 0x422d6b: mov qword ptr [rip + 0x916f6], rcx
+>>> Executing 0x422d72: mov rcx, qword ptr [rbp - 0x120]
+>>> Executing 0x422d79: mov qword ptr [rip + 0x86cc8], rdx
+>>> Executing 0x422d80: mov rdx, qword ptr [rbp - 0x178]
+>>> Executing 0x422d87: mov qword ptr [rip + 0x91442], rcx
+>>> Executing 0x422d8e: mov rcx, qword ptr [rbp - 0xd0]
+>>> Executing 0x422d95: mov qword ptr [rip + 0x913b4], rax
+>>> Executing 0x422d9c: mov rax, qword ptr [rbp - 0x188]
+>>> Executing 0x422da3: mov qword ptr [rip + 0x9141e], rcx
+>>> Executing 0x422daa: mov rcx, qword ptr [rbp - 0xb8]
+>>> Executing 0x422db1: mov qword ptr [rip + 0x91428], rax
+>>> Executing 0x422db8: mov qword ptr [rip + 0x91401], rcx
+>>> Executing 0x422dbf: mov rcx, qword ptr [rbp - 0xb0]
+>>> Executing 0x422dc6: mov qword ptr [rip + 0x9140b], rdx
+>>> Executing 0x422dcd: mov qword ptr [rip + 0x913e4], rcx
+>>> Executing 0x422dd4: mov rcx, qword ptr [rbp - 0x118]
+>>> Executing 0x422ddb: mov dword ptr [rip + 0x9135f], ecx
+>>> Executing 0x422de1: test rax, rax
+>>> Executing 0x422de4: jne 0x422e13
+>>> Executing 0x422de6: cmp word ptr [rip - 0x22db8], 0x38
+>>> Executing 0x422dee: jne 0x422e3d
+>>> Executing 0x422df0: lea rax, [rip - 0x22df7]
+>>> Executing 0x422df7: add rax, qword ptr [rip - 0x22dde]
+>>> Executing 0x422dfe: mov qword ptr [rip + 0x913db], rax
+>>> Executing 0x422e05: movzx eax, word ptr [rip - 0x22dd4]
+>>> Executing 0x422e0c: mov qword ptr [rip + 0x913c5], rax
+>>> Executing 0x422e13: leave 
+>>> Executing 0x422e14: ret 
+>>> Executing 0x404250: mov rdi, qword ptr [rip + 0xafe69]
+>>> Executing 0x404257: call 0x421d20
+>>> Executing 0x421d20: endbr64 
+>>> Executing 0x421d24: push rbp
+>>> Executing 0x421d25: mov rbp, rsp
+>>> Executing 0x421d28: push r15
+>>> Executing 0x421d2a: push r14
+>>> Executing 0x421d2c: mov r14, rdi
+>>> Executing 0x421d2f: push r13
+>>> Executing 0x421d31: push r12
+>>> Executing 0x421d33: mov r12, 0xffffffffffffff97
+>>> Executing 0x421d3a: push rbx
+>>> Executing 0x421d3b: lea rbx, [rip + 0x8673e]
+>>> Executing 0x421d42: sub r12, rbx
+>>> Executing 0x421d45: sub rsp, 0x38
+>>> Executing 0x421d49: mov eax, dword ptr [rip + 0x89989]
+>>> Executing 0x421d4f: test eax, eax
+>>> Executing 0x421d51: jne 0x421ec1
+>>> Executing 0x421d57: nop word ptr [rax + rax]
+>>> Executing 0x421d60: test r14, r14
+>>> Executing 0x421d63: je 0x421ec1
+>>> Executing 0x421d69: mov r8, qword ptr [r14]
+>>> Executing 0x421d6c: test r8, r8
+>>> Executing 0x421d6f: je 0x421ec1
+>>> Executing 0x421ec1: add rsp, 0x38
+>>> Executing 0x421ec5: pop rbx
+>>> Executing 0x421ec6: pop r12
+>>> Executing 0x421ec8: pop r13
+>>> Executing 0x421eca: pop r14
+>>> Executing 0x421ecc: pop r15
+>>> Executing 0x421ece: pop rbp
+>>> Executing 0x421ecf: ret 
+>>> Executing 0x40425c: call 0x403250
+>>> Executing 0x403250: push rbp
+>>> Executing 0x403251: xor eax, eax
+>>> Executing 0x403253: mov rbp, rsp
+>>> Executing 0x403256: push r15
+>>> Executing 0x403258: push r14
+>>> Executing 0x40325a: push r13
+>>> Executing 0x40325c: push r12
+>>> Executing 0x40325e: push rbx
+>>> Executing 0x40325f: sub rsp, 0xa8
+>>> Executing 0x403266: mov dword ptr [rbp - 0x70], 0
+>>> Executing 0x40326d: mov dword ptr [rbp - 0x6c], 0
+>>> Executing 0x403274: mov dword ptr [rbp - 0x68], 0
+>>> Executing 0x40327b: mov qword ptr [rip + 0xb119a], 4
+>>> Executing 0x403286: cpuid 
+>>> Executing 0x403288: mov dword ptr [rip + 0xb0f96], eax
+>>> Executing 0x40328e: cmp ebx, 0x756e6547
+>>> Executing 0x403294: jne 0x403393
+>>> Executing 0x403393: cmp ebx, 0x68747541
+>>> Executing 0x403399: jne 0x403a12
+>>> Executing 0x40339f: cmp ecx, 0x444d4163
+>>> Executing 0x4033a5: jne 0x403a12
+>>> Executing 0x4033ab: cmp edx, 0x69746e65
+>>> Executing 0x4033b1: je 0x403a3a
+>>> Executing 0x403a3a: lea r12, [rbp - 0x40]
+>>> Executing 0x403a3e: lea rcx, [rbp - 0x68]
+>>> Executing 0x403a42: lea rsi, [rbp - 0x6c]
+>>> Executing 0x403a46: lea rdi, [rbp - 0x70]
+>>> Executing 0x403a4a: mov rdx, r12
+>>> Executing 0x403a4d: call 0x4022e0
+>>> Executing 0x4022e0: push rbp
+>>> Executing 0x4022e1: mov rbp, rsp
+>>> Executing 0x4022e4: push rbx
+>>> Executing 0x4022e5: test rdi, rdi
+>>> Executing 0x4022e8: je 0x402342
+>>> Executing 0x4022ea: mov r8, rdx
+>>> Executing 0x4022ed: mov r9, rcx
+>>> Executing 0x4022f0: mov eax, 1
+>>> Executing 0x4022f5: cpuid 
+>>> Executing 0x4022f7: mov dword ptr [rip + 0xb1f43], edx
+>>> Executing 0x4022fd: mov edx, eax
+>>> Executing 0x4022ff: shr edx, 8
+>>> Executing 0x402302: mov dword ptr [rip + 0xb1f30], ebx
+>>> Executing 0x402308: and edx, 0xf
+>>> Executing 0x40230b: mov dword ptr [rip + 0xb1f2b], ecx
+>>> Executing 0x402311: mov dword ptr [rip + 0xb1f1d], eax
+>>> Executing 0x402317: mov dword ptr [rdi], edx
+>>> Executing 0x402319: mov edx, eax
+>>> Executing 0x40231b: shr edx, 4
+>>> Executing 0x40231e: and edx, 0xf
+>>> Executing 0x402321: mov dword ptr [rsi], edx
+>>> Executing 0x402323: mov edx, eax
+>>> Executing 0x402325: shr edx, 0xc
+>>> Executing 0x402328: and edx, 0xf0
+>>> Executing 0x40232e: mov dword ptr [r8], edx
+>>> Executing 0x402331: mov edx, eax
+>>> Executing 0x402333: and edx, 0xf
+>>> Executing 0x402336: mov dword ptr [r9], edx
+>>> Executing 0x402339: cmp dword ptr [rdi], 0xf
+>>> Executing 0x40233c: je 0x40245a
+>>> Executing 0x402342: cmp dword ptr [rip + 0xb1edb], 6
+>>> Executing 0x402349: jle 0x402418
+>>> Executing 0x40234f: mov r8d, 7
+>>> Executing 0x402355: xor esi, esi
+>>> Executing 0x402357: mov eax, r8d
+>>> Executing 0x40235a: mov ecx, esi
+>>> Executing 0x40235c: cpuid 
+>>> Executing 0x40235e: mov edi, 1
+>>> Executing 0x402363: mov dword ptr [rip + 0xb1eeb], eax
+>>> Executing 0x402369: mov eax, r8d
+>>> Executing 0x40236c: mov dword ptr [rip + 0xb1eea], ecx
+>>> Executing 0x402372: mov ecx, edi
+>>> Executing 0x402374: mov dword ptr [rip + 0xb1ede], ebx
+>>> Executing 0x40237a: mov dword ptr [rip + 0xb1ee0], edx
+>>> Executing 0x402380: cpuid 
+>>> Executing 0x402382: cmp dword ptr [rip + 0xb1e9b], 0xc
+>>> Executing 0x402389: mov dword ptr [rip + 0xb1f65], eax
+>>> Executing 0x40238f: mov dword ptr [rip + 0xb1f63], ebx
+>>> Executing 0x402395: mov dword ptr [rip + 0xb1f61], ecx
+>>> Executing 0x40239b: mov dword ptr [rip + 0xb1f5f], edx
+>>> Executing 0x4023a1: jle 0x402418
+>>> Executing 0x4023a3: mov eax, 0xd
+>>> Executing 0x4023a8: mov ecx, edi
+>>> Executing 0x4023aa: cpuid 
+>>> Executing 0x4023ac: cmp dword ptr [rip + 0xb1e71], 0x13
+>>> Executing 0x4023b3: mov dword ptr [rip + 0xb1edb], eax
+>>> Executing 0x4023b9: mov dword ptr [rip + 0xb1ed9], ebx
+>>> Executing 0x4023bf: mov dword ptr [rip + 0xb1ed7], ecx
+>>> Executing 0x4023c5: mov dword ptr [rip + 0xb1ed5], edx
+>>> Executing 0x4023cb: jle 0x402418
+>>> Executing 0x402418: cmp qword ptr [rip + 0xb1df0], 0
+>>> Executing 0x402420: jne 0x40244a
+>>> Executing 0x402422: cmp dword ptr [rip + 0xb1dfb], 0xc
+>>> Executing 0x402429: jle 0x40244d
+>>> Executing 0x40242b: test byte ptr [rip + 0xb1e0d], 8
+>>> Executing 0x402432: je 0x40244d
+>>> Executing 0x40244d: mov qword ptr [rip + 0xb1db8], 0x800
+>>> Executing 0x402458: jmp 0x40244a
+>>> Executing 0x40244a: pop rbx
+>>> Executing 0x40244b: pop rbp
+>>> Executing 0x40244c: ret 
+>>> Executing 0x403a52: mov eax, 0x80000000
+>>> Executing 0x403a57: cpuid 
+>>> Executing 0x403a59: mov esi, eax
+>>> Executing 0x403a5b: cmp eax, 0x80000000
+>>> Executing 0x403a60: jbe 0x403acf
+>>> Executing 0x403a62: mov eax, 0x80000001
+>>> Executing 0x403a67: cpuid 
+>>> Executing 0x403a69: mov dword ptr [rip + 0xb0805], eax
+>>> Executing 0x403a6f: mov dword ptr [rip + 0xb0803], ebx
+>>> Executing 0x403a75: mov dword ptr [rip + 0xb0801], ecx
+>>> Executing 0x403a7b: mov dword ptr [rip + 0xb07ff], edx
+>>> Executing 0x403a81: cmp esi, 0x80000006
+>>> Executing 0x403a87: jbe 0x403acf
+>>> Executing 0x403a89: mov eax, 0x80000007
+>>> Executing 0x403a8e: cpuid 
+>>> Executing 0x403a90: mov dword ptr [rip + 0xb081e], eax
+>>> Executing 0x403a96: mov dword ptr [rip + 0xb081c], ebx
+>>> Executing 0x403a9c: mov dword ptr [rip + 0xb081a], ecx
+>>> Executing 0x403aa2: mov dword ptr [rip + 0xb0818], edx
+>>> Executing 0x403aa8: cmp esi, 0x80000007
+>>> Executing 0x403aae: je 0x403acf
+>>> Executing 0x403ab0: mov eax, 0x80000008
+>>> Executing 0x403ab5: cpuid 
+>>> Executing 0x403ab7: mov dword ptr [rip + 0xb0817], eax
+>>> Executing 0x403abd: mov dword ptr [rip + 0xb0815], ebx
+>>> Executing 0x403ac3: mov dword ptr [rip + 0xb0813], ecx
+>>> Executing 0x403ac9: mov dword ptr [rip + 0xb0811], edx
+>>> Executing 0x403acf: call 0x402c80
+>>> Executing 0x402c80: push rbp
+>>> Executing 0x402c81: mov rbp, rsp
+>>> Executing 0x402c84: push r15
+>>> Executing 0x402c86: push r14
+>>> Executing 0x402c88: push r13
+>>> Executing 0x402c8a: push r12
+>>> Executing 0x402c8c: push rbx
+>>> Executing 0x402c8d: sub rsp, 0xb0
+>>> Executing 0x402c94: mov edi, dword ptr [rip + 0xb15a2]
+>>> Executing 0x402c9a: mov r10d, dword ptr [rip + 0xb15bb]
+>>> Executing 0x402ca1: mov r12d, dword ptr [rip + 0xb15b8]
+>>> Executing 0x402ca8: mov r15d, dword ptr [rip + 0xb1591]
+>>> Executing 0x402caf: mov ecx, edi
+>>> Executing 0x402cb1: mov edx, edi
+>>> Executing 0x402cb3: mov r8d, edi
+>>> Executing 0x402cb6: mov r9d, dword ptr [rip + 0xb159b]
+>>> Executing 0x402cbd: and ecx, 0x8000000
+>>> Executing 0x402cc3: and edx, 0x2d82203
+>>> Executing 0x402cc9: or edx, dword ptr [rip + 0xb157d]
+>>> Executing 0x402ccf: mov eax, r15d
+>>> Executing 0x402cd2: or edx, ecx
+>>> Executing 0x402cd4: mov ebx, dword ptr [rip + 0xb15a2]
+>>> Executing 0x402cda: and eax, 0x17888110
+>>> Executing 0x402cdf: and r8d, 0x40000000
+>>> Executing 0x402ce6: or r8d, edx
+>>> Executing 0x402ce9: mov edx, r10d
+>>> Executing 0x402cec: or dword ptr [rip + 0xb155e], eax
+>>> Executing 0x402cf2: mov eax, r9d
+>>> Executing 0x402cf5: and edx, 0x1a400131
+>>> Executing 0x402cfb: or edx, dword ptr [rip + 0xb156b]
+>>> Executing 0x402d01: and eax, 0x218c0318
+>>> Executing 0x402d06: mov dword ptr [rip + 0xb153f], r8d
+>>> Executing 0x402d0d: mov dword ptr [rip + 0xb1559], edx
+>>> Executing 0x402d13: mov r14d, edx
+>>> Executing 0x402d16: mov edx, r12d
+>>> Executing 0x402d19: or eax, dword ptr [rip + 0xb1549]
+>>> Executing 0x402d1f: and edx, 0x14810
+>>> Executing 0x402d25: or edx, dword ptr [rip + 0xb1545]
+>>> Executing 0x402d2b: mov dword ptr [rbp - 0x140], edx
+>>> Executing 0x402d31: mov dword ptr [rip + 0xb1539], edx
+>>> Executing 0x402d37: mov edx, ebx
+>>> Executing 0x402d39: mov dword ptr [rbp - 0x13c], ebx
+>>> Executing 0x402d3f: mov ebx, dword ptr [rip + 0xb1547]
+>>> Executing 0x402d45: and edx, 0x200161
+>>> Executing 0x402d4b: mov esi, dword ptr [rip + 0xb15a3]
+>>> Executing 0x402d51: mov r13d, dword ptr [rip + 0xb15a8]
+>>> Executing 0x402d58: or ebx, edx
+>>> Executing 0x402d5a: mov edx, dword ptr [rip + 0xb1520]
+>>> Executing 0x402d60: mov r11d, esi
+>>> Executing 0x402d63: mov dword ptr [rbp - 0x138], esi
+>>> Executing 0x402d69: mov esi, dword ptr [rip + 0xb15c9]
+>>> Executing 0x402d6f: and edx, 0x8000000
+>>> Executing 0x402d75: or dword ptr [rip + 0xb1515], edx
+>>> Executing 0x402d7b: mov edx, dword ptr [rip + 0xb1557]
+>>> Executing 0x402d81: and r11d, 0x1c88
+>>> Executing 0x402d88: and esi, 0x10
+>>> Executing 0x402d8b: or dword ptr [rip + 0xb15b7], esi
+>>> Executing 0x402d91: mov esi, r9d
+>>> Executing 0x402d94: or r11d, dword ptr [rip + 0xb1569]
+>>> Executing 0x402d9b: and edx, 0x200
+>>> Executing 0x402da1: and esi, 0x800
+>>> Executing 0x402da7: or dword ptr [rip + 0xb153b], edx
+>>> Executing 0x402dad: mov edx, r13d
+>>> Executing 0x402db0: and edx, 0x4000
+>>> Executing 0x402db6: or esi, eax
+>>> Executing 0x402db8: or edx, dword ptr [rip + 0xb1552]
+>>> Executing 0x402dbe: test r12d, 0x800
+>>> Executing 0x402dc5: cmovne esi, eax
+>>> Executing 0x402dc8: mov dword ptr [rip + 0xb14be], ebx
+>>> Executing 0x402dce: mov dword ptr [rip + 0xb152f], r11d
+>>> Executing 0x402dd5: mov dword ptr [rip + 0xb1535], edx
+>>> Executing 0x402ddb: mov dword ptr [rip + 0xb1487], esi
+>>> Executing 0x402de1: test ecx, ecx
+>>> Executing 0x402de3: je 0x402eef
+>>> Executing 0x402eef: test r10b, 0x10
+>>> Executing 0x402ef3: je 0x402efc
+>>> Executing 0x402efc: mov eax, dword ptr [rip + 0xb1416]
+>>> Executing 0x402f02: test al, 1
+>>> Executing 0x402f04: je 0x402f26
+>>> Executing 0x402f26: test byte ptr [rip + 0xb129b], 2
+>>> Executing 0x402f2d: je 0x402f3a
+>>> Executing 0x402f3a: mov eax, dword ptr [rip + 0xb1310]
+>>> Executing 0x402f40: xor edx, edx
+>>> Executing 0x402f42: mov ecx, eax
+>>> Executing 0x402f44: not ecx
+>>> Executing 0x402f46: test ch, 0x81
+>>> Executing 0x402f49: je 0x403010
+>>> Executing 0x403010: mov edx, r15d
+>>> Executing 0x403013: and edx, 1
+>>> Executing 0x403016: je 0x402f4f
+>>> Executing 0x40301c: mov eax, ecx
+>>> Executing 0x40301e: test eax, 0x7800000
+>>> Executing 0x403023: je 0x40318f
+>>> Executing 0x40318f: mov eax, dword ptr [rip + 0xb10b7]
+>>> Executing 0x403195: test ah, 0x20
+>>> Executing 0x403198: je 0x402f4f
+>>> Executing 0x40319e: mov ecx, dword ptr [rip + 0xb10e8]
+>>> Executing 0x4031a4: mov esi, ecx
+>>> Executing 0x4031a6: and esi, 1
+>>> Executing 0x4031a9: je 0x402f4f
+>>> Executing 0x4031af: mov edx, esi
+>>> Executing 0x4031b1: mov esi, eax
+>>> Executing 0x4031b3: not esi
+>>> Executing 0x4031b5: and esi, 0x980201
+>>> Executing 0x4031bb: jne 0x402f4f
+>>> Executing 0x402f4f: mov dword ptr [rip + 0xb1423], edx
+>>> Executing 0x402f55: add rsp, 0xb0
+>>> Executing 0x402f5c: pop rbx
+>>> Executing 0x402f5d: pop r12
+>>> Executing 0x402f5f: pop r13
+>>> Executing 0x402f61: pop r14
+>>> Executing 0x402f63: pop r15
+>>> Executing 0x402f65: pop rbp
+>>> Executing 0x402f66: ret 
+>>> Executing 0x403ad4: test byte ptr [rip + 0xb0774], 0x10
+>>> Executing 0x403adb: je 0x403aee
+>>> Executing 0x403aee: cmp dword ptr [rbp - 0x70], 0x15
+>>> Executing 0x403af2: movd xmm1, dword ptr [rbp - 0x6c]
+>>> Executing 0x403af7: je 0x403c26
+>>> Executing 0x403afd: lea rbx, [rbp - 0x48]
+>>> Executing 0x403b01: mov eax, dword ptr [rbp - 0x68]
+>>> Executing 0x403b04: movd xmm0, dword ptr [rbp - 0x70]
+>>> Executing 0x403b09: mov edx, 2
+>>> Executing 0x403b0e: mov qword ptr [rbp - 0x80], rbx
+>>> Executing 0x403b12: jmp 0x4033e7
+>>> Executing 0x4033e7: mov ecx, dword ptr [rip + 0xb0e53]
+>>> Executing 0x4033ed: test ch, 1
+>>> Executing 0x4033f0: je 0x4033f9
+>>> Executing 0x4033f2: or dword ptr [rip + 0xb0f7b], 0x40
+>>> Executing 0x4033f9: and ch, 0x80
+>>> Executing 0x4033fc: je 0x403408
+>>> Executing 0x4033fe: or dword ptr [rip + 0xb0f6c], 0x80
+>>> Executing 0x403408: movdqa xmm2, xmm0
+>>> Executing 0x40340c: mov dword ptr [rip + 0xb0e0e], edx
+>>> Executing 0x403412: punpckldq xmm2, xmm1
+>>> Executing 0x403416: mov dword ptr [rip + 0xb0e14], eax
+>>> Executing 0x40341c: mov qword ptr [rbp - 0x60], 0xffffffffffffffff
+>>> Executing 0x403424: mov qword ptr [rbp - 0x58], 0xffffffffffffffff
+>>> Executing 0x40342c: mov dword ptr [rbp - 0x64], 0
+>>> Executing 0x403433: movq qword ptr [rip + 0xb0ded], xmm2
+>>> Executing 0x40343b: cmp edx, 1
+>>> Executing 0x40343e: je 0x403b17
+>>> Executing 0x403444: cmp edx, 3
+>>> Executing 0x403447: je 0x403c4d
+>>> Executing 0x40344d: cmp edx, 2
+>>> Executing 0x403450: je 0x403d32
+>>> Executing 0x403d32: mov edi, 0xbc
+>>> Executing 0x403d37: call 0x401f50
+>>> Executing 0x401f50: mov esi, edi
+>>> Executing 0x401f52: xor edi, edi
+>>> Executing 0x401f54: cmp esi, 0xc5
+>>> Executing 0x401f5a: je 0x402016
+>>> Executing 0x401f60: push rbp
+>>> Executing 0x401f61: mov eax, 0x80000000
+>>> Executing 0x401f66: mov rbp, rsp
+>>> Executing 0x401f69: push rbx
+>>> Executing 0x401f6a: cpuid 
+>>> Executing 0x401f6c: mov r8d, eax
+>>> Executing 0x401f6f: cmp eax, 0x8000001c
+>>> Executing 0x401f74: jbe 0x401fd7
+>>> Executing 0x401fd7: xor eax, eax
+>>> Executing 0x401fd9: cmp esi, 0xbe
+>>> Executing 0x401fdf: setg al
+>>> Executing 0x401fe2: sub eax, 0x7ffffffb
+>>> Executing 0x401fe7: cmp r8d, eax
+>>> Executing 0x401fea: jb 0x401fd1
+>>> Executing 0x401fec: cpuid 
+>>> Executing 0x401fee: cmp esi, 0xbb
+>>> Executing 0x401ff4: jle 0x40202c
+>>> Executing 0x401ff6: sub esi, 0xbd
+>>> Executing 0x401ffc: cmp esi, 7
+>>> Executing 0x401fff: ja 0x4021ec
+>>> Executing 0x4021ec: shr ecx, 0xe
+>>> Executing 0x4021ef: mov edi, ecx
+>>> Executing 0x4021f1: and edi, 0x3fc00
+>>> Executing 0x4021f7: jmp 0x401fd1
+>>> Executing 0x401fd1: mov rax, rdi
+>>> Executing 0x401fd4: pop rbx
+>>> Executing 0x401fd5: pop rbp
+>>> Executing 0x401fd6: ret 
+>>> Executing 0x403d3c: mov edi, 0xbf
+>>> Executing 0x403d41: mov r15, rax
+>>> Executing 0x403d44: call 0x401f50
+>>> Executing 0x401f50: mov esi, edi
+>>> Executing 0x401f52: xor edi, edi
+>>> Executing 0x401f54: cmp esi, 0xc5
+>>> Executing 0x401f5a: je 0x402016
+>>> Executing 0x401f60: push rbp
+>>> Executing 0x401f61: mov eax, 0x80000000
+>>> Executing 0x401f66: mov rbp, rsp
+>>> Executing 0x401f69: push rbx
+>>> Executing 0x401f6a: cpuid 
+>>> Executing 0x401f6c: mov r8d, eax
+>>> Executing 0x401f6f: cmp eax, 0x8000001c
+>>> Executing 0x401f74: jbe 0x401fd7
+>>> Executing 0x401fd7: xor eax, eax
+>>> Executing 0x401fd9: cmp esi, 0xbe
+>>> Executing 0x401fdf: setg al
+>>> Executing 0x401fe2: sub eax, 0x7ffffffb
+>>> Executing 0x401fe7: cmp r8d, eax
+>>> Executing 0x401fea: jb 0x401fd1
+>>> Executing 0x401fec: cpuid 
+>>> Executing 0x401fee: cmp esi, 0xbb
+>>> Executing 0x401ff4: jle 0x40202c
+>>> Executing 0x401ff6: sub esi, 0xbd
+>>> Executing 0x401ffc: cmp esi, 7
+>>> Executing 0x401fff: ja 0x4021ec
+>>> Executing 0x402005: lea rdi, [rip + 0x82954]
+>>> Executing 0x40200c: movsxd rax, dword ptr [rdi + rsi*4]
+>>> Executing 0x402010: add rax, rdi
+>>> Executing 0x402013: notrack jmp rax
+>>> Executing 0x402143: xor edi, edi
+>>> Executing 0x402145: test ch, 0xf0
+>>> Executing 0x402148: je 0x401fd1
+>>> Executing 0x40214e: shr ecx, 6
+>>> Executing 0x402151: mov edi, ecx
+>>> Executing 0x402153: and edi, 0x3fffc00
+>>> Executing 0x402159: jmp 0x401fd1
+>>> Executing 0x401fd1: mov rax, rdi
+>>> Executing 0x401fd4: pop rbx
+>>> Executing 0x401fd5: pop rbp
+>>> Executing 0x401fd6: ret 
+>>> Executing 0x403d49: mov edi, 0xc2
+>>> Executing 0x403d4e: mov r11, r15
+>>> Executing 0x403d51: mov r14, rax
+>>> Executing 0x403d54: call 0x401f50
+>>> Executing 0x401f50: mov esi, edi
+>>> Executing 0x401f52: xor edi, edi
+>>> Executing 0x401f54: cmp esi, 0xc5
+>>> Executing 0x401f5a: je 0x402016
+>>> Executing 0x401f60: push rbp
+>>> Executing 0x401f61: mov eax, 0x80000000
+>>> Executing 0x401f66: mov rbp, rsp
+>>> Executing 0x401f69: push rbx
+>>> Executing 0x401f6a: cpuid 
+>>> Executing 0x401f6c: mov r8d, eax
+>>> Executing 0x401f6f: cmp eax, 0x8000001c
+>>> Executing 0x401f74: jbe 0x401fd7
+>>> Executing 0x401fd7: xor eax, eax
+>>> Executing 0x401fd9: cmp esi, 0xbe
+>>> Executing 0x401fdf: setg al
+>>> Executing 0x401fe2: sub eax, 0x7ffffffb
+>>> Executing 0x401fe7: cmp r8d, eax
+>>> Executing 0x401fea: jb 0x401fd1
+>>> Executing 0x401fec: cpuid 
+>>> Executing 0x401fee: cmp esi, 0xbb
+>>> Executing 0x401ff4: jle 0x40202c
+>>> Executing 0x401ff6: sub esi, 0xbd
+>>> Executing 0x401ffc: cmp esi, 7
+>>> Executing 0x401fff: ja 0x4021ec
+>>> Executing 0x402005: lea rdi, [rip + 0x82954]
+>>> Executing 0x40200c: movsxd rax, dword ptr [rdi + rsi*4]
+>>> Executing 0x402010: add rax, rdi
+>>> Executing 0x402013: notrack jmp rax
+>>> Executing 0x402093: test dh, 0xf0
+>>> Executing 0x402096: je 0x402171
+>>> Executing 0x402171: xor edi, edi
+>>> Executing 0x402173: jmp 0x401fd1
+>>> Executing 0x401fd1: mov rax, rdi
+>>> Executing 0x401fd4: pop rbx
+>>> Executing 0x401fd5: pop rbp
+>>> Executing 0x401fd6: ret 
+>>> Executing 0x403d59: mov edi, 0xb9
+>>> Executing 0x403d5e: mov rbx, rax
+>>> Executing 0x403d61: mov qword ptr [rbp - 0x60], rax
+>>> Executing 0x403d65: call 0x401f50
+>>> Executing 0x401f50: mov esi, edi
+>>> Executing 0x401f52: xor edi, edi
+>>> Executing 0x401f54: cmp esi, 0xc5
+>>> Executing 0x401f5a: je 0x402016
+>>> Executing 0x401f60: push rbp
+>>> Executing 0x401f61: mov eax, 0x80000000
+>>> Executing 0x401f66: mov rbp, rsp
+>>> Executing 0x401f69: push rbx
+>>> Executing 0x401f6a: cpuid 
+>>> Executing 0x401f6c: mov r8d, eax
+>>> Executing 0x401f6f: cmp eax, 0x8000001c
+>>> Executing 0x401f74: jbe 0x401fd7
+>>> Executing 0x401fd7: xor eax, eax
+>>> Executing 0x401fd9: cmp esi, 0xbe
+>>> Executing 0x401fdf: setg al
+>>> Executing 0x401fe2: sub eax, 0x7ffffffb
+>>> Executing 0x401fe7: cmp r8d, eax
+>>> Executing 0x401fea: jb 0x401fd1
+>>> Executing 0x401fec: cpuid 
+>>> Executing 0x401fee: cmp esi, 0xbb
+>>> Executing 0x401ff4: jle 0x40202c
+>>> Executing 0x40202c: add esi, 3
+>>> Executing 0x40202f: mov ecx, edx
+>>> Executing 0x402031: jmp 0x401ff6
+>>> Executing 0x401ff6: sub esi, 0xbd
+>>> Executing 0x401ffc: cmp esi, 7
+>>> Executing 0x401fff: ja 0x4021ec
+>>> Executing 0x4021ec: shr ecx, 0xe
+>>> Executing 0x4021ef: mov edi, ecx
+>>> Executing 0x4021f1: and edi, 0x3fc00
+>>> Executing 0x4021f7: jmp 0x401fd1
+>>> Executing 0x401fd1: mov rax, rdi
+>>> Executing 0x401fd4: pop rbx
+>>> Executing 0x401fd5: pop rbp
+>>> Executing 0x401fd6: ret 
+>>> Executing 0x403d6a: mov edi, 0xbb
+>>> Executing 0x403d6f: mov r10, rax
+>>> Executing 0x403d72: call 0x401f50
+>>> Executing 0x401f50: mov esi, edi
+>>> Executing 0x401f52: xor edi, edi
+>>> Executing 0x401f54: cmp esi, 0xc5
+>>> Executing 0x401f5a: je 0x402016
+>>> Executing 0x401f60: push rbp
+>>> Executing 0x401f61: mov eax, 0x80000000
+>>> Executing 0x401f66: mov rbp, rsp
+>>> Executing 0x401f69: push rbx
+>>> Executing 0x401f6a: cpuid 
+>>> Executing 0x401f6c: mov r8d, eax
+>>> Executing 0x401f6f: cmp eax, 0x8000001c
+>>> Executing 0x401f74: jbe 0x401fd7
+>>> Executing 0x401fd7: xor eax, eax
+>>> Executing 0x401fd9: cmp esi, 0xbe
+>>> Executing 0x401fdf: setg al
+>>> Executing 0x401fe2: sub eax, 0x7ffffffb
+>>> Executing 0x401fe7: cmp r8d, eax
+>>> Executing 0x401fea: jb 0x401fd1
+>>> Executing 0x401fec: cpuid 
+>>> Executing 0x401fee: cmp esi, 0xbb
+>>> Executing 0x401ff4: jle 0x40202c
+>>> Executing 0x40202c: add esi, 3
+>>> Executing 0x40202f: mov ecx, edx
+>>> Executing 0x402031: jmp 0x401ff6
+>>> Executing 0x401ff6: sub esi, 0xbd
+>>> Executing 0x401ffc: cmp esi, 7
+>>> Executing 0x401fff: ja 0x4021ec
+>>> Executing 0x402005: lea rdi, [rip + 0x82954]
+>>> Executing 0x40200c: movsxd rax, dword ptr [rdi + rsi*4]
+>>> Executing 0x402010: add rax, rdi
+>>> Executing 0x402013: notrack jmp rax
+>>> Executing 0x40203a: movzx edi, cl
+>>> Executing 0x40203d: jmp 0x401fd1
+>>> Executing 0x401fd1: mov rax, rdi
+>>> Executing 0x401fd4: pop rbx
+>>> Executing 0x401fd5: pop rbp
+>>> Executing 0x401fd6: ret 
+>>> Executing 0x403d77: mov edi, 0xbd
+>>> Executing 0x403d7c: mov r9, rax
+>>> Executing 0x403d7f: call 0x401f50
+>>> Executing 0x401f50: mov esi, edi
+>>> Executing 0x401f52: xor edi, edi
+>>> Executing 0x401f54: cmp esi, 0xc5
+>>> Executing 0x401f5a: je 0x402016
+>>> Executing 0x401f60: push rbp
+>>> Executing 0x401f61: mov eax, 0x80000000
+>>> Executing 0x401f66: mov rbp, rsp
+>>> Executing 0x401f69: push rbx
+>>> Executing 0x401f6a: cpuid 
+>>> Executing 0x401f6c: mov r8d, eax
+>>> Executing 0x401f6f: cmp eax, 0x8000001c
+>>> Executing 0x401f74: jbe 0x401fd7
+>>> Executing 0x401fd7: xor eax, eax
+>>> Executing 0x401fd9: cmp esi, 0xbe
+>>> Executing 0x401fdf: setg al
+>>> Executing 0x401fe2: sub eax, 0x7ffffffb
+>>> Executing 0x401fe7: cmp r8d, eax
+>>> Executing 0x401fea: jb 0x401fd1
+>>> Executing 0x401fec: cpuid 
+>>> Executing 0x401fee: cmp esi, 0xbb
+>>> Executing 0x401ff4: jle 0x40202c
+>>> Executing 0x401ff6: sub esi, 0xbd
+>>> Executing 0x401ffc: cmp esi, 7
+>>> Executing 0x401fff: ja 0x4021ec
+>>> Executing 0x402005: lea rdi, [rip + 0x82954]
+>>> Executing 0x40200c: movsxd rax, dword ptr [rdi + rsi*4]
+>>> Executing 0x402010: add rax, rdi
+>>> Executing 0x402013: notrack jmp rax
+>>> Executing 0x402071: shr ecx, 0x10
+>>> Executing 0x402074: movzx edi, cl
+>>> Executing 0x402077: cmp edi, 0xff
+>>> Executing 0x40207d: jne 0x401fd1
+>>> Executing 0x401fd1: mov rax, rdi
+>>> Executing 0x401fd4: pop rbx
+>>> Executing 0x401fd5: pop rbp
+>>> Executing 0x401fd6: ret 
+>>> Executing 0x403d84: mov edi, 0xbe
+>>> Executing 0x403d89: mov qword ptr [rbp - 0x78], rax
+>>> Executing 0x403d8d: call 0x401f50
+>>> Executing 0x401f50: mov esi, edi
+>>> Executing 0x401f52: xor edi, edi
+>>> Executing 0x401f54: cmp esi, 0xc5
+>>> Executing 0x401f5a: je 0x402016
+>>> Executing 0x401f60: push rbp
+>>> Executing 0x401f61: mov eax, 0x80000000
+>>> Executing 0x401f66: mov rbp, rsp
+>>> Executing 0x401f69: push rbx
+>>> Executing 0x401f6a: cpuid 
+>>> Executing 0x401f6c: mov r8d, eax
+>>> Executing 0x401f6f: cmp eax, 0x8000001c
+>>> Executing 0x401f74: jbe 0x401fd7
+>>> Executing 0x401fd7: xor eax, eax
+>>> Executing 0x401fd9: cmp esi, 0xbe
+>>> Executing 0x401fdf: setg al
+>>> Executing 0x401fe2: sub eax, 0x7ffffffb
+>>> Executing 0x401fe7: cmp r8d, eax
+>>> Executing 0x401fea: jb 0x401fd1
+>>> Executing 0x401fec: cpuid 
+>>> Executing 0x401fee: cmp esi, 0xbb
+>>> Executing 0x401ff4: jle 0x40202c
+>>> Executing 0x401ff6: sub esi, 0xbd
+>>> Executing 0x401ffc: cmp esi, 7
+>>> Executing 0x401fff: ja 0x4021ec
+>>> Executing 0x402005: lea rdi, [rip + 0x82954]
+>>> Executing 0x40200c: movsxd rax, dword ptr [rdi + rsi*4]
+>>> Executing 0x402010: add rax, rdi
+>>> Executing 0x402013: notrack jmp rax
+>>> Executing 0x40203a: movzx edi, cl
+>>> Executing 0x40203d: jmp 0x401fd1
+>>> Executing 0x401fd1: mov rax, rdi
+>>> Executing 0x401fd4: pop rbx
+>>> Executing 0x401fd5: pop rbp
+>>> Executing 0x401fd6: ret 
+>>> Executing 0x403d92: mov edi, 0xc0
+>>> Executing 0x403d97: mov qword ptr [rbp - 0x88], r14
+>>> Executing 0x403d9e: mov qword ptr [rbp - 0x90], r14
+>>> Executing 0x403da5: mov qword ptr [rbp - 0xa0], rax
+>>> Executing 0x403dac: call 0x401f50
+>>> Executing 0x401f50: mov esi, edi
+>>> Executing 0x401f52: xor edi, edi
+>>> Executing 0x401f54: cmp esi, 0xc5
+>>> Executing 0x401f5a: je 0x402016
+>>> Executing 0x401f60: push rbp
+>>> Executing 0x401f61: mov eax, 0x80000000
+>>> Executing 0x401f66: mov rbp, rsp
+>>> Executing 0x401f69: push rbx
+>>> Executing 0x401f6a: cpuid 
+>>> Executing 0x401f6c: mov r8d, eax
+>>> Executing 0x401f6f: cmp eax, 0x8000001c
+>>> Executing 0x401f74: jbe 0x401fd7
+>>> Executing 0x401fd7: xor eax, eax
+>>> Executing 0x401fd9: cmp esi, 0xbe
+>>> Executing 0x401fdf: setg al
+>>> Executing 0x401fe2: sub eax, 0x7ffffffb
+>>> Executing 0x401fe7: cmp r8d, eax
+>>> Executing 0x401fea: jb 0x401fd1
+>>> Executing 0x401fec: cpuid 
+>>> Executing 0x401fee: cmp esi, 0xbb
+>>> Executing 0x401ff4: jle 0x40202c
+>>> Executing 0x401ff6: sub esi, 0xbd
+>>> Executing 0x401ffc: cmp esi, 7
+>>> Executing 0x401fff: ja 0x4021ec
+>>> Executing 0x402005: lea rdi, [rip + 0x82954]
+>>> Executing 0x40200c: movsxd rax, dword ptr [rdi + rsi*4]
+>>> Executing 0x402010: add rax, rdi
+>>> Executing 0x402013: notrack jmp rax
+>>> Executing 0x40212a: mov edi, ecx
+>>> Executing 0x40212c: lea rdx, [rip + 0x8288d]
+>>> Executing 0x402133: shr edi, 0xc
+>>> Executing 0x402136: and edi, 0xf
+>>> Executing 0x402139: movsxd rax, dword ptr [rdx + rdi*4]
+>>> Executing 0x40213d: add rax, rdx
+>>> Executing 0x402140: notrack jmp rax
+>>> Executing 0x4021aa: mov edi, 0x10
+>>> Executing 0x4021af: jmp 0x401fd1
+>>> Executing 0x401fd1: mov rax, rdi
+>>> Executing 0x401fd4: pop rbx
+>>> Executing 0x401fd5: pop rbp
+>>> Executing 0x401fd6: ret 
+>>> Executing 0x403db1: mov edi, 0xc1
+>>> Executing 0x403db6: mov qword ptr [rbp - 0xa8], rax
+>>> Executing 0x403dbd: call 0x401f50
+>>> Executing 0x401f50: mov esi, edi
+>>> Executing 0x401f52: xor edi, edi
+>>> Executing 0x401f54: cmp esi, 0xc5
+>>> Executing 0x401f5a: je 0x402016
+>>> Executing 0x401f60: push rbp
+>>> Executing 0x401f61: mov eax, 0x80000000
+>>> Executing 0x401f66: mov rbp, rsp
+>>> Executing 0x401f69: push rbx
+>>> Executing 0x401f6a: cpuid 
+>>> Executing 0x401f6c: mov r8d, eax
+>>> Executing 0x401f6f: cmp eax, 0x8000001c
+>>> Executing 0x401f74: jbe 0x401fd7
+>>> Executing 0x401fd7: xor eax, eax
+>>> Executing 0x401fd9: cmp esi, 0xbe
+>>> Executing 0x401fdf: setg al
+>>> Executing 0x401fe2: sub eax, 0x7ffffffb
+>>> Executing 0x401fe7: cmp r8d, eax
+>>> Executing 0x401fea: jb 0x401fd1
+>>> Executing 0x401fec: cpuid 
+>>> Executing 0x401fee: cmp esi, 0xbb
+>>> Executing 0x401ff4: jle 0x40202c
+>>> Executing 0x401ff6: sub esi, 0xbd
+>>> Executing 0x401ffc: cmp esi, 7
+>>> Executing 0x401fff: ja 0x4021ec
+>>> Executing 0x402005: lea rdi, [rip + 0x82954]
+>>> Executing 0x40200c: movsxd rax, dword ptr [rdi + rsi*4]
+>>> Executing 0x402010: add rax, rdi
+>>> Executing 0x402013: notrack jmp rax
+>>> Executing 0x402033: xor edi, edi
+>>> Executing 0x402035: test ch, 0xf0
+>>> Executing 0x402038: je 0x401fd1
+>>> Executing 0x40203a: movzx edi, cl
+>>> Executing 0x40203d: jmp 0x401fd1
+>>> Executing 0x401fd1: mov rax, rdi
+>>> Executing 0x401fd4: pop rbx
+>>> Executing 0x401fd5: pop rbp
+>>> Executing 0x401fd6: ret 
+>>> Executing 0x403dc2: mov edi, 0xc3
+>>> Executing 0x403dc7: mov qword ptr [rbp - 0xb0], rax
+>>> Executing 0x403dce: call 0x401f50
+>>> Executing 0x401f50: mov esi, edi
+>>> Executing 0x401f52: xor edi, edi
+>>> Executing 0x401f54: cmp esi, 0xc5
+>>> Executing 0x401f5a: je 0x402016
+>>> Executing 0x401f60: push rbp
+>>> Executing 0x401f61: mov eax, 0x80000000
+>>> Executing 0x401f66: mov rbp, rsp
+>>> Executing 0x401f69: push rbx
+>>> Executing 0x401f6a: cpuid 
+>>> Executing 0x401f6c: mov r8d, eax
+>>> Executing 0x401f6f: cmp eax, 0x8000001c
+>>> Executing 0x401f74: jbe 0x401fd7
+>>> Executing 0x401fd7: xor eax, eax
+>>> Executing 0x401fd9: cmp esi, 0xbe
+>>> Executing 0x401fdf: setg al
+>>> Executing 0x401fe2: sub eax, 0x7ffffffb
+>>> Executing 0x401fe7: cmp r8d, eax
+>>> Executing 0x401fea: jb 0x401fd1
+>>> Executing 0x401fec: cpuid 
+>>> Executing 0x401fee: cmp esi, 0xbb
+>>> Executing 0x401ff4: jle 0x40202c
+>>> Executing 0x401ff6: sub esi, 0xbd
+>>> Executing 0x401ffc: cmp esi, 7
+>>> Executing 0x401fff: ja 0x4021ec
+>>> Executing 0x402005: lea rdi, [rip + 0x82954]
+>>> Executing 0x40200c: movsxd rax, dword ptr [rdi + rsi*4]
+>>> Executing 0x402010: add rax, rdi
+>>> Executing 0x402013: notrack jmp rax
+>>> Executing 0x402111: mov edi, edx
+>>> Executing 0x402113: lea rcx, [rip + 0x82866]
+>>> Executing 0x40211a: shr edi, 0xc
+>>> Executing 0x40211d: and edi, 0xf
+>>> Executing 0x402120: movsxd rax, dword ptr [rcx + rdi*4]
+>>> Executing 0x402124: add rax, rcx
+>>> Executing 0x402127: notrack jmp rax
+>>> Executing 0x401fd1: mov rax, rdi
+>>> Executing 0x401fd4: pop rbx
+>>> Executing 0x401fd5: pop rbp
+>>> Executing 0x401fd6: ret 
+>>> Executing 0x403dd3: mov edi, 0xc4
+>>> Executing 0x403dd8: mov qword ptr [rbp - 0xb8], rax
+>>> Executing 0x403ddf: call 0x401f50
+>>> Executing 0x401f50: mov esi, edi
+>>> Executing 0x401f52: xor edi, edi
+>>> Executing 0x401f54: cmp esi, 0xc5
+>>> Executing 0x401f5a: je 0x402016
+>>> Executing 0x401f60: push rbp
+>>> Executing 0x401f61: mov eax, 0x80000000
+>>> Executing 0x401f66: mov rbp, rsp
+>>> Executing 0x401f69: push rbx
+>>> Executing 0x401f6a: cpuid 
+>>> Executing 0x401f6c: mov r8d, eax
+>>> Executing 0x401f6f: cmp eax, 0x8000001c
+>>> Executing 0x401f74: jbe 0x401fd7
+>>> Executing 0x401fd7: xor eax, eax
+>>> Executing 0x401fd9: cmp esi, 0xbe
+>>> Executing 0x401fdf: setg al
+>>> Executing 0x401fe2: sub eax, 0x7ffffffb
+>>> Executing 0x401fe7: cmp r8d, eax
+>>> Executing 0x401fea: jb 0x401fd1
+>>> Executing 0x401fec: cpuid 
+>>> Executing 0x401fee: cmp esi, 0xbb
+>>> Executing 0x401ff4: jle 0x40202c
+>>> Executing 0x401ff6: sub esi, 0xbd
+>>> Executing 0x401ffc: cmp esi, 7
+>>> Executing 0x401fff: ja 0x4021ec
+>>> Executing 0x402005: lea rdi, [rip + 0x82954]
+>>> Executing 0x40200c: movsxd rax, dword ptr [rdi + rsi*4]
+>>> Executing 0x402010: add rax, rdi
+>>> Executing 0x402013: notrack jmp rax
+>>> Executing 0x40215e: xor edi, edi
+>>> Executing 0x402160: test dh, 0xf0
+>>> Executing 0x402163: je 0x401fd1
+>>> Executing 0x401fd1: mov rax, rdi
+>>> Executing 0x401fd4: pop rbx
+>>> Executing 0x401fd5: pop rbp
+>>> Executing 0x401fd6: ret 
+>>> Executing 0x403de4: mov edi, 0xc5
+>>> Executing 0x403de9: mov r14, rax
+>>> Executing 0x403dec: call 0x401f50
+>>> Executing 0x401f50: mov esi, edi
+>>> Executing 0x401f52: xor edi, edi
+>>> Executing 0x401f54: cmp esi, 0xc5
+>>> Executing 0x401f5a: je 0x402016
+>>> Executing 0x402016: mov rax, rdi
+>>> Executing 0x402019: ret 
+>>> Executing 0x403df1: test rbx, rbx
+>>> Executing 0x403df4: mov r8, qword ptr [rbp - 0xb8]
+>>> Executing 0x403dfb: mov r13, rax
+>>> Executing 0x403dfe: jle 0x403f38
+>>> Executing 0x403f38: mov rax, qword ptr [rbp - 0x88]
+>>> Executing 0x403f3f: mov qword ptr [rbp - 0x60], rax
+>>> Executing 0x403f43: jmp 0x403e1c
+>>> Executing 0x403e1c: mov rdx, qword ptr [rbp - 0x60]
+>>> Executing 0x403e20: mov qword ptr [rbp - 0x58], rdx
+>>> Executing 0x403e24: jmp 0x4034b9
+>>> Executing 0x4034b9: mov rax, qword ptr [rbp - 0x78]
+>>> Executing 0x4034bd: mov rsi, qword ptr [rip + 0xb0f5c]
+>>> Executing 0x4034c4: mov qword ptr [rip + 0xb0ef5], r10
+>>> Executing 0x4034cb: mov edi, dword ptr [rip + 0xb0d97]
+>>> Executing 0x4034d1: mov qword ptr [rip + 0xb0ef0], r9
+>>> Executing 0x4034d8: mov qword ptr [rip + 0xb0ef9], rax
+>>> Executing 0x4034df: mov rax, qword ptr [rbp - 0xa0]
+>>> Executing 0x4034e6: test rsi, rsi
+>>> Executing 0x4034e9: mov qword ptr [rip + 0xb0ee0], r11
+>>> Executing 0x4034f0: mov qword ptr [rip + 0xb0ee9], rax
+>>> Executing 0x4034f7: mov rax, qword ptr [rbp - 0x90]
+>>> Executing 0x4034fe: mov qword ptr [rip + 0xb0efb], rbx
+>>> Executing 0x403505: mov qword ptr [rip + 0xb0edc], rax
+>>> Executing 0x40350c: mov rax, qword ptr [rbp - 0xa8]
+>>> Executing 0x403513: mov qword ptr [rip + 0xb0eee], r8
+>>> Executing 0x40351a: mov qword ptr [rip + 0xb0ecf], rax
+>>> Executing 0x403521: mov rax, qword ptr [rbp - 0xb0]
+>>> Executing 0x403528: mov qword ptr [rip + 0xb0ee1], r14
+>>> Executing 0x40352f: mov qword ptr [rip + 0xb0ec2], rax
+>>> Executing 0x403536: mov eax, 4
+>>> Executing 0x40353b: cmove rsi, rax
+>>> Executing 0x40353f: mov rax, qword ptr [rbp - 0x58]
+>>> Executing 0x403543: mov qword ptr [rip + 0xb0ece], r13
+>>> Executing 0x40354a: lea rax, [rax + rax*2]
+>>> Executing 0x40354e: test rax, rax
+>>> Executing 0x403551: lea rcx, [rax + 3]
+>>> Executing 0x403555: cmovns rcx, rax
+>>> Executing 0x403559: sar rcx, 2
+>>> Executing 0x40355d: test edi, 0x200
+>>> Executing 0x403563: je 0x403574
+>>> Executing 0x403574: movabs r14, 0xfffffffffffffff
+>>> Executing 0x40357e: mov eax, 0x4000000
+>>> Executing 0x403583: mov edx, dword ptr [rip + 0xb0deb]
+>>> Executing 0x403589: cmp rcx, r14
+>>> Executing 0x40358c: cmovbe r14, rcx
+>>> Executing 0x403590: cmp rcx, 0x403f
+>>> Executing 0x403597: cmova rax, r14
+>>> Executing 0x40359b: and edi, 0x10000
+>>> Executing 0x4035a1: mov qword ptr [rbp - 0x78], rax
+>>> Executing 0x4035a5: je 0x403940
+>>> Executing 0x403940: and edx, 0x200
+>>> Executing 0x403946: cmp edx, 1
+>>> Executing 0x403949: sbb r13d, r13d
+>>> Executing 0x40394c: and r13d, 0xffffe800
+>>> Executing 0x403953: add r13d, 0x2000
+>>> Executing 0x40395a: cmp edx, 1
+>>> Executing 0x40395d: sbb r14d, r14d
+>>> Executing 0x403960: and r14d, 0xffffff80
+>>> Executing 0x403964: add r14d, 0x100
+>>> Executing 0x40396b: jmp 0x4035c0
+>>> Executing 0x4035c0: test byte ptr [rip + 0xb0ca9], 0x10
+>>> Executing 0x4035c7: mov edx, 0x840
+>>> Executing 0x4035cc: mov rsi, r12
+>>> Executing 0x4035cf: mov edi, 8
+>>> Executing 0x4035d4: cmovne r13d, edx
+>>> Executing 0x4035d8: xor edx, edx
+>>> Executing 0x4035da: call 0x422080
+>>> Executing 0x422080: endbr64 
+>>> Executing 0x422084: mov edi, edi
+>>> Executing 0x422086: lea r9, [rip + 0x863f3]
+>>> Executing 0x42208d: mov rcx, rsi
+>>> Executing 0x422090: mov rax, rdi
+>>> Executing 0x422093: shl rax, 4
+>>> Executing 0x422097: add rax, rdi
+>>> Executing 0x42209a: shl rax, 3
+>>> Executing 0x42209e: lea rsi, [r9 + rax]
+>>> Executing 0x4220a2: mov r8d, dword ptr [rsi + 0x30]
+>>> Executing 0x4220a6: cmp r8d, 2
+>>> Executing 0x4220aa: ja 0x4220f0
+>>> Executing 0x4220ac: mov rax, qword ptr [rsi + 0x58]
+>>> Executing 0x4220b0: test r8d, r8d
+>>> Executing 0x4220b3: je 0x4220e8
+>>> Executing 0x4220b5: mov qword ptr [rcx], rax
+>>> Executing 0x4220b8: mov rax, rdi
+>>> Executing 0x4220bb: shl rax, 4
+>>> Executing 0x4220bf: add rax, rdi
+>>> Executing 0x4220c2: cmp byte ptr [r9 + rax*8 + 0x68], 0
+>>> Executing 0x4220c8: lea rcx, [rax*8]
+>>> Executing 0x4220d0: je 0x4220e0
+>>> Executing 0x4220e0: ret 
+>>> Executing 0x4035df: mov rbx, qword ptr [rbp - 0x40]
+>>> Executing 0x4035e3: mov rsi, r12
+>>> Executing 0x4035e6: mov edi, 9
+>>> Executing 0x4035eb: test rbx, rbx
+>>> Executing 0x4035ee: cmove rbx, r15
+>>> Executing 0x4035f2: xor edx, edx
+>>> Executing 0x4035f4: call 0x422080
+>>> Executing 0x422080: endbr64 
+>>> Executing 0x422084: mov edi, edi
+>>> Executing 0x422086: lea r9, [rip + 0x863f3]
+>>> Executing 0x42208d: mov rcx, rsi
+>>> Executing 0x422090: mov rax, rdi
+>>> Executing 0x422093: shl rax, 4
+>>> Executing 0x422097: add rax, rdi
+>>> Executing 0x42209a: shl rax, 3
+>>> Executing 0x42209e: lea rsi, [r9 + rax]
+>>> Executing 0x4220a2: mov r8d, dword ptr [rsi + 0x30]
+>>> Executing 0x4220a6: cmp r8d, 2
+>>> Executing 0x4220aa: ja 0x4220f0
+>>> Executing 0x4220ac: mov rax, qword ptr [rsi + 0x58]
+>>> Executing 0x4220b0: test r8d, r8d
+>>> Executing 0x4220b3: je 0x4220e8
+>>> Executing 0x4220b5: mov qword ptr [rcx], rax
+>>> Executing 0x4220b8: mov rax, rdi
+>>> Executing 0x4220bb: shl rax, 4
+>>> Executing 0x4220bf: add rax, rdi
+>>> Executing 0x4220c2: cmp byte ptr [r9 + rax*8 + 0x68], 0
+>>> Executing 0x4220c8: lea rcx, [rax*8]
+>>> Executing 0x4220d0: je 0x4220e0
+>>> Executing 0x4220e0: ret 
+>>> Executing 0x4035f9: mov rdx, qword ptr [rbp - 0x40]
+>>> Executing 0x4035fd: test rdx, rdx
+>>> Executing 0x403600: je 0x403606
+>>> Executing 0x403606: xor edx, edx
+>>> Executing 0x403608: mov rsi, r12
+>>> Executing 0x40360b: mov edi, 7
+>>> Executing 0x403610: call 0x422080
+>>> Executing 0x422080: endbr64 
+>>> Executing 0x422084: mov edi, edi
+>>> Executing 0x422086: lea r9, [rip + 0x863f3]
+>>> Executing 0x42208d: mov rcx, rsi
+>>> Executing 0x422090: mov rax, rdi
+>>> Executing 0x422093: shl rax, 4
+>>> Executing 0x422097: add rax, rdi
+>>> Executing 0x42209a: shl rax, 3
+>>> Executing 0x42209e: lea rsi, [r9 + rax]
+>>> Executing 0x4220a2: mov r8d, dword ptr [rsi + 0x30]
+>>> Executing 0x4220a6: cmp r8d, 2
+>>> Executing 0x4220aa: ja 0x4220f0
+>>> Executing 0x4220ac: mov rax, qword ptr [rsi + 0x58]
+>>> Executing 0x4220b0: test r8d, r8d
+>>> Executing 0x4220b3: je 0x4220e8
+>>> Executing 0x4220b5: mov qword ptr [rcx], rax
+>>> Executing 0x4220b8: mov rax, rdi
+>>> Executing 0x4220bb: shl rax, 4
+>>> Executing 0x4220bf: add rax, rdi
+>>> Executing 0x4220c2: cmp byte ptr [r9 + rax*8 + 0x68], 0
+>>> Executing 0x4220c8: lea rcx, [rax*8]
+>>> Executing 0x4220d0: je 0x4220e0
+>>> Executing 0x4220e0: ret 
+>>> Executing 0x403615: mov r15, qword ptr [rbp - 0x40]
+>>> Executing 0x403619: mov edi, 4
+>>> Executing 0x40361e: movabs rsi, 0xfffffffffffbfbe
+>>> Executing 0x403628: lea rdx, [r15 - 0x4041]
+>>> Executing 0x40362f: cmp rsi, rdx
+>>> Executing 0x403632: mov rsi, r12
+>>> Executing 0x403635: cmovb r15, qword ptr [rbp - 0x78]
+>>> Executing 0x40363a: xor edx, edx
+>>> Executing 0x40363c: call 0x422080
+>>> Executing 0x422080: endbr64 
+>>> Executing 0x422084: mov edi, edi
+>>> Executing 0x422086: lea r9, [rip + 0x863f3]
+>>> Executing 0x42208d: mov rcx, rsi
+>>> Executing 0x422090: mov rax, rdi
+>>> Executing 0x422093: shl rax, 4
+>>> Executing 0x422097: add rax, rdi
+>>> Executing 0x42209a: shl rax, 3
+>>> Executing 0x42209e: lea rsi, [r9 + rax]
+>>> Executing 0x4220a2: mov r8d, dword ptr [rsi + 0x30]
+>>> Executing 0x4220a6: cmp r8d, 2
+>>> Executing 0x4220aa: ja 0x4220f0
+>>> Executing 0x4220ac: mov rax, qword ptr [rsi + 0x58]
+>>> Executing 0x4220b0: test r8d, r8d
+>>> Executing 0x4220b3: je 0x4220e8
+>>> Executing 0x4220b5: mov qword ptr [rcx], rax
+>>> Executing 0x4220b8: mov rax, rdi
+>>> Executing 0x4220bb: shl rax, 4
+>>> Executing 0x4220bf: add rax, rdi
+>>> Executing 0x4220c2: cmp byte ptr [r9 + rax*8 + 0x68], 0
+>>> Executing 0x4220c8: lea rcx, [rax*8]
+>>> Executing 0x4220d0: je 0x4220e0
+>>> Executing 0x4220e0: ret 
+>>> Executing 0x403641: mov rdx, qword ptr [rbp - 0x40]
+>>> Executing 0x403645: mov r8d, r14d
+>>> Executing 0x403648: mov rsi, r12
+>>> Executing 0x40364b: mov edi, 0x19
+>>> Executing 0x403650: mov qword ptr [rbp - 0x90], r8
+>>> Executing 0x403657: lea r14, [rbp - 0x50]
+>>> Executing 0x40365b: cmp rdx, r8
+>>> Executing 0x40365e: cmovg r13d, edx
+>>> Executing 0x403662: xor edx, edx
+>>> Executing 0x403664: call 0x422080
+>>> Executing 0x422080: endbr64 
+>>> Executing 0x422084: mov edi, edi
+>>> Executing 0x422086: lea r9, [rip + 0x863f3]
+>>> Executing 0x42208d: mov rcx, rsi
+>>> Executing 0x422090: mov rax, rdi
+>>> Executing 0x422093: shl rax, 4
+>>> Executing 0x422097: add rax, rdi
+>>> Executing 0x42209a: shl rax, 3
+>>> Executing 0x42209e: lea rsi, [r9 + rax]
+>>> Executing 0x4220a2: mov r8d, dword ptr [rsi + 0x30]
+>>> Executing 0x4220a6: cmp r8d, 2
+>>> Executing 0x4220aa: ja 0x4220f0
+>>> Executing 0x4220ac: mov rax, qword ptr [rsi + 0x58]
+>>> Executing 0x4220b0: test r8d, r8d
+>>> Executing 0x4220b3: je 0x4220e8
+>>> Executing 0x4220b5: mov qword ptr [rcx], rax
+>>> Executing 0x4220b8: mov rax, rdi
+>>> Executing 0x4220bb: shl rax, 4
+>>> Executing 0x4220bf: add rax, rdi
+>>> Executing 0x4220c2: cmp byte ptr [r9 + rax*8 + 0x68], 0
+>>> Executing 0x4220c8: lea rcx, [rax*8]
+>>> Executing 0x4220d0: je 0x4220e0
+>>> Executing 0x4220e0: ret 
+>>> Executing 0x403669: mov rax, qword ptr [rbp - 0x40]
+>>> Executing 0x40366d: mov rcx, qword ptr [rbp - 0x80]
+>>> Executing 0x403671: mov rdx, r14
+>>> Executing 0x403674: mov rsi, r12
+>>> Executing 0x403677: mov edi, 8
+>>> Executing 0x40367c: mov qword ptr [rbp - 0x40], rbx
+>>> Executing 0x403680: mov qword ptr [rbp - 0x78], rax
+>>> Executing 0x403684: mov qword ptr [rbp - 0x48], 0xffffffffffffffff
+>>> Executing 0x40368c: mov qword ptr [rbp - 0x50], 0
+>>> Executing 0x403694: mov qword ptr [rbp - 0x38], 0
+>>> Executing 0x40369c: call 0x421be0
+>>> Executing 0x421be0: endbr64 
+>>> Executing 0x421be4: mov eax, edi
+>>> Executing 0x421be6: mov rdi, rcx
+>>> Executing 0x421be9: lea r9, [rip + 0x86890]
+>>> Executing 0x421bf0: mov rcx, rax
+>>> Executing 0x421bf3: shl rcx, 4
+>>> Executing 0x421bf7: add rcx, rax
+>>> Executing 0x421bfa: lea r8, [r9 + rcx*8]
+>>> Executing 0x421bfe: mov ecx, dword ptr [r8 + 0x30]
+>>> Executing 0x421c02: cmp ecx, 2
+>>> Executing 0x421c05: ja 0x421cf0
+>>> Executing 0x421c0b: push rbp
+>>> Executing 0x421c0c: mov rbp, rsp
+>>> Executing 0x421c0f: push rbx
+>>> Executing 0x421c10: test ecx, ecx
+>>> Executing 0x421c12: je 0x421ce0
+>>> Executing 0x421c18: mov r10, qword ptr [rsi]
+>>> Executing 0x421c1b: mov r11d, 1
+>>> Executing 0x421c21: mov rcx, rax
+>>> Executing 0x421c24: shl rcx, 4
+>>> Executing 0x421c28: add rcx, rax
+>>> Executing 0x421c2b: lea rcx, [r9 + rcx*8]
+>>> Executing 0x421c2f: mov rsi, qword ptr [rcx + 0x38]
+>>> Executing 0x421c33: test rdx, rdx
+>>> Executing 0x421c36: je 0x421ca0
+>>> Executing 0x421c38: mov r8, qword ptr [rdx]
+>>> Executing 0x421c3b: mov rdx, qword ptr [rcx + 0x40]
+>>> Executing 0x421c3f: mov rcx, rdx
+>>> Executing 0x421c42: test rdi, rdi
+>>> Executing 0x421c45: je 0x421c4a
+>>> Executing 0x421c47: mov rcx, qword ptr [rdi]
+>>> Executing 0x421c4a: test r11b, r11b
+>>> Executing 0x421c4d: jne 0x421cb4
+>>> Executing 0x421cb4: mov rdi, r8
+>>> Executing 0x421cb7: mov r11, rsi
+>>> Executing 0x421cba: cmp r8, rsi
+>>> Executing 0x421cbd: jae 0x421cc5
+>>> Executing 0x421cc5: cmp rcx, rdx
+>>> Executing 0x421cc8: mov rbx, rdx
+>>> Executing 0x421ccb: cmova rcx, rdx
+>>> Executing 0x421ccf: cmp rcx, rdi
+>>> Executing 0x421cd2: jae 0x421d00
+>>> Executing 0x421d00: mov rdx, rcx
+>>> Executing 0x421d03: mov rbx, rcx
+>>> Executing 0x421d06: mov r11, rdi
+>>> Executing 0x421d09: mov rsi, r8
+>>> Executing 0x421d0c: jmp 0x421cd4
+>>> Executing 0x421cd4: cmp r10, r11
+>>> Executing 0x421cd7: jb 0x421c90
+>>> Executing 0x421cd9: cmp rbx, r10
+>>> Executing 0x421cdc: jae 0x421c72
+>>> Executing 0x421c72: mov rcx, rax
+>>> Executing 0x421c75: shl rcx, 4
+>>> Executing 0x421c79: add rax, rcx
+>>> Executing 0x421c7c: lea rax, [r9 + rax*8]
+>>> Executing 0x421c80: mov qword ptr [rax + 0x58], r10
+>>> Executing 0x421c84: mov qword ptr [rax + 0x38], rsi
+>>> Executing 0x421c88: mov qword ptr [rax + 0x40], rdx
+>>> Executing 0x421c8c: mov byte ptr [rax + 0x68], 1
+>>> Executing 0x421c90: mov rbx, qword ptr [rbp - 8]
+>>> Executing 0x421c94: leave 
+>>> Executing 0x421c95: ret 
+>>> Executing 0x4036a1: mov rdi, qword ptr [rbp - 0x60]
+>>> Executing 0x4036a5: mov rdx, r14
+>>> Executing 0x4036a8: mov rsi, r12
+>>> Executing 0x4036ab: movq xmm0, rbx
+>>> Executing 0x4036b0: mov rbx, qword ptr [rbp - 0x80]
+>>> Executing 0x4036b4: mov qword ptr [rbp - 0x48], 0xffffffffffffffff
+>>> Executing 0x4036bc: movhps xmm0, qword ptr [rbp - 0x60]
+>>> Executing 0x4036c0: mov qword ptr [rbp - 0x40], rdi
+>>> Executing 0x4036c4: mov edi, 9
+>>> Executing 0x4036c9: mov rcx, rbx
+>>> Executing 0x4036cc: movaps xmmword ptr [rbp - 0xa0], xmm0
+>>> Executing 0x4036d3: mov qword ptr [rbp - 0x50], 0
+>>> Executing 0x4036db: mov qword ptr [rbp - 0x38], 0
+>>> Executing 0x4036e3: call 0x421be0
+>>> Executing 0x421be0: endbr64 
+>>> Executing 0x421be4: mov eax, edi
+>>> Executing 0x421be6: mov rdi, rcx
+>>> Executing 0x421be9: lea r9, [rip + 0x86890]
+>>> Executing 0x421bf0: mov rcx, rax
+>>> Executing 0x421bf3: shl rcx, 4
+>>> Executing 0x421bf7: add rcx, rax
+>>> Executing 0x421bfa: lea r8, [r9 + rcx*8]
+>>> Executing 0x421bfe: mov ecx, dword ptr [r8 + 0x30]
+>>> Executing 0x421c02: cmp ecx, 2
+>>> Executing 0x421c05: ja 0x421cf0
+>>> Executing 0x421c0b: push rbp
+>>> Executing 0x421c0c: mov rbp, rsp
+>>> Executing 0x421c0f: push rbx
+>>> Executing 0x421c10: test ecx, ecx
+>>> Executing 0x421c12: je 0x421ce0
+>>> Executing 0x421c18: mov r10, qword ptr [rsi]
+>>> Executing 0x421c1b: mov r11d, 1
+>>> Executing 0x421c21: mov rcx, rax
+>>> Executing 0x421c24: shl rcx, 4
+>>> Executing 0x421c28: add rcx, rax
+>>> Executing 0x421c2b: lea rcx, [r9 + rcx*8]
+>>> Executing 0x421c2f: mov rsi, qword ptr [rcx + 0x38]
+>>> Executing 0x421c33: test rdx, rdx
+>>> Executing 0x421c36: je 0x421ca0
+>>> Executing 0x421c38: mov r8, qword ptr [rdx]
+>>> Executing 0x421c3b: mov rdx, qword ptr [rcx + 0x40]
+>>> Executing 0x421c3f: mov rcx, rdx
+>>> Executing 0x421c42: test rdi, rdi
+>>> Executing 0x421c45: je 0x421c4a
+>>> Executing 0x421c47: mov rcx, qword ptr [rdi]
+>>> Executing 0x421c4a: test r11b, r11b
+>>> Executing 0x421c4d: jne 0x421cb4
+>>> Executing 0x421cb4: mov rdi, r8
+>>> Executing 0x421cb7: mov r11, rsi
+>>> Executing 0x421cba: cmp r8, rsi
+>>> Executing 0x421cbd: jae 0x421cc5
+>>> Executing 0x421cc5: cmp rcx, rdx
+>>> Executing 0x421cc8: mov rbx, rdx
+>>> Executing 0x421ccb: cmova rcx, rdx
+>>> Executing 0x421ccf: cmp rcx, rdi
+>>> Executing 0x421cd2: jae 0x421d00
+>>> Executing 0x421d00: mov rdx, rcx
+>>> Executing 0x421d03: mov rbx, rcx
+>>> Executing 0x421d06: mov r11, rdi
+>>> Executing 0x421d09: mov rsi, r8
+>>> Executing 0x421d0c: jmp 0x421cd4
+>>> Executing 0x421cd4: cmp r10, r11
+>>> Executing 0x421cd7: jb 0x421c90
+>>> Executing 0x421cd9: cmp rbx, r10
+>>> Executing 0x421cdc: jae 0x421c72
+>>> Executing 0x421c72: mov rcx, rax
+>>> Executing 0x421c75: shl rcx, 4
+>>> Executing 0x421c79: add rax, rcx
+>>> Executing 0x421c7c: lea rax, [r9 + rax*8]
+>>> Executing 0x421c80: mov qword ptr [rax + 0x58], r10
+>>> Executing 0x421c84: mov qword ptr [rax + 0x38], rsi
+>>> Executing 0x421c88: mov qword ptr [rax + 0x40], rdx
+>>> Executing 0x421c8c: mov byte ptr [rax + 0x68], 1
+>>> Executing 0x421c90: mov rbx, qword ptr [rbp - 8]
+>>> Executing 0x421c94: leave 
+>>> Executing 0x421c95: ret 
+>>> Executing 0x4036e8: mov rdx, r14
+>>> Executing 0x4036eb: mov rsi, r12
+>>> Executing 0x4036ee: mov edi, 7
+>>> Executing 0x4036f3: movabs rcx, 0xfffffffffffffff
+>>> Executing 0x4036fd: mov qword ptr [rbp - 0x50], 0x4040
+>>> Executing 0x403705: mov qword ptr [rbp - 0x48], rcx
+>>> Executing 0x403709: mov rcx, rbx
+>>> Executing 0x40370c: mov qword ptr [rbp - 0x38], 0
+>>> Executing 0x403714: mov qword ptr [rbp - 0x40], r15
+>>> Executing 0x403718: call 0x421be0
+>>> Executing 0x421be0: endbr64 
+>>> Executing 0x421be4: mov eax, edi
+>>> Executing 0x421be6: mov rdi, rcx
+>>> Executing 0x421be9: lea r9, [rip + 0x86890]
+>>> Executing 0x421bf0: mov rcx, rax
+>>> Executing 0x421bf3: shl rcx, 4
+>>> Executing 0x421bf7: add rcx, rax
+>>> Executing 0x421bfa: lea r8, [r9 + rcx*8]
+>>> Executing 0x421bfe: mov ecx, dword ptr [r8 + 0x30]
+>>> Executing 0x421c02: cmp ecx, 2
+>>> Executing 0x421c05: ja 0x421cf0
+>>> Executing 0x421c0b: push rbp
+>>> Executing 0x421c0c: mov rbp, rsp
+>>> Executing 0x421c0f: push rbx
+>>> Executing 0x421c10: test ecx, ecx
+>>> Executing 0x421c12: je 0x421ce0
+>>> Executing 0x421c18: mov r10, qword ptr [rsi]
+>>> Executing 0x421c1b: mov r11d, 1
+>>> Executing 0x421c21: mov rcx, rax
+>>> Executing 0x421c24: shl rcx, 4
+>>> Executing 0x421c28: add rcx, rax
+>>> Executing 0x421c2b: lea rcx, [r9 + rcx*8]
+>>> Executing 0x421c2f: mov rsi, qword ptr [rcx + 0x38]
+>>> Executing 0x421c33: test rdx, rdx
+>>> Executing 0x421c36: je 0x421ca0
+>>> Executing 0x421c38: mov r8, qword ptr [rdx]
+>>> Executing 0x421c3b: mov rdx, qword ptr [rcx + 0x40]
+>>> Executing 0x421c3f: mov rcx, rdx
+>>> Executing 0x421c42: test rdi, rdi
+>>> Executing 0x421c45: je 0x421c4a
+>>> Executing 0x421c47: mov rcx, qword ptr [rdi]
+>>> Executing 0x421c4a: test r11b, r11b
+>>> Executing 0x421c4d: jne 0x421cb4
+>>> Executing 0x421cb4: mov rdi, r8
+>>> Executing 0x421cb7: mov r11, rsi
+>>> Executing 0x421cba: cmp r8, rsi
+>>> Executing 0x421cbd: jae 0x421cc5
+>>> Executing 0x421cc5: cmp rcx, rdx
+>>> Executing 0x421cc8: mov rbx, rdx
+>>> Executing 0x421ccb: cmova rcx, rdx
+>>> Executing 0x421ccf: cmp rcx, rdi
+>>> Executing 0x421cd2: jae 0x421d00
+>>> Executing 0x421d00: mov rdx, rcx
+>>> Executing 0x421d03: mov rbx, rcx
+>>> Executing 0x421d06: mov r11, rdi
+>>> Executing 0x421d09: mov rsi, r8
+>>> Executing 0x421d0c: jmp 0x421cd4
+>>> Executing 0x421cd4: cmp r10, r11
+>>> Executing 0x421cd7: jb 0x421c90
+>>> Executing 0x421cd9: cmp rbx, r10
+>>> Executing 0x421cdc: jae 0x421c72
+>>> Executing 0x421c72: mov rcx, rax
+>>> Executing 0x421c75: shl rcx, 4
+>>> Executing 0x421c79: add rax, rcx
+>>> Executing 0x421c7c: lea rax, [r9 + rax*8]
+>>> Executing 0x421c80: mov qword ptr [rax + 0x58], r10
+>>> Executing 0x421c84: mov qword ptr [rax + 0x38], rsi
+>>> Executing 0x421c88: mov qword ptr [rax + 0x40], rdx
+>>> Executing 0x421c8c: mov byte ptr [rax + 0x68], 1
+>>> Executing 0x421c90: mov rbx, qword ptr [rbp - 8]
+>>> Executing 0x421c94: leave 
+>>> Executing 0x421c95: ret 
+>>> Executing 0x40371d: mov esi, r13d
+>>> Executing 0x403720: mov rcx, rbx
+>>> Executing 0x403723: mov rdx, r14
+>>> Executing 0x403726: mov r8, qword ptr [rbp - 0x90]
+>>> Executing 0x40372d: mov qword ptr [rbp - 0x40], rsi
+>>> Executing 0x403731: mov edi, 4
+>>> Executing 0x403736: mov rsi, r12
+>>> Executing 0x403739: mov qword ptr [rbp - 0x48], 0xffffffffffffffff
+>>> Executing 0x403741: mov qword ptr [rbp - 0x50], r8
+>>> Executing 0x403745: mov qword ptr [rbp - 0x38], 0
+>>> Executing 0x40374d: call 0x421be0
+>>> Executing 0x421be0: endbr64 
+>>> Executing 0x421be4: mov eax, edi
+>>> Executing 0x421be6: mov rdi, rcx
+>>> Executing 0x421be9: lea r9, [rip + 0x86890]
+>>> Executing 0x421bf0: mov rcx, rax
+>>> Executing 0x421bf3: shl rcx, 4
+>>> Executing 0x421bf7: add rcx, rax
+>>> Executing 0x421bfa: lea r8, [r9 + rcx*8]
+>>> Executing 0x421bfe: mov ecx, dword ptr [r8 + 0x30]
+>>> Executing 0x421c02: cmp ecx, 2
+>>> Executing 0x421c05: ja 0x421cf0
+>>> Executing 0x421c0b: push rbp
+>>> Executing 0x421c0c: mov rbp, rsp
+>>> Executing 0x421c0f: push rbx
+>>> Executing 0x421c10: test ecx, ecx
+>>> Executing 0x421c12: je 0x421ce0
+>>> Executing 0x421c18: mov r10, qword ptr [rsi]
+>>> Executing 0x421c1b: mov r11d, 1
+>>> Executing 0x421c21: mov rcx, rax
+>>> Executing 0x421c24: shl rcx, 4
+>>> Executing 0x421c28: add rcx, rax
+>>> Executing 0x421c2b: lea rcx, [r9 + rcx*8]
+>>> Executing 0x421c2f: mov rsi, qword ptr [rcx + 0x38]
+>>> Executing 0x421c33: test rdx, rdx
+>>> Executing 0x421c36: je 0x421ca0
+>>> Executing 0x421c38: mov r8, qword ptr [rdx]
+>>> Executing 0x421c3b: mov rdx, qword ptr [rcx + 0x40]
+>>> Executing 0x421c3f: mov rcx, rdx
+>>> Executing 0x421c42: test rdi, rdi
+>>> Executing 0x421c45: je 0x421c4a
+>>> Executing 0x421c47: mov rcx, qword ptr [rdi]
+>>> Executing 0x421c4a: test r11b, r11b
+>>> Executing 0x421c4d: jne 0x421cb4
+>>> Executing 0x421cb4: mov rdi, r8
+>>> Executing 0x421cb7: mov r11, rsi
+>>> Executing 0x421cba: cmp r8, rsi
+>>> Executing 0x421cbd: jae 0x421cc5
+>>> Executing 0x421cc5: cmp rcx, rdx
+>>> Executing 0x421cc8: mov rbx, rdx
+>>> Executing 0x421ccb: cmova rcx, rdx
+>>> Executing 0x421ccf: cmp rcx, rdi
+>>> Executing 0x421cd2: jae 0x421d00
+>>> Executing 0x421d00: mov rdx, rcx
+>>> Executing 0x421d03: mov rbx, rcx
+>>> Executing 0x421d06: mov r11, rdi
+>>> Executing 0x421d09: mov rsi, r8
+>>> Executing 0x421d0c: jmp 0x421cd4
+>>> Executing 0x421cd4: cmp r10, r11
+>>> Executing 0x421cd7: jb 0x421c90
+>>> Executing 0x421cd9: cmp rbx, r10
+>>> Executing 0x421cdc: jae 0x421c72
+>>> Executing 0x421c72: mov rcx, rax
+>>> Executing 0x421c75: shl rcx, 4
+>>> Executing 0x421c79: add rax, rcx
+>>> Executing 0x421c7c: lea rax, [r9 + rax*8]
+>>> Executing 0x421c80: mov qword ptr [rax + 0x58], r10
+>>> Executing 0x421c84: mov qword ptr [rax + 0x38], rsi
+>>> Executing 0x421c88: mov qword ptr [rax + 0x40], rdx
+>>> Executing 0x421c8c: mov byte ptr [rax + 0x68], 1
+>>> Executing 0x421c90: mov rbx, qword ptr [rbp - 8]
+>>> Executing 0x421c94: leave 
+>>> Executing 0x421c95: ret 
+>>> Executing 0x403752: mov rax, qword ptr [rbp - 0x78]
+>>> Executing 0x403756: mov rcx, rbx
+>>> Executing 0x403759: mov rdx, r14
+>>> Executing 0x40375c: mov rsi, r12
+>>> Executing 0x40375f: mov edi, 0x19
+>>> Executing 0x403764: mov qword ptr [rbp - 0x48], 0xffffffffffffffff
+>>> Executing 0x40376c: mov ebx, r13d
+>>> Executing 0x40376f: mov qword ptr [rbp - 0x40], rax
+>>> Executing 0x403773: mov qword ptr [rbp - 0x50], 1
+>>> Executing 0x40377b: mov qword ptr [rbp - 0x38], 0
+>>> Executing 0x403783: call 0x421be0
+>>> Executing 0x421be0: endbr64 
+>>> Executing 0x421be4: mov eax, edi
+>>> Executing 0x421be6: mov rdi, rcx
+>>> Executing 0x421be9: lea r9, [rip + 0x86890]
+>>> Executing 0x421bf0: mov rcx, rax
+>>> Executing 0x421bf3: shl rcx, 4
+>>> Executing 0x421bf7: add rcx, rax
+>>> Executing 0x421bfa: lea r8, [r9 + rcx*8]
+>>> Executing 0x421bfe: mov ecx, dword ptr [r8 + 0x30]
+>>> Executing 0x421c02: cmp ecx, 2
+>>> Executing 0x421c05: ja 0x421cf0
+>>> Executing 0x421c0b: push rbp
+>>> Executing 0x421c0c: mov rbp, rsp
+>>> Executing 0x421c0f: push rbx
+>>> Executing 0x421c10: test ecx, ecx
+>>> Executing 0x421c12: je 0x421ce0
+>>> Executing 0x421c18: mov r10, qword ptr [rsi]
+>>> Executing 0x421c1b: mov r11d, 1
+>>> Executing 0x421c21: mov rcx, rax
+>>> Executing 0x421c24: shl rcx, 4
+>>> Executing 0x421c28: add rcx, rax
+>>> Executing 0x421c2b: lea rcx, [r9 + rcx*8]
+>>> Executing 0x421c2f: mov rsi, qword ptr [rcx + 0x38]
+>>> Executing 0x421c33: test rdx, rdx
+>>> Executing 0x421c36: je 0x421ca0
+>>> Executing 0x421c38: mov r8, qword ptr [rdx]
+>>> Executing 0x421c3b: mov rdx, qword ptr [rcx + 0x40]
+>>> Executing 0x421c3f: mov rcx, rdx
+>>> Executing 0x421c42: test rdi, rdi
+>>> Executing 0x421c45: je 0x421c4a
+>>> Executing 0x421c47: mov rcx, qword ptr [rdi]
+>>> Executing 0x421c4a: test r11b, r11b
+>>> Executing 0x421c4d: jne 0x421cb4
+>>> Executing 0x421cb4: mov rdi, r8
+>>> Executing 0x421cb7: mov r11, rsi
+>>> Executing 0x421cba: cmp r8, rsi
+>>> Executing 0x421cbd: jae 0x421cc5
+>>> Executing 0x421cc5: cmp rcx, rdx
+>>> Executing 0x421cc8: mov rbx, rdx
+>>> Executing 0x421ccb: cmova rcx, rdx
+>>> Executing 0x421ccf: cmp rcx, rdi
+>>> Executing 0x421cd2: jae 0x421d00
+>>> Executing 0x421d00: mov rdx, rcx
+>>> Executing 0x421d03: mov rbx, rcx
+>>> Executing 0x421d06: mov r11, rdi
+>>> Executing 0x421d09: mov rsi, r8
+>>> Executing 0x421d0c: jmp 0x421cd4
+>>> Executing 0x421cd4: cmp r10, r11
+>>> Executing 0x421cd7: jb 0x421c90
+>>> Executing 0x421cd9: cmp rbx, r10
+>>> Executing 0x421cdc: jae 0x421c72
+>>> Executing 0x421c72: mov rcx, rax
+>>> Executing 0x421c75: shl rcx, 4
+>>> Executing 0x421c79: add rax, rcx
+>>> Executing 0x421c7c: lea rax, [r9 + rax*8]
+>>> Executing 0x421c80: mov qword ptr [rax + 0x58], r10
+>>> Executing 0x421c84: mov qword ptr [rax + 0x38], rsi
+>>> Executing 0x421c88: mov qword ptr [rax + 0x40], rdx
+>>> Executing 0x421c8c: mov byte ptr [rax + 0x68], 1
+>>> Executing 0x421c90: mov rbx, qword ptr [rbp - 8]
+>>> Executing 0x421c94: leave 
+>>> Executing 0x421c95: ret 
+>>> Executing 0x403788: mov rdx, qword ptr [rbp - 0x88]
+>>> Executing 0x40378f: mov rsi, r12
+>>> Executing 0x403792: cmp dword ptr [rip + 0xb0a87], 2
+>>> Executing 0x403799: mov rax, qword ptr [rbp - 0x78]
+>>> Executing 0x40379d: movdqa xmm0, xmmword ptr [rbp - 0xa0]
+>>> Executing 0x4037a5: mov edi, 0x24
+>>> Executing 0x4037aa: mov qword ptr [rip + 0xb0bef], r15
+>>> Executing 0x4037b1: cmovne rdx, r15
+>>> Executing 0x4037b5: mov qword ptr [rip + 0xb0bec], rbx
+>>> Executing 0x4037bc: mov qword ptr [rip + 0xb0bf5], rax
+>>> Executing 0x4037c3: mov qword ptr [rip + 0xb0be6], rdx
+>>> Executing 0x4037ca: lea rdx, [rip + 0x2016f]
+>>> Executing 0x4037d1: movups xmmword ptr [rip + 0xb0bb8], xmm0
+>>> Executing 0x4037d8: call 0x422080
+>>> Executing 0x422080: endbr64 
+>>> Executing 0x422084: mov edi, edi
+>>> Executing 0x422086: lea r9, [rip + 0x863f3]
+>>> Executing 0x42208d: mov rcx, rsi
+>>> Executing 0x422090: mov rax, rdi
+>>> Executing 0x422093: shl rax, 4
+>>> Executing 0x422097: add rax, rdi
+>>> Executing 0x42209a: shl rax, 3
+>>> Executing 0x42209e: lea rsi, [r9 + rax]
+>>> Executing 0x4220a2: mov r8d, dword ptr [rsi + 0x30]
+>>> Executing 0x4220a6: cmp r8d, 2
+>>> Executing 0x4220aa: ja 0x4220f0
+>>> Executing 0x4220f0: lea rax, [r9 + rax + 0x58]
+>>> Executing 0x4220f5: jmp 0x4220b5
+>>> Executing 0x4220b5: mov qword ptr [rcx], rax
+>>> Executing 0x4220b8: mov rax, rdi
+>>> Executing 0x4220bb: shl rax, 4
+>>> Executing 0x4220bf: add rax, rdi
+>>> Executing 0x4220c2: cmp byte ptr [r9 + rax*8 + 0x68], 0
+>>> Executing 0x4220c8: lea rcx, [rax*8]
+>>> Executing 0x4220d0: je 0x4220e0
+>>> Executing 0x4220e0: ret 
+>>> Executing 0x4037dd: lea rdx, [rip - 0x15c4]
+>>> Executing 0x4037e4: mov rsi, r12
+>>> Executing 0x4037e7: mov edi, 0xd
+>>> Executing 0x4037ec: call 0x422080
+>>> Executing 0x422080: endbr64 
+>>> Executing 0x422084: mov edi, edi
+>>> Executing 0x422086: lea r9, [rip + 0x863f3]
+>>> Executing 0x42208d: mov rcx, rsi
+>>> Executing 0x422090: mov rax, rdi
+>>> Executing 0x422093: shl rax, 4
+>>> Executing 0x422097: add rax, rdi
+>>> Executing 0x42209a: shl rax, 3
+>>> Executing 0x42209e: lea rsi, [r9 + rax]
+>>> Executing 0x4220a2: mov r8d, dword ptr [rsi + 0x30]
+>>> Executing 0x4220a6: cmp r8d, 2
+>>> Executing 0x4220aa: ja 0x4220f0
+>>> Executing 0x4220ac: mov rax, qword ptr [rsi + 0x58]
+>>> Executing 0x4220b0: test r8d, r8d
+>>> Executing 0x4220b3: je 0x4220e8
+>>> Executing 0x4220e8: mov dword ptr [rcx], eax
+>>> Executing 0x4220ea: jmp 0x4220b8
+>>> Executing 0x4220b8: mov rax, rdi
+>>> Executing 0x4220bb: shl rax, 4
+>>> Executing 0x4220bf: add rax, rdi
+>>> Executing 0x4220c2: cmp byte ptr [r9 + rax*8 + 0x68], 0
+>>> Executing 0x4220c8: lea rcx, [rax*8]
+>>> Executing 0x4220d0: je 0x4220e0
+>>> Executing 0x4220e0: ret 
+>>> Executing 0x4037f1: mov eax, dword ptr [rip + 0xb0a55]
+>>> Executing 0x4037f7: test eax, 0x8000000
+>>> Executing 0x4037fc: jne 0x403970
+>>> Executing 0x403802: and dword ptr [rip + 0xb0a9b], 0xffffffe8
+>>> Executing 0x403809: and eax, 0xfbffffff
+>>> Executing 0x40380e: movq xmm0, qword ptr [rip + 0xb0a52]
+>>> Executing 0x403816: xor edx, edx
+>>> Executing 0x403818: movq xmm1, qword ptr [rip + 0x81ec8]
+>>> Executing 0x403820: and eax, 0xcfffefff
+>>> Executing 0x403825: and dword ptr [rip + 0xb0ad8], 0xffffffcf
+>>> Executing 0x40382c: and dword ptr [rip + 0xb0a3a], 0xfc3ffef3
+>>> Executing 0x403836: pand xmm0, xmm1
+>>> Executing 0x40383a: and dword ptr [rip + 0xb0a48], 0xfffef7ff
+>>> Executing 0x403844: mov qword ptr [rip + 0xb0b35], rdx
+>>> Executing 0x40384b: mov dword ptr [rip + 0xb09fb], eax
+>>> Executing 0x403851: movq qword ptr [rip + 0xb0a0f], xmm0
+>>> Executing 0x403859: cmp dword ptr [rip + 0xb09c0], 1
+>>> Executing 0x403860: mov qword ptr [rip + 0xb0965], 2
+>>> Executing 0x40386b: je 0x40398e
+>>> Executing 0x403871: lea rdx, [rip + 0x20ab8]
+>>> Executing 0x403878: mov rsi, r12
+>>> Executing 0x40387b: mov edi, 0x14
+>>> Executing 0x403880: call 0x422080
+>>> Executing 0x422080: endbr64 
+>>> Executing 0x422084: mov edi, edi
+>>> Executing 0x422086: lea r9, [rip + 0x863f3]
+>>> Executing 0x42208d: mov rcx, rsi
+>>> Executing 0x422090: mov rax, rdi
+>>> Executing 0x422093: shl rax, 4
+>>> Executing 0x422097: add rax, rdi
+>>> Executing 0x42209a: shl rax, 3
+>>> Executing 0x42209e: lea rsi, [r9 + rax]
+>>> Executing 0x4220a2: mov r8d, dword ptr [rsi + 0x30]
+>>> Executing 0x4220a6: cmp r8d, 2
+>>> Executing 0x4220aa: ja 0x4220f0
+>>> Executing 0x4220f0: lea rax, [r9 + rax + 0x58]
+>>> Executing 0x4220f5: jmp 0x4220b5
+>>> Executing 0x4220b5: mov qword ptr [rcx], rax
+>>> Executing 0x4220b8: mov rax, rdi
+>>> Executing 0x4220bb: shl rax, 4
+>>> Executing 0x4220bf: add rax, rdi
+>>> Executing 0x4220c2: cmp byte ptr [r9 + rax*8 + 0x68], 0
+>>> Executing 0x4220c8: lea rcx, [rax*8]
+>>> Executing 0x4220d0: je 0x4220e0
+>>> Executing 0x4220e0: ret 
+>>> Executing 0x403885: lea rdx, [rip + 0x20b34]
+>>> Executing 0x40388c: mov rsi, r12
+>>> Executing 0x40388f: mov edi, 0x1d
+>>> Executing 0x403894: call 0x422080
+>>> Executing 0x422080: endbr64 
+>>> Executing 0x422084: mov edi, edi
+>>> Executing 0x422086: lea r9, [rip + 0x863f3]
+>>> Executing 0x42208d: mov rcx, rsi
+>>> Executing 0x422090: mov rax, rdi
+>>> Executing 0x422093: shl rax, 4
+>>> Executing 0x422097: add rax, rdi
+>>> Executing 0x42209a: shl rax, 3
+>>> Executing 0x42209e: lea rsi, [r9 + rax]
+>>> Executing 0x4220a2: mov r8d, dword ptr [rsi + 0x30]
+>>> Executing 0x4220a6: cmp r8d, 2
+>>> Executing 0x4220aa: ja 0x4220f0
+>>> Executing 0x4220f0: lea rax, [r9 + rax + 0x58]
+>>> Executing 0x4220f5: jmp 0x4220b5
+>>> Executing 0x4220b5: mov qword ptr [rcx], rax
+>>> Executing 0x4220b8: mov rax, rdi
+>>> Executing 0x4220bb: shl rax, 4
+>>> Executing 0x4220bf: add rax, rdi
+>>> Executing 0x4220c2: cmp byte ptr [r9 + rax*8 + 0x68], 0
+>>> Executing 0x4220c8: lea rcx, [rax*8]
+>>> Executing 0x4220d0: je 0x4220e0
+>>> Executing 0x4220e0: ret 
+>>> Executing 0x403899: mov rax, qword ptr [rip + 0xb0af0]
+>>> Executing 0x4038a0: and rax, 0xffffffffffffff00
+>>> Executing 0x4038a6: jle 0x4038bc
+>>> Executing 0x4038a8: mov rdx, rax
+>>> Executing 0x4038ab: mov qword ptr [rip + 0xa683e], rax
+>>> Executing 0x4038b2: sar rdx, 1
+>>> Executing 0x4038b5: mov qword ptr [rip + 0xa683c], rdx
+>>> Executing 0x4038bc: mov rax, qword ptr [rip + 0xb0ad5]
+>>> Executing 0x4038c3: and rax, 0xffffffffffffff00
+>>> Executing 0x4038c9: jle 0x4038df
+>>> Executing 0x4038cb: mov rdx, rax
+>>> Executing 0x4038ce: mov qword ptr [rip + 0xa680b], rax
+>>> Executing 0x4038d5: sar rdx, 1
+>>> Executing 0x4038d8: mov qword ptr [rip + 0xa6809], rdx
+>>> Executing 0x4038df: mov rax, qword ptr [rip + 0xb0aba]
+>>> Executing 0x4038e6: mov qword ptr [rip + 0xaba43], rax
+>>> Executing 0x4038ed: mov rax, qword ptr [rip + 0xb0ab4]
+>>> Executing 0x4038f4: mov qword ptr [rip + 0xa67dd], rax
+>>> Executing 0x4038fb: mov rax, qword ptr [rip + 0xb0ab6]
+>>> Executing 0x403902: mov qword ptr [rip + 0xa67c7], rax
+>>> Executing 0x403909: mov rax, qword ptr [rip + 0xb0aa0]
+>>> Executing 0x403910: mov qword ptr [rip + 0xaba11], rax
+>>> Executing 0x403917: test byte ptr [rip + 0xb0a58], 1
+>>> Executing 0x40391e: je 0x403927
+>>> Executing 0x403927: add rsp, 0xa8
+>>> Executing 0x40392e: pop rbx
+>>> Executing 0x40392f: pop r12
+>>> Executing 0x403931: pop r13
+>>> Executing 0x403933: pop r14
+>>> Executing 0x403935: pop r15
+>>> Executing 0x403937: pop rbp
+>>> Executing 0x403938: ret 
+>>> Executing 0x404261: call 0x401910
+>>> Executing 0x401910: endbr64 
+>>> Executing 0x401914: ret 
+>>> Executing 0x404266: mov r15, 0x4002e8
+>>> Executing 0x40426d: mov r13, 0x4004f8
+>>> Executing 0x404274: cmp r15, r13
+>>> Executing 0x404277: jb 0x404290
+>>> Executing 0x404290: cmp dword ptr [r15 + 8], 0x25
+>>> Executing 0x404295: mov r14, qword ptr [r15]
+>>> Executing 0x404298: je 0x404280
+>>> Executing 0x404280: call qword ptr [r15 + 0x10]
+>>> Executing 0x4448b0: endbr64 
+>>> Executing 0x4448b4: mov edx, dword ptr [rip + 0x6f9ae]
+>>> Executing 0x4448ba: mov ecx, dword ptr [rip + 0x6fab4]
+>>> Executing 0x4448c0: mov eax, edx
+>>> Executing 0x4448c2: not eax
+>>> Executing 0x4448c4: test eax, 0x120
+>>> Executing 0x4448c9: je 0x4448e8
+>>> Executing 0x4448cb: and ecx, 4
+>>> Executing 0x4448ce: lea rax, [rip + 0x892b]
+>>> Executing 0x4448d5: lea rdx, [rip + 0x8b54]
+>>> Executing 0x4448dc: cmovne rax, rdx
+>>> Executing 0x4448e0: ret 
+>>> Executing 0x404284: add r15, 0x18
+>>> Executing 0x404288: mov qword ptr [r14], rax
+>>> Executing 0x40428b: cmp r15, r13
+>>> Executing 0x40428e: jae 0x4042a6
+>>> Executing 0x404290: cmp dword ptr [r15 + 8], 0x25
+>>> Executing 0x404295: mov r14, qword ptr [r15]
+>>> Executing 0x404298: je 0x404280
+>>> Executing 0x404280: call qword ptr [r15 + 0x10]
+>>> Executing 0x412990: endbr64 
+>>> Executing 0x412994: mov edx, dword ptr [rip + 0xa18ce]
+>>> Executing 0x41299a: lea rax, [rip + 0x5ebf]
+>>> Executing 0x4129a1: mov ecx, edx
+>>> Executing 0x4129a3: not ecx
+>>> Executing 0x4129a5: and ecx, 0x128
+>>> Executing 0x4129ab: je 0x4129b0
+>>> Executing 0x4129ad: ret 
+>>> Executing 0x404284: add r15, 0x18
+>>> Executing 0x404288: mov qword ptr [r14], rax
+>>> Executing 0x40428b: cmp r15, r13
+>>> Executing 0x40428e: jae 0x4042a6
+>>> Executing 0x404290: cmp dword ptr [r15 + 8], 0x25
+>>> Executing 0x404295: mov r14, qword ptr [r15]
+>>> Executing 0x404298: je 0x404280
+>>> Executing 0x404280: call qword ptr [r15 + 0x10]
+>>> Executing 0x468770: endbr64 
+>>> Executing 0x468774: test byte ptr [rip + 0x4bad3], 0x10
+>>> Executing 0x46877b: lea rdx, [rip + 0x123e]
+>>> Executing 0x468782: lea rax, [rip + 0xf87]
+>>> Executing 0x468789: cmove rax, rdx
+>>> Executing 0x46878d: ret 
+>>> Executing 0x404284: add r15, 0x18
+>>> Executing 0x404288: mov qword ptr [r14], rax
+>>> Executing 0x40428b: cmp r15, r13
+>>> Executing 0x40428e: jae 0x4042a6
+>>> Executing 0x404290: cmp dword ptr [r15 + 8], 0x25
+>>> Executing 0x404295: mov r14, qword ptr [r15]
+>>> Executing 0x404298: je 0x404280
+>>> Executing 0x404280: call qword ptr [r15 + 0x10]
+>>> Executing 0x4686f0: endbr64 
+>>> Executing 0x4686f4: test byte ptr [rip + 0x4bb53], 0x10
+>>> Executing 0x4686fb: lea rdx, [rip + 0x112e]
+>>> Executing 0x468702: lea rax, [rip + 0xee7]
+>>> Executing 0x468709: cmove rax, rdx
+>>> Executing 0x46870d: ret 
+>>> Executing 0x404284: add r15, 0x18
+>>> Executing 0x404288: mov qword ptr [r14], rax
+>>> Executing 0x40428b: cmp r15, r13
+>>> Executing 0x40428e: jae 0x4042a6
+>>> Executing 0x404290: cmp dword ptr [r15 + 8], 0x25
+>>> Executing 0x404295: mov r14, qword ptr [r15]
+>>> Executing 0x404298: je 0x404280
+>>> Executing 0x404280: call qword ptr [r15 + 0x10]
+>>> Executing 0x412730: endbr64 
+>>> Executing 0x412734: mov edx, dword ptr [rip + 0xa1c3a]
+>>> Executing 0x41273a: lea rax, [rip + 0x2a8f]
+>>> Executing 0x412741: test dh, 0x90
+>>> Executing 0x412744: jne 0x4127ae
+>>> Executing 0x412746: mov ecx, dword ptr [rip + 0xa1b1c]
+>>> Executing 0x41274c: test ecx, 0x10000
+>>> Executing 0x412752: jne 0x4127b0
+>>> Executing 0x412754: test dh, 2
+>>> Executing 0x412757: je 0x412790
+>>> Executing 0x412790: test byte ptr [rip + 0xa1ab6], 2
+>>> Executing 0x412797: jne 0x4127e0
+>>> Executing 0x412799: and ch, 2
+>>> Executing 0x41279c: lea rax, [rip + 0x331d]
+>>> Executing 0x4127a3: lea rdx, [rip + 0x32d6]
+>>> Executing 0x4127aa: cmove rax, rdx
+>>> Executing 0x4127ae: ret 
+>>> Executing 0x404284: add r15, 0x18
+>>> Executing 0x404288: mov qword ptr [r14], rax
+>>> Executing 0x40428b: cmp r15, r13
+>>> Executing 0x40428e: jae 0x4042a6
+>>> Executing 0x404290: cmp dword ptr [r15 + 8], 0x25
+>>> Executing 0x404295: mov r14, qword ptr [r15]
+>>> Executing 0x404298: je 0x404280
+>>> Executing 0x404280: call qword ptr [r15 + 0x10]
+>>> Executing 0x444920: endbr64 
+>>> Executing 0x444924: mov ecx, dword ptr [rip + 0x6f93e]
+>>> Executing 0x44492a: mov edx, dword ptr [rip + 0x6fa44]
+>>> Executing 0x444930: mov eax, ecx
+>>> Executing 0x444932: not eax
+>>> Executing 0x444934: test eax, 0x120
+>>> Executing 0x444939: je 0x444970
+>>> Executing 0x44493b: test byte ptr [rip + 0x6f90c], 0x10
+>>> Executing 0x444942: je 0x444950
+>>> Executing 0x444950: and edx, 8
+>>> Executing 0x444953: lea rax, [rip + 0xb276]
+>>> Executing 0x44495a: lea rdx, [rip + 0x9e1f]
+>>> Executing 0x444961: cmove rax, rdx
+>>> Executing 0x444965: ret 
+>>> Executing 0x404284: add r15, 0x18
+>>> Executing 0x404288: mov qword ptr [r14], rax
+>>> Executing 0x40428b: cmp r15, r13
+>>> Executing 0x40428e: jae 0x4042a6
+>>> Executing 0x404290: cmp dword ptr [r15 + 8], 0x25
+>>> Executing 0x404295: mov r14, qword ptr [r15]
+>>> Executing 0x404298: je 0x404280
+>>> Executing 0x404280: call qword ptr [r15 + 0x10]
+>>> Executing 0x469bd0: endbr64 
+>>> Executing 0x469bd4: mov edx, dword ptr [rip + 0x4a68e]
+>>> Executing 0x469bda: mov eax, edx
+>>> Executing 0x469bdc: not eax
+>>> Executing 0x469bde: test eax, 0x120
+>>> Executing 0x469be3: je 0x469c00
+>>> Executing 0x469be5: test byte ptr [rip + 0x4a662], 8
+>>> Executing 0x469bec: lea rax, [rip + 0x12ed]
+>>> Executing 0x469bf3: lea rdx, [rip + 0x1516]
+>>> Executing 0x469bfa: cmove rax, rdx
+>>> Executing 0x469bfe: ret 
+>>> Executing 0x404284: add r15, 0x18
+>>> Executing 0x404288: mov qword ptr [r14], rax
+>>> Executing 0x40428b: cmp r15, r13
+>>> Executing 0x40428e: jae 0x4042a6
+>>> Executing 0x404290: cmp dword ptr [r15 + 8], 0x25
+>>> Executing 0x404295: mov r14, qword ptr [r15]
+>>> Executing 0x404298: je 0x404280
+>>> Executing 0x404280: call qword ptr [r15 + 0x10]
+>>> Executing 0x412830: endbr64 
+>>> Executing 0x412834: mov ecx, dword ptr [rip + 0xa1b3a]
+>>> Executing 0x41283a: lea rax, [rip + 0x4fff]
+>>> Executing 0x412841: test ch, 0x10
+>>> Executing 0x412844: jne 0x4128a4
+>>> Executing 0x412846: mov edx, dword ptr [rip + 0xa1a1c]
+>>> Executing 0x41284c: test edx, 0x10000
+>>> Executing 0x412852: jne 0x4128a8
+>>> Executing 0x412854: mov eax, edx
+>>> Executing 0x412856: and eax, 0x200
+>>> Executing 0x41285b: test dl, 0x20
+>>> Executing 0x41285e: je 0x412890
+>>> Executing 0x412890: test eax, eax
+>>> Executing 0x412892: lea rdx, [rip + 0x5207]
+>>> Executing 0x412899: lea rax, [rip + 0x5260]
+>>> Executing 0x4128a0: cmove rax, rdx
+>>> Executing 0x4128a4: ret 
+>>> Executing 0x404284: add r15, 0x18
+>>> Executing 0x404288: mov qword ptr [r14], rax
+>>> Executing 0x40428b: cmp r15, r13
+>>> Executing 0x40428e: jae 0x4042a6
+>>> Executing 0x404290: cmp dword ptr [r15 + 8], 0x25
+>>> Executing 0x404295: mov r14, qword ptr [r15]
+>>> Executing 0x404298: je 0x404280
+>>> Executing 0x404280: call qword ptr [r15 + 0x10]
+>>> Executing 0x474160: endbr64 
+>>> Executing 0x474164: mov edx, dword ptr [rip + 0x400fe]
+>>> Executing 0x47416a: lea rax, [rip + 0xaff]
+>>> Executing 0x474171: mov ecx, edx
+>>> Executing 0x474173: not ecx
+>>> Executing 0x474175: and ecx, 0x120
+>>> Executing 0x47417b: je 0x474180
+>>> Executing 0x47417d: ret 
+>>> Executing 0x404284: add r15, 0x18
+>>> Executing 0x404288: mov qword ptr [r14], rax
+>>> Executing 0x40428b: cmp r15, r13
+>>> Executing 0x40428e: jae 0x4042a6
+>>> Executing 0x404290: cmp dword ptr [r15 + 8], 0x25
+>>> Executing 0x404295: mov r14, qword ptr [r15]
+>>> Executing 0x404298: je 0x404280
+>>> Executing 0x404280: call qword ptr [r15 + 0x10]
+>>> Executing 0x444830: endbr64 
+>>> Executing 0x444834: mov edx, dword ptr [rip + 0x6fa2e]
+>>> Executing 0x44483a: mov eax, edx
+>>> Executing 0x44483c: not eax
+>>> Executing 0x44483e: test eax, 0x120
+>>> Executing 0x444843: je 0x444870
+>>> Executing 0x444845: lea rax, [rip + 0x4cd4]
+>>> Executing 0x44484c: test byte ptr [rip + 0x6f9fb], 0x10
+>>> Executing 0x444853: je 0x444867
+>>> Executing 0x444867: ret 
+>>> Executing 0x404284: add r15, 0x18
+>>> Executing 0x404288: mov qword ptr [r14], rax
+>>> Executing 0x40428b: cmp r15, r13
+>>> Executing 0x40428e: jae 0x4042a6
+>>> Executing 0x404290: cmp dword ptr [r15 + 8], 0x25
+>>> Executing 0x404295: mov r14, qword ptr [r15]
+>>> Executing 0x404298: je 0x404280
+>>> Executing 0x404280: call qword ptr [r15 + 0x10]
+>>> Executing 0x444750: endbr64 
+>>> Executing 0x444754: mov eax, dword ptr [rip + 0x6fb0e]
+>>> Executing 0x44475a: lea rdx, [rip + 0x1d5f]
+>>> Executing 0x444761: test al, 0x20
+>>> Executing 0x444763: je 0x4447a3
+>>> Executing 0x4447a3: mov rax, rdx
+>>> Executing 0x4447a6: ret 
+>>> Executing 0x404284: add r15, 0x18
+>>> Executing 0x404288: mov qword ptr [r14], rax
+>>> Executing 0x40428b: cmp r15, r13
+>>> Executing 0x40428e: jae 0x4042a6
+>>> Executing 0x404290: cmp dword ptr [r15 + 8], 0x25
+>>> Executing 0x404295: mov r14, qword ptr [r15]
+>>> Executing 0x404298: je 0x404280
+>>> Executing 0x404280: call qword ptr [r15 + 0x10]
+>>> Executing 0x4449f0: endbr64 
+>>> Executing 0x4449f4: mov edx, dword ptr [rip + 0x6f86e]
+>>> Executing 0x4449fa: mov eax, edx
+>>> Executing 0x4449fc: not eax
+>>> Executing 0x4449fe: test eax, 0x120
+>>> Executing 0x444a03: je 0x444a30
+>>> Executing 0x444a05: lea rax, [rip + 0xd564]
+>>> Executing 0x444a0c: test byte ptr [rip + 0x6f83b], 0x10
+>>> Executing 0x444a13: je 0x444a27
+>>> Executing 0x444a27: ret 
+>>> Executing 0x404284: add r15, 0x18
+>>> Executing 0x404288: mov qword ptr [r14], rax
+>>> Executing 0x40428b: cmp r15, r13
+>>> Executing 0x40428e: jae 0x4042a6
+>>> Executing 0x404290: cmp dword ptr [r15 + 8], 0x25
+>>> Executing 0x404295: mov r14, qword ptr [r15]
+>>> Executing 0x404298: je 0x404280
+>>> Executing 0x404280: call qword ptr [r15 + 0x10]
+>>> Executing 0x413290: endbr64 
+>>> Executing 0x413294: mov edx, dword ptr [rip + 0xa10da]
+>>> Executing 0x41329a: test dh, 0x20
+>>> Executing 0x41329d: jne 0x4132a9
+>>> Executing 0x41329f: mov ecx, dword ptr [rip + 0xa0fc3]
+>>> Executing 0x4132a5: test ecx, ecx
+>>> Executing 0x4132a7: js 0x4132c0
+>>> Executing 0x4132a9: and edx, 8
+>>> Executing 0x4132ac: lea rax, [rip + 0x5abd]
+>>> Executing 0x4132b3: lea rdx, [rip - 0x3ba]
+>>> Executing 0x4132ba: cmove rax, rdx
+>>> Executing 0x4132be: ret 
+>>> Executing 0x404284: add r15, 0x18
+>>> Executing 0x404288: mov qword ptr [r14], rax
+>>> Executing 0x40428b: cmp r15, r13
+>>> Executing 0x40428e: jae 0x4042a6
+>>> Executing 0x404290: cmp dword ptr [r15 + 8], 0x25
+>>> Executing 0x404295: mov r14, qword ptr [r15]
+>>> Executing 0x404298: je 0x404280
+>>> Executing 0x404280: call qword ptr [r15 + 0x10]
+>>> Executing 0x4446d0: endbr64 
+>>> Executing 0x4446d4: mov edx, dword ptr [rip + 0x6fb8e]
+>>> Executing 0x4446da: lea rax, [rip + 0xfaf]
+>>> Executing 0x4446e1: mov ecx, edx
+>>> Executing 0x4446e3: not ecx
+>>> Executing 0x4446e5: and ecx, 0x120
+>>> Executing 0x4446eb: je 0x4446f0
+>>> Executing 0x4446ed: ret 
+>>> Executing 0x404284: add r15, 0x18
+>>> Executing 0x404288: mov qword ptr [r14], rax
+>>> Executing 0x40428b: cmp r15, r13
+>>> Executing 0x40428e: jae 0x4042a6
+>>> Executing 0x404290: cmp dword ptr [r15 + 8], 0x25
+>>> Executing 0x404295: mov r14, qword ptr [r15]
+>>> Executing 0x404298: je 0x404280
+>>> Executing 0x404280: call qword ptr [r15 + 0x10]
+>>> Executing 0x412920: endbr64 
+>>> Executing 0x412924: mov edx, dword ptr [rip + 0xa193e]
+>>> Executing 0x41292a: lea rax, [rip + 0x58af]
+>>> Executing 0x412931: mov ecx, edx
+>>> Executing 0x412933: not ecx
+>>> Executing 0x412935: and ecx, 0x128
+>>> Executing 0x41293b: je 0x412940
+>>> Executing 0x41293d: ret 
+>>> Executing 0x404284: add r15, 0x18
+>>> Executing 0x404288: mov qword ptr [r14], rax
+>>> Executing 0x40428b: cmp r15, r13
+>>> Executing 0x40428e: jae 0x4042a6
+>>> Executing 0x404290: cmp dword ptr [r15 + 8], 0x25
+>>> Executing 0x404295: mov r14, qword ptr [r15]
+>>> Executing 0x404298: je 0x404280
+>>> Executing 0x404280: call qword ptr [r15 + 0x10]
+>>> Executing 0x4447c0: endbr64 
+>>> Executing 0x4447c4: mov edx, dword ptr [rip + 0x6fa9e]
+>>> Executing 0x4447ca: mov ecx, dword ptr [rip + 0x6fba4]
+>>> Executing 0x4447d0: test dl, 0x20
+>>> Executing 0x4447d3: je 0x444800
+>>> Executing 0x444800: and ecx, 8
+>>> Executing 0x444803: lea rax, [rip + 0x2806]
+>>> Executing 0x44480a: lea rdx, [rip + 0x270f]
+>>> Executing 0x444811: cmove rax, rdx
+>>> Executing 0x444815: ret 
+>>> Executing 0x404284: add r15, 0x18
+>>> Executing 0x404288: mov qword ptr [r14], rax
+>>> Executing 0x40428b: cmp r15, r13
+>>> Executing 0x40428e: jae 0x4042a6
+>>> Executing 0x404290: cmp dword ptr [r15 + 8], 0x25
+>>> Executing 0x404295: mov r14, qword ptr [r15]
+>>> Executing 0x404298: je 0x404280
+>>> Executing 0x404280: call qword ptr [r15 + 0x10]
+>>> Executing 0x444ae0: endbr64 
+>>> Executing 0x444ae4: mov edx, dword ptr [rip + 0x6f77e]
+>>> Executing 0x444aea: lea rax, [rip + 0x10f4f]
+>>> Executing 0x444af1: mov ecx, edx
+>>> Executing 0x444af3: not ecx
+>>> Executing 0x444af5: and ecx, 0x128
+>>> Executing 0x444afb: je 0x444b00
+>>> Executing 0x444afd: ret 
+>>> Executing 0x404284: add r15, 0x18
+>>> Executing 0x404288: mov qword ptr [r14], rax
+>>> Executing 0x40428b: cmp r15, r13
+>>> Executing 0x40428e: jae 0x4042a6
+>>> Executing 0x404290: cmp dword ptr [r15 + 8], 0x25
+>>> Executing 0x404295: mov r14, qword ptr [r15]
+>>> Executing 0x404298: je 0x404280
+>>> Executing 0x404280: call qword ptr [r15 + 0x10]
+>>> Executing 0x469b60: endbr64 
+>>> Executing 0x469b64: mov edx, dword ptr [rip + 0x4a6fe]
+>>> Executing 0x469b6a: mov eax, edx
+>>> Executing 0x469b6c: not eax
+>>> Executing 0x469b6e: test eax, 0x120
+>>> Executing 0x469b73: je 0x469b90
+>>> Executing 0x469b75: test byte ptr [rip + 0x4a6d2], 8
+>>> Executing 0x469b7c: lea rax, [rip + 0x86d]
+>>> Executing 0x469b83: lea rdx, [rip + 0x626]
+>>> Executing 0x469b8a: cmove rax, rdx
+>>> Executing 0x469b8e: ret 
+>>> Executing 0x404284: add r15, 0x18
+>>> Executing 0x404288: mov qword ptr [r14], rax
+>>> Executing 0x40428b: cmp r15, r13
+>>> Executing 0x40428e: jae 0x4042a6
+>>> Executing 0x404290: cmp dword ptr [r15 + 8], 0x25
+>>> Executing 0x404295: mov r14, qword ptr [r15]
+>>> Executing 0x404298: je 0x404280
+>>> Executing 0x404280: call qword ptr [r15 + 0x10]
+>>> Executing 0x412530: endbr64 
+>>> Executing 0x412534: mov edx, dword ptr [rip + 0xa1e3a]
+>>> Executing 0x41253a: lea rax, [rip + 0x2cbf]
+>>> Executing 0x412541: test dh, 0x90
+>>> Executing 0x412544: jne 0x4125ae
+>>> Executing 0x412546: mov ecx, dword ptr [rip + 0xa1d1c]
+>>> Executing 0x41254c: test ecx, 0x10000
+>>> Executing 0x412552: jne 0x4125b0
+>>> Executing 0x412554: test dh, 2
+>>> Executing 0x412557: je 0x412590
+>>> Executing 0x412590: test byte ptr [rip + 0xa1cb6], 2
+>>> Executing 0x412597: jne 0x4125e0
+>>> Executing 0x412599: and ch, 2
+>>> Executing 0x41259c: lea rax, [rip + 0x355d]
+>>> Executing 0x4125a3: lea rdx, [rip + 0x34e6]
+>>> Executing 0x4125aa: cmove rax, rdx
+>>> Executing 0x4125ae: ret 
+>>> Executing 0x404284: add r15, 0x18
+>>> Executing 0x404288: mov qword ptr [r14], rax
+>>> Executing 0x40428b: cmp r15, r13
+>>> Executing 0x40428e: jae 0x4042a6
+>>> Executing 0x404290: cmp dword ptr [r15 + 8], 0x25
+>>> Executing 0x404295: mov r14, qword ptr [r15]
+>>> Executing 0x404298: je 0x404280
+>>> Executing 0x404280: call qword ptr [r15 + 0x10]
+>>> Executing 0x412630: endbr64 
+>>> Executing 0x412634: mov edx, dword ptr [rip + 0xa1d3a]
+>>> Executing 0x41263a: lea rax, [rip + 0x2bbf]
+>>> Executing 0x412641: test dh, 0x90
+>>> Executing 0x412644: jne 0x4126ae
+>>> Executing 0x412646: mov ecx, dword ptr [rip + 0xa1c1c]
+>>> Executing 0x41264c: test ecx, 0x10000
+>>> Executing 0x412652: jne 0x4126b0
+>>> Executing 0x412654: test dh, 2
+>>> Executing 0x412657: je 0x412690
+>>> Executing 0x412690: test byte ptr [rip + 0xa1bb6], 2
+>>> Executing 0x412697: jne 0x4126e0
+>>> Executing 0x412699: and ch, 2
+>>> Executing 0x41269c: lea rax, [rip + 0x345d]
+>>> Executing 0x4126a3: lea rdx, [rip + 0x33e6]
+>>> Executing 0x4126aa: cmove rax, rdx
+>>> Executing 0x4126ae: ret 
+>>> Executing 0x404284: add r15, 0x18
+>>> Executing 0x404288: mov qword ptr [r14], rax
+>>> Executing 0x40428b: cmp r15, r13
+>>> Executing 0x40428e: jae 0x4042a6
+>>> Executing 0x404290: cmp dword ptr [r15 + 8], 0x25
+>>> Executing 0x404295: mov r14, qword ptr [r15]
+>>> Executing 0x404298: je 0x404280
+>>> Executing 0x404280: call qword ptr [r15 + 0x10]
+>>> Executing 0x444a70: endbr64 
+>>> Executing 0x444a74: mov edx, dword ptr [rip + 0x6f7ee]
+>>> Executing 0x444a7a: lea rax, [rip + 0x1055f]
+>>> Executing 0x444a81: mov ecx, edx
+>>> Executing 0x444a83: not ecx
+>>> Executing 0x444a85: and ecx, 0x128
+>>> Executing 0x444a8b: je 0x444a90
+>>> Executing 0x444a8d: ret 
+>>> Executing 0x404284: add r15, 0x18
+>>> Executing 0x404288: mov qword ptr [r14], rax
+>>> Executing 0x40428b: cmp r15, r13
+>>> Executing 0x40428e: jae 0x4042a6
+>>> Executing 0x404290: cmp dword ptr [r15 + 8], 0x25
+>>> Executing 0x404295: mov r14, qword ptr [r15]
+>>> Executing 0x404298: je 0x404280
+>>> Executing 0x404280: call qword ptr [r15 + 0x10]
+>>> Executing 0x468680: endbr64 
+>>> Executing 0x468684: mov edx, dword ptr [rip + 0x4bbde]
+>>> Executing 0x46868a: mov ecx, dword ptr [rip + 0x4bce4]
+>>> Executing 0x468690: test dl, 0x20
+>>> Executing 0x468693: je 0x4686c0
+>>> Executing 0x4686c0: and ecx, 8
+>>> Executing 0x4686c3: lea rax, [rip + 0x8f6]
+>>> Executing 0x4686ca: lea rdx, [rip + 0x7ff]
+>>> Executing 0x4686d1: cmove rax, rdx
+>>> Executing 0x4686d5: ret 
+>>> Executing 0x404284: add r15, 0x18
+>>> Executing 0x404288: mov qword ptr [r14], rax
+>>> Executing 0x40428b: cmp r15, r13
+>>> Executing 0x40428e: jae 0x4042a6
+>>> Executing 0x4042a6: call 0x404670
+>>> Executing 0x404670: endbr64 
+>>> Executing 0x404674: push rbp
+>>> Executing 0x404675: mov rbp, rsp
+>>> Executing 0x404678: push r15
+>>> Executing 0x40467a: push r14
+>>> Executing 0x40467c: push r13
+>>> Executing 0x40467e: push r12
+>>> Executing 0x404680: push rbx
+>>> Executing 0x404681: sub rsp, 0x38
+>>> Executing 0x404685: mov r14, qword ptr [rip + 0xa6ad4]
+>>> Executing 0x40468c: call 0x421690
+>>> Executing 0x421690: endbr64 
+>>> Executing 0x421694: lea rax, [rip + 0x92b05]
+>>> Executing 0x42169b: movq xmm0, rax
+>>> Executing 0x4216a0: lea rax, [rip + 0x92ae9]
+>>> Executing 0x4216a7: punpcklqdq xmm0, xmm0
+>>> Executing 0x4216ab: movups xmmword ptr [rip + 0x92aee], xmm0
+>>> Executing 0x4216b2: movq xmm0, rax
+>>> Executing 0x4216b7: lea rax, [rip + 0x92ac2]
+>>> Executing 0x4216be: punpcklqdq xmm0, xmm0
+>>> Executing 0x4216c2: movups xmmword ptr [rip + 0x92ac7], xmm0
+>>> Executing 0x4216c9: movq xmm0, rax
+>>> Executing 0x4216ce: punpcklqdq xmm0, xmm0
+>>> Executing 0x4216d2: movups xmmword ptr [rip + 0x92aa7], xmm0
+>>> Executing 0x4216d9: ret 
+>>> Executing 0x404691: mov rcx, qword ptr [rip + 0xafb40]
+>>> Executing 0x404698: mov rax, qword ptr [rip + 0xafb41]
+>>> Executing 0x40469f: lea rdx, [rcx*8]
+>>> Executing 0x4046a7: sub rdx, rcx
+>>> Executing 0x4046aa: lea rdx, [rax + rdx*8]
+>>> Executing 0x4046ae: cmp rax, rdx
+>>> Executing 0x4046b1: jb 0x4046c1
+>>> Executing 0x4046c1: cmp dword ptr [rax], 7
+>>> Executing 0x4046c4: jne 0x4046b8
+>>> Executing 0x4046b8: add rax, 0x38
+>>> Executing 0x4046bc: cmp rax, rdx
+>>> Executing 0x4046bf: jae 0x404720
+>>> Executing 0x4046c1: cmp dword ptr [rax], 7
+>>> Executing 0x4046c4: jne 0x4046b8
+>>> Executing 0x4046b8: add rax, 0x38
+>>> Executing 0x4046bc: cmp rax, rdx
+>>> Executing 0x4046bf: jae 0x404720
+>>> Executing 0x4046c1: cmp dword ptr [rax], 7
+>>> Executing 0x4046c4: jne 0x4046b8
+>>> Executing 0x4046b8: add rax, 0x38
+>>> Executing 0x4046bc: cmp rax, rdx
+>>> Executing 0x4046bf: jae 0x404720
+>>> Executing 0x4046c1: cmp dword ptr [rax], 7
+>>> Executing 0x4046c4: jne 0x4046b8
+>>> Executing 0x4046b8: add rax, 0x38
+>>> Executing 0x4046bc: cmp rax, rdx
+>>> Executing 0x4046bf: jae 0x404720
+>>> Executing 0x4046c1: cmp dword ptr [rax], 7
+>>> Executing 0x4046c4: jne 0x4046b8
+>>> Executing 0x4046b8: add rax, 0x38
+>>> Executing 0x4046bc: cmp rax, rdx
+>>> Executing 0x4046bf: jae 0x404720
+>>> Executing 0x4046c1: cmp dword ptr [rax], 7
+>>> Executing 0x4046c4: jne 0x4046b8
+>>> Executing 0x4046b8: add rax, 0x38
+>>> Executing 0x4046bc: cmp rax, rdx
+>>> Executing 0x4046bf: jae 0x404720
+>>> Executing 0x4046c1: cmp dword ptr [rax], 7
+>>> Executing 0x4046c4: jne 0x4046b8
+>>> Executing 0x4046c6: mov r13, qword ptr [rax + 0x30]
+>>> Executing 0x4046ca: mov r12d, 0x40
+>>> Executing 0x4046d0: mov rdx, qword ptr [rax + 0x10]
+>>> Executing 0x4046d4: add rdx, qword ptr [r14]
+>>> Executing 0x4046d7: mov rcx, qword ptr [rax + 0x28]
+>>> Executing 0x4046db: cmp r13, r12
+>>> Executing 0x4046de: mov rbx, qword ptr [rax + 0x20]
+>>> Executing 0x4046e2: mov qword ptr [rbp - 0x48], rdx
+>>> Executing 0x4046e6: cmovae r12, r13
+>>> Executing 0x4046ea: mov qword ptr [rbp - 0x38], rcx
+>>> Executing 0x4046ee: mov qword ptr [rbp - 0x40], rbx
+>>> Executing 0x4046f2: lea rax, [r12 - 1]
+>>> Executing 0x4046f7: lea r15, [r12 + 0x940]
+>>> Executing 0x4046ff: mov qword ptr [rbp - 0x50], rax
+>>> Executing 0x404703: mov rax, r12
+>>> Executing 0x404706: neg rax
+>>> Executing 0x404709: test r13, r13
+>>> Executing 0x40470c: mov qword ptr [rbp - 0x58], rax
+>>> Executing 0x404710: mov eax, 1
+>>> Executing 0x404715: cmovne rax, r13
+>>> Executing 0x404719: mov qword ptr [rbp - 0x60], rax
+>>> Executing 0x40471d: jmp 0x40475f
+>>> Executing 0x40475f: xor edi, edi
+>>> Executing 0x404761: call 0x420a00
+>>> Executing 0x420a00: endbr64 
+>>> Executing 0x420a04: push rbp
+>>> Executing 0x420a05: xor edx, edx
+>>> Executing 0x420a07: mov rbp, rsp
+>>> Executing 0x420a0a: push r13
+>>> Executing 0x420a0c: push r12
+>>> Executing 0x420a0e: lea r13, [rbp - 0x28]
+>>> Executing 0x420a12: mov r12, rdi
+>>> Executing 0x420a15: mov edi, 0x16
+>>> Executing 0x420a1a: push rbx
+>>> Executing 0x420a1b: mov rsi, r13
+>>> Executing 0x420a1e: sub rsp, 0x18
+>>> Executing 0x420a22: call 0x422080
+>>> Executing 0x422080: endbr64 
+>>> Executing 0x422084: mov edi, edi
+>>> Executing 0x422086: lea r9, [rip + 0x863f3]
+>>> Executing 0x42208d: mov rcx, rsi
+>>> Executing 0x422090: mov rax, rdi
+>>> Executing 0x422093: shl rax, 4
+>>> Executing 0x422097: add rax, rdi
+>>> Executing 0x42209a: shl rax, 3
+>>> Executing 0x42209e: lea rsi, [r9 + rax]
+>>> Executing 0x4220a2: mov r8d, dword ptr [rsi + 0x30]
+>>> Executing 0x4220a6: cmp r8d, 2
+>>> Executing 0x4220aa: ja 0x4220f0
+>>> Executing 0x4220ac: mov rax, qword ptr [rsi + 0x58]
+>>> Executing 0x4220b0: test r8d, r8d
+>>> Executing 0x4220b3: je 0x4220e8
+>>> Executing 0x4220b5: mov qword ptr [rcx], rax
+>>> Executing 0x4220b8: mov rax, rdi
+>>> Executing 0x4220bb: shl rax, 4
+>>> Executing 0x4220bf: add rax, rdi
+>>> Executing 0x4220c2: cmp byte ptr [r9 + rax*8 + 0x68], 0
+>>> Executing 0x4220c8: lea rcx, [rax*8]
+>>> Executing 0x4220d0: je 0x4220e0
+>>> Executing 0x4220e0: ret 
+>>> Executing 0x420a27: mov rbx, qword ptr [rbp - 0x28]
+>>> Executing 0x420a2b: xor edx, edx
+>>> Executing 0x420a2d: mov rsi, r13
+>>> Executing 0x420a30: mov edi, 0x11
+>>> Executing 0x420a35: call 0x422080
+>>> Executing 0x422080: endbr64 
+>>> Executing 0x422084: mov edi, edi
+>>> Executing 0x422086: lea r9, [rip + 0x863f3]
+>>> Executing 0x42208d: mov rcx, rsi
+>>> Executing 0x422090: mov rax, rdi
+>>> Executing 0x422093: shl rax, 4
+>>> Executing 0x422097: add rax, rdi
+>>> Executing 0x42209a: shl rax, 3
+>>> Executing 0x42209e: lea rsi, [r9 + rax]
+>>> Executing 0x4220a2: mov r8d, dword ptr [rsi + 0x30]
+>>> Executing 0x4220a6: cmp r8d, 2
+>>> Executing 0x4220aa: ja 0x4220f0
+>>> Executing 0x4220ac: mov rax, qword ptr [rsi + 0x58]
+>>> Executing 0x4220b0: test r8d, r8d
+>>> Executing 0x4220b3: je 0x4220e8
+>>> Executing 0x4220b5: mov qword ptr [rcx], rax
+>>> Executing 0x4220b8: mov rax, rdi
+>>> Executing 0x4220bb: shl rax, 4
+>>> Executing 0x4220bf: add rax, rdi
+>>> Executing 0x4220c2: cmp byte ptr [r9 + rax*8 + 0x68], 0
+>>> Executing 0x4220c8: lea rcx, [rax*8]
+>>> Executing 0x4220d0: je 0x4220e0
+>>> Executing 0x4220e0: ret 
+>>> Executing 0x420a3a: cmp rbx, 0
+>>> Executing 0x420a3e: mov eax, 1
+>>> Executing 0x420a43: mov rdx, qword ptr [rbp - 0x28]
+>>> Executing 0x420a47: cmova rbx, rax
+>>> Executing 0x420a4b: mov rax, rbx
+>>> Executing 0x420a4e: xor rax, 1
+>>> Executing 0x420a52: cmp rax, r12
+>>> Executing 0x420a55: jb 0x420a86
+>>> Executing 0x420a57: add rbx, r12
+>>> Executing 0x420a5a: mov qword ptr [rip + 0x8e8e7], rdx
+>>> Executing 0x420a61: lea eax, [rbx + rbx - 1]
+>>> Executing 0x420a65: lea eax, [rax + rax*8]
+>>> Executing 0x420a68: shl eax, 4
+>>> Executing 0x420a6b: lea eax, [rax + rdx + 0x90]
+>>> Executing 0x420a72: cdqe 
+>>> Executing 0x420a74: mov qword ptr [rip + 0x8e8d5], rax
+>>> Executing 0x420a7b: add rsp, 0x18
+>>> Executing 0x420a7f: pop rbx
+>>> Executing 0x420a80: pop r12
+>>> Executing 0x420a82: pop r13
+>>> Executing 0x420a84: pop rbp
+>>> Executing 0x420a85: ret 
+>>> Executing 0x404766: mov rax, qword ptr [rip + 0xaabe3]
+>>> Executing 0x40476d: mov rbx, qword ptr [rbp - 0x38]
+>>> Executing 0x404771: xor edx, edx
+>>> Executing 0x404773: lea rbx, [rbx + rax - 1]
+>>> Executing 0x404778: add rbx, r12
+>>> Executing 0x40477b: mov rax, rbx
+>>> Executing 0x40477e: div r12
+>>> Executing 0x404781: sub rbx, rdx
+>>> Executing 0x404784: lea rdi, [rbx + r15]
+>>> Executing 0x404788: call 0x422c10
+>>> Executing 0x422c10: endbr64 
+>>> Executing 0x422c14: push rbp
+>>> Executing 0x422c15: mov rbp, rsp
+>>> Executing 0x422c18: push rbx
+>>> Executing 0x422c19: mov rbx, rdi
+>>> Executing 0x422c1c: sub rsp, 8
+>>> Executing 0x422c20: cmp qword ptr [rip + 0x914a0], 0
+>>> Executing 0x422c28: je 0x422c50
+>>> Executing 0x422c50: mov esi, 0xc
+>>> Executing 0x422c55: xor edi, edi
+>>> Executing 0x422c57: mov eax, esi
+>>> Executing 0x422c59: syscall 
+Syscall: 12, args: 0x0, 0xc, 0x37
+>>> Executing 0x422c5b: mov rdx, rax
+>>> Executing 0x422c5e: lea rdi, [rax + rbx]
+>>> Executing 0x422c62: mov eax, esi
+>>> Executing 0x422c64: syscall 
+Syscall: 12, args: 0xd0c, 0xc, 0xc
+>>> Executing 0x422c66: cmp rdx, rax
+>>> Executing 0x422c69: jne 0x422c38
+>>> Executing 0x422c6b: xor r9d, r9d
+>>> Executing 0x422c6e: mov r8d, 0xffffffff
+>>> Executing 0x422c74: mov edx, 3
+>>> Executing 0x422c79: xor edi, edi
+>>> Executing 0x422c7b: mov r10d, 0x22
+>>> Executing 0x422c81: mov rsi, rbx
+>>> Executing 0x422c84: mov eax, 9
+>>> Executing 0x422c89: syscall 
+Syscall: 9, args: 0x0, 0xd00, 0x3
+>>> Executing 0x422c8b: xor edx, edx
+>>> Executing 0x422c8d: cmp rax, -0x1000
+>>> Executing 0x422c93: mov rbx, qword ptr [rbp - 8]
+>>> Executing 0x422c97: leave 
+>>> Executing 0x422c98: cmovbe rdx, rax
+>>> Executing 0x422c9c: mov rax, rdx
+>>> Executing 0x422c9f: ret 
+>>> Executing 0x40478d: mov r9, rax
+>>> Executing 0x404790: test rax, rax
+>>> Executing 0x404793: je 0x404900
+>>> Executing 0x404799: mov rsi, qword ptr [rbp - 0x50]
+>>> Executing 0x40479d: mov rax, qword ptr [rbp - 0x38]
+>>> Executing 0x4047a1: mov rdi, rbx
+>>> Executing 0x4047a4: mov qword ptr [rip + 0xaabf1], 0x3e
+>>> Executing 0x4047af: mov qword ptr [rip + 0xaac0e], 0
+>>> Executing 0x4047ba: mov rcx, qword ptr [rbp - 0x58]
+>>> Executing 0x4047be: add rsi, r9
+>>> Executing 0x4047c1: lea r15, [rax + r13 - 1]
+>>> Executing 0x4047c6: and rcx, rsi
+>>> Executing 0x4047c9: test r13, r13
+>>> Executing 0x4047cc: mov rsi, qword ptr [rbp - 0x48]
+>>> Executing 0x4047d0: cmove r15, rax
+>>> Executing 0x4047d4: xor edx, edx
+>>> Executing 0x4047d6: mov qword ptr [rbp - 0x50], rcx
+>>> Executing 0x4047da: mov rax, r15
+>>> Executing 0x4047dd: div qword ptr [rbp - 0x60]
+>>> Executing 0x4047e1: sub r15, rdx
+>>> Executing 0x4047e4: mov rdx, qword ptr [rbp - 0x40]
+>>> Executing 0x4047e8: mov qword ptr [r14 + 0x488], r15
+>>> Executing 0x4047ef: sub rdi, r15
+>>> Executing 0x4047f2: add rdi, rcx
+>>> Executing 0x4047f5: mov qword ptr [rip + 0xaabc4], rdi
+>>> Executing 0x4047fc: call 0x401050
+>>> Executing 0x401050: endbr64 
+>>> Executing 0x401054: jmp qword ptr [rip + 0xa8fbe]
+>>> Executing 0x415a90: endbr64 
+>>> Executing 0x415a94: mov rax, rdi
+>>> Executing 0x415a97: cmp rdx, 0x10
+>>> Executing 0x415a9b: jb 0x415b30
+>>> Executing 0x415aa1: movups xmm0, xmmword ptr [rsi]
+>>> Executing 0x415aa4: cmp rdx, 0x20
+>>> Executing 0x415aa8: ja 0x415b9d
+>>> Executing 0x415aae: movups xmm1, xmmword ptr [rsi + rdx - 0x10]
+>>> Executing 0x415ab3: movups xmmword ptr [rdi], xmm0
+>>> Executing 0x415ab6: movups xmmword ptr [rdi + rdx - 0x10], xmm1
+>>> Executing 0x415abb: ret 
+>>> Executing 0x404801: mov rcx, qword ptr [rbp - 0x50]
+>>> Executing 0x404805: mov edi, 0x1002
+>>> Executing 0x40480a: lea rax, [rip + 0xaab9f]
+>>> Executing 0x404811: lea rsi, [rcx + rbx]
+>>> Executing 0x404815: mov qword ptr [rsi + 8], rax
+>>> Executing 0x404819: mov eax, 0x9e
+>>> Executing 0x40481e: mov qword ptr [rsi], rsi
+>>> Executing 0x404821: mov qword ptr [rsi + 0x10], rsi
+>>> Executing 0x404825: syscall 
+Syscall: 158, args: 0x1002, 0x3c0, 0x18
+>>> Executing 0x404827: test eax, eax
+>>> Executing 0x404829: je 0x40484f
+>>> Executing 0x40482b: mov edx, 0x2d
+>>> Executing 0x404830: mov edi, 2
+>>> Executing 0x404835: mov eax, 1
+>>> Executing 0x40483a: lea rsi, [rip + 0x7c96f]
+>>> Executing 0x404841: syscall 
+Syscall: 1, args: 0x2, 0x4811b0, 0x2d
+>>> Executing 0x404843: mov edi, 0x7f
+>>> Executing 0x404848: mov eax, 0xe7
+>>> Executing 0x40484d: syscall 
+Syscall: 231, args: 0x7f, 0x4811b0, 0x2d
+>>> Executing 0x40484f: call 0x4216e0
+>>> Executing 0x4216e0: endbr64 
+>>> Executing 0x4216e4: push rbp
+>>> Executing 0x4216e5: lea rcx, [rip + 0x92aa4]
+>>> Executing 0x4216ec: mov rbp, rsp
+>>> Executing 0x4216ef: push rbx
+>>> Executing 0x4216f0: sub rsp, 0x18
+>>> Executing 0x4216f4: mov rdx, qword ptr [rip + 0x92a95]
+>>> Executing 0x4216fb: mov rbx, qword ptr fs:[0x10]
+>>> Executing 0x421704: lea rax, [rbx + 0x2c0]
+>>> Executing 0x42170b: mov qword ptr [rbx + 0x2c0], rdx
+>>> Executing 0x421712: mov qword ptr [rbx + 0x2c8], rcx
+>>> Executing 0x421719: mov qword ptr [rdx + 8], rax
+>>> Executing 0x42171d: mov qword ptr [rip + 0x92a6c], rax
+>>> Executing 0x421724: lea rdi, [rbx + 0x2d0]
+>>> Executing 0x42172b: mov eax, 0xda
+>>> Executing 0x421730: syscall 
+Syscall: 218, args: 0x2d0, 0x4811b0, 0x4b4190
+>>> Executing 0x421732: mov dword ptr [rbx + 0x2d0], eax
+>>> Executing 0x421738: lea rax, [rbx + 0x310]
+>>> Executing 0x42173f: mov qword ptr fs:[0x510], rax
+>>> Executing 0x421748: mov byte ptr fs:[0x612], 1
+>>> Executing 0x421751: movzx eax, byte ptr [rip + 0x929b0]
+>>> Executing 0x421758: mov byte ptr fs:[0x611], al
+>>> Executing 0x421760: lea rdi, [rbx + 0x2e0]
+>>> Executing 0x421767: mov esi, 0x18
+>>> Executing 0x42176c: mov qword ptr [rbx + 0x2e8], 0xffffffffffffffe0
+>>> Executing 0x421777: mov eax, 0x111
+>>> Executing 0x42177c: movq xmm0, rdi
+>>> Executing 0x421781: punpcklqdq xmm0, xmm0
+>>> Executing 0x421785: movups xmmword ptr [rbx + 0x2d8], xmm0
+>>> Executing 0x42178c: syscall 
+Syscall: 273, args: 0x2e0, 0x18, 0x4b4190
+>>> Executing 0x42178e: xor edx, edx
+>>> Executing 0x421790: lea rsi, [rbp - 0x14]
+>>> Executing 0x421794: mov edi, 0x28
+>>> Executing 0x421799: call 0x422080
+>>> Executing 0x422080: endbr64 
+>>> Executing 0x422084: mov edi, edi
+>>> Executing 0x422086: lea r9, [rip + 0x863f3]
+>>> Executing 0x42208d: mov rcx, rsi
+>>> Executing 0x422090: mov rax, rdi
+>>> Executing 0x422093: shl rax, 4
+>>> Executing 0x422097: add rax, rdi
+>>> Executing 0x42209a: shl rax, 3
+>>> Executing 0x42209e: lea rsi, [r9 + rax]
+>>> Executing 0x4220a2: mov r8d, dword ptr [rsi + 0x30]
+>>> Executing 0x4220a6: cmp r8d, 2
+>>> Executing 0x4220aa: ja 0x4220f0
+>>> Executing 0x4220ac: mov rax, qword ptr [rsi + 0x58]
+>>> Executing 0x4220b0: test r8d, r8d
+>>> Executing 0x4220b3: je 0x4220e8
+>>> Executing 0x4220e8: mov dword ptr [rcx], eax
+>>> Executing 0x4220ea: jmp 0x4220b8
+>>> Executing 0x4220b8: mov rax, rdi
+>>> Executing 0x4220bb: shl rax, 4
+>>> Executing 0x4220bf: add rax, rdi
+>>> Executing 0x4220c2: cmp byte ptr [r9 + rax*8 + 0x68], 0
+>>> Executing 0x4220c8: lea rcx, [rax*8]
+>>> Executing 0x4220d0: je 0x4220e0
+>>> Executing 0x4220e0: ret 
+>>> Executing 0x42179e: mov eax, dword ptr [rbp - 0x14]
+>>> Executing 0x4217a1: test eax, eax
+>>> Executing 0x4217a3: jne 0x4217e0
+>>> Executing 0x4217e0: add rbx, 0x920
+>>> Executing 0x4217e7: mov r10d, 0x53053053
+>>> Executing 0x4217ed: xor edx, edx
+>>> Executing 0x4217ef: mov esi, 0x20
+>>> Executing 0x4217f4: mov rdi, rbx
+>>> Executing 0x4217f7: mov eax, 0x14e
+>>> Executing 0x4217fc: syscall 
+Syscall: 334, args: 0x920, 0x20, 0x0
+>>> Executing 0x4217fe: cmp eax, 0xfffff000
+>>> Executing 0x421803: ja 0x4217ac
+>>> Executing 0x421805: mov dword ptr [rip + 0x86c51], 0x20
+>>> Executing 0x42180f: jmp 0x4217b8
+>>> Executing 0x4217b8: sub rbx, qword ptr fs:[0]
+>>> Executing 0x4217c1: mov rax, qword ptr [rip + 0x88290]
+>>> Executing 0x4217c8: mov qword ptr [rip + 0x86c89], rbx
+>>> Executing 0x4217cf: mov qword ptr fs:[0x698], rax
+>>> Executing 0x4217d8: mov rbx, qword ptr [rbp - 8]
+>>> Executing 0x4217dc: leave 
+>>> Executing 0x4217dd: ret 
+>>> Executing 0x404854: mov rax, qword ptr [rbp - 0x38]
+>>> Executing 0x404858: mov qword ptr [r14 + 0x478], r13
+>>> Executing 0x40485f: mov qword ptr [r14 + 0x490], 1
+>>> Executing 0x40486a: mov qword ptr [r14 + 0x470], rax
+>>> Executing 0x404871: mov rax, qword ptr [rbp - 0x48]
+>>> Executing 0x404875: mov qword ptr [rip + 0xaaf4c], r14
+>>> Executing 0x40487c: mov qword ptr [r14 + 0x460], rax
+>>> Executing 0x404883: mov rax, qword ptr [rbp - 0x40]
+>>> Executing 0x404887: mov qword ptr [rip + 0xaaad2], r15
+>>> Executing 0x40488e: mov qword ptr [r14 + 0x468], rax
+>>> Executing 0x404895: lea rax, [rip + 0xaaf04]
+>>> Executing 0x40489c: mov qword ptr [rip + 0xaaad5], rax
+>>> Executing 0x4048a3: mov rax, qword ptr [rip + 0xaaaa6]
+>>> Executing 0x4048aa: mov qword ptr [rip + 0xaaaa7], r12
+>>> Executing 0x4048b1: mov qword ptr [rip + 0xaaee4], 0x40
+>>> Executing 0x4048bc: lea rax, [r15 + rax + 0x3f]
+>>> Executing 0x4048c1: mov qword ptr [rip + 0xaaabc], 1
+>>> Executing 0x4048cc: and rax, 0xffffffffffffffc0
+>>> Executing 0x4048d0: add rax, 0x940
+>>> Executing 0x4048d6: mov qword ptr [rip + 0xaaa8f], 1
+>>> Executing 0x4048e1: mov qword ptr [rip + 0xaaa80], rax
+>>> Executing 0x4048e8: add rsp, 0x38
+>>> Executing 0x4048ec: pop rbx
+>>> Executing 0x4048ed: pop r12
+>>> Executing 0x4048ef: pop r13
+>>> Executing 0x4048f1: pop r14
+>>> Executing 0x4048f3: pop r15
+>>> Executing 0x4048f5: pop rbp
+>>> Executing 0x4048f6: ret 
+>>> Executing 0x4042ab: mov r13d, dword ptr [rip + 0xaffbe]
+>>> Executing 0x4042b2: and r13d, 0x100000
+>>> Executing 0x4042b9: test byte ptr [rip + 0xaffac], 0x80
+>>> Executing 0x4042c0: jne 0x404470
+>>> Executing 0x4042c6: test r13d, r13d
+>>> Executing 0x4042c9: je 0x40433c
+>>> Executing 0x40433c: mov edi, r13d
+>>> Executing 0x40433f: call 0x422b90
+>>> Executing 0x422b90: endbr64 
+>>> Executing 0x422b94: test edi, edi
+>>> Executing 0x422b96: je 0x422bc0
+>>> Executing 0x422bc0: ret 
+>>> Executing 0x404344: mov rdx, qword ptr [rip + 0xa56fd]
+>>> Executing 0x40434b: mov rax, qword ptr [rdx]
+>>> Executing 0x40434e: xor al, al
+>>> Executing 0x404350: mov qword ptr fs:[0x28], rax
+>>> Executing 0x404359: cmp qword ptr [rip + 0xa5c27], 0
+>>> Executing 0x404361: je 0x40436f
+>>> Executing 0x40436f: mov rax, qword ptr [rdx + 8]
+>>> Executing 0x404373: mov qword ptr fs:[0x30], rax
+>>> Executing 0x40437c: mov rax, qword ptr [rbp - 0x38]
+>>> Executing 0x404380: test rax, rax
+>>> Executing 0x404383: je 0x404391
+>>> Executing 0x404391: mov edi, 1
+>>> Executing 0x404396: call 0x424450
+>>> Executing 0x424450: endbr64 
+>>> Executing 0x424454: push rbp
+>>> Executing 0x424455: mov rbp, rsp
+>>> Executing 0x424458: push rbx
+>>> Executing 0x424459: mov ebx, edi
+>>> Executing 0x42445b: sub rsp, 0x28
+>>> Executing 0x42445f: mov rax, qword ptr fs:[0x28]
+>>> Executing 0x424468: mov qword ptr [rbp - 0x18], rax
+>>> Executing 0x42446c: xor eax, eax
+>>> Executing 0x42446e: call 0x430d60
+>>> Executing 0x430d60: endbr64 
+>>> Executing 0x430d64: mov rax, 0xffffffffffffffa8
+>>> Executing 0x430d6b: mov rcx, 0xfffffffffffffff0
+>>> Executing 0x430d72: mov rax, qword ptr fs:[rax]
+>>> Executing 0x430d76: mov rax, qword ptr [rax]
+>>> Executing 0x430d79: mov rsi, qword ptr [rax + 0x38]
+>>> Executing 0x430d7d: lea rdx, [rsi + 0x100]
+>>> Executing 0x430d84: mov qword ptr fs:[rcx], rdx
+>>> Executing 0x430d88: mov rdi, qword ptr [rax + 0x40]
+>>> Executing 0x430d8c: mov rcx, 0xffffffffffffffe8
+>>> Executing 0x430d93: lea rdx, [rdi + 0x200]
+>>> Executing 0x430d9a: mov qword ptr fs:[rcx], rdx
+>>> Executing 0x430d9e: mov rax, qword ptr [rax + 0x50]
+>>> Executing 0x430da2: mov rdx, 0xffffffffffffffe0
+>>> Executing 0x430da9: add rax, 0x200
+>>> Executing 0x430daf: mov qword ptr fs:[rdx], rax
+>>> Executing 0x430db3: ret 
+>>> Executing 0x424473: mov edi, 3
+>>> Executing 0x424478: lea rsi, [rbp - 0x30]
+>>> Executing 0x42447c: mov byte ptr [rip + 0x86bd6], bl
+>>> Executing 0x424482: call 0x457540
+>>> Executing 0x457540: endbr64 
+>>> Executing 0x457544: mov r10, rsi
+>>> Executing 0x457547: xor edx, edx
+>>> Executing 0x457549: mov esi, edi
+>>> Executing 0x45754b: mov eax, 0x12e
+>>> Executing 0x457550: xor edi, edi
+>>> Executing 0x457552: syscall 
+Syscall: 302, args: 0x0, 0x3, 0x0
+>>> Executing 0x457554: cmp rax, -0x1000
+>>> Executing 0x45755a: ja 0x457560
+>>> Executing 0x45755c: ret 
+>>> Executing 0x424487: mov edi, 0x200000
+>>> Executing 0x42448c: test eax, eax
+>>> Executing 0x42448e: jne 0x4244a8
+>>> Executing 0x4244a8: mov r8, qword ptr [rip + 0x8aea9]
+>>> Executing 0x4244af: mov rcx, qword ptr [rip + 0x8aeb2]
+>>> Executing 0x4244b6: xor edx, edx
+>>> Executing 0x4244b8: mov rsi, qword ptr [rip + 0x86c59]
+>>> Executing 0x4244bf: add rcx, r8
+>>> Executing 0x4244c2: sub rcx, 1
+>>> Executing 0x4244c6: mov qword ptr [rip + 0x901a3], rsi
+>>> Executing 0x4244cd: mov rax, rcx
+>>> Executing 0x4244d0: div r8
+>>> Executing 0x4244d3: sub rcx, rdx
+>>> Executing 0x4244d6: mov rdx, rsi
+>>> Executing 0x4244d9: lea rax, [rsi + rcx + 0x800]
+>>> Executing 0x4244e1: cmp rax, rdi
+>>> Executing 0x4244e4: cmovb rax, rdi
+>>> Executing 0x4244e8: neg rdx
+>>> Executing 0x4244eb: lea rax, [rsi + rax - 1]
+>>> Executing 0x4244f0: and rax, rdx
+>>> Executing 0x4244f3: mov qword ptr [rbp - 0x30], rax
+>>> Executing 0x4244f7: mov qword ptr [rip + 0x90182], rax
+>>> Executing 0x4244fe: call 0x4421f0
+>>> Executing 0x4421f0: endbr64 
+>>> Executing 0x4421f4: push rbp
+>>> Executing 0x4421f5: lea rdx, [rip - 0x3c]
+>>> Executing 0x4421fc: mov edi, 3
+>>> Executing 0x442201: mov rbp, rsp
+>>> Executing 0x442204: push rbx
+>>> Executing 0x442205: lea rbx, [rbp - 0x20]
+>>> Executing 0x442209: mov rsi, rbx
+>>> Executing 0x44220c: sub rsp, 0x18
+>>> Executing 0x442210: mov rax, qword ptr fs:[0x28]
+>>> Executing 0x442219: mov qword ptr [rbp - 0x18], rax
+>>> Executing 0x44221d: xor eax, eax
+>>> Executing 0x44221f: call 0x422080
+>>> Executing 0x422080: endbr64 
+>>> Executing 0x422084: mov edi, edi
+>>> Executing 0x422086: lea r9, [rip + 0x863f3]
+>>> Executing 0x42208d: mov rcx, rsi
+>>> Executing 0x422090: mov rax, rdi
+>>> Executing 0x422093: shl rax, 4
+>>> Executing 0x422097: add rax, rdi
+>>> Executing 0x42209a: shl rax, 3
+>>> Executing 0x42209e: lea rsi, [r9 + rax]
+>>> Executing 0x4220a2: mov r8d, dword ptr [rsi + 0x30]
+>>> Executing 0x4220a6: cmp r8d, 2
+>>> Executing 0x4220aa: ja 0x4220f0
+>>> Executing 0x4220ac: mov rax, qword ptr [rsi + 0x58]
+>>> Executing 0x4220b0: test r8d, r8d
+>>> Executing 0x4220b3: je 0x4220e8
+>>> Executing 0x4220e8: mov dword ptr [rcx], eax
+>>> Executing 0x4220ea: jmp 0x4220b8
+>>> Executing 0x4220b8: mov rax, rdi
+>>> Executing 0x4220bb: shl rax, 4
+>>> Executing 0x4220bf: add rax, rdi
+>>> Executing 0x4220c2: cmp byte ptr [r9 + rax*8 + 0x68], 0
+>>> Executing 0x4220c8: lea rcx, [rax*8]
+>>> Executing 0x4220d0: je 0x4220e0
+>>> Executing 0x4220e0: ret 
+>>> Executing 0x442224: lea rdx, [rip - 0x5b]
+>>> Executing 0x44222b: mov rsi, rbx
+>>> Executing 0x44222e: mov edi, 0x15
+>>> Executing 0x442233: call 0x422080
+>>> Executing 0x422080: endbr64 
+>>> Executing 0x422084: mov edi, edi
+>>> Executing 0x422086: lea r9, [rip + 0x863f3]
+>>> Executing 0x42208d: mov rcx, rsi
+>>> Executing 0x422090: mov rax, rdi
+>>> Executing 0x422093: shl rax, 4
+>>> Executing 0x422097: add rax, rdi
+>>> Executing 0x42209a: shl rax, 3
+>>> Executing 0x42209e: lea rsi, [r9 + rax]
+>>> Executing 0x4220a2: mov r8d, dword ptr [rsi + 0x30]
+>>> Executing 0x4220a6: cmp r8d, 2
+>>> Executing 0x4220aa: ja 0x4220f0
+>>> Executing 0x4220ac: mov rax, qword ptr [rsi + 0x58]
+>>> Executing 0x4220b0: test r8d, r8d
+>>> Executing 0x4220b3: je 0x4220e8
+>>> Executing 0x4220b5: mov qword ptr [rcx], rax
+>>> Executing 0x4220b8: mov rax, rdi
+>>> Executing 0x4220bb: shl rax, 4
+>>> Executing 0x4220bf: add rax, rdi
+>>> Executing 0x4220c2: cmp byte ptr [r9 + rax*8 + 0x68], 0
+>>> Executing 0x4220c8: lea rcx, [rax*8]
+>>> Executing 0x4220d0: je 0x4220e0
+>>> Executing 0x4220e0: ret 
+>>> Executing 0x442238: lea rdx, [rip - 0x5f]
+>>> Executing 0x44223f: mov rsi, rbx
+>>> Executing 0x442242: mov edi, 0x22
+>>> Executing 0x442247: call 0x422080
+>>> Executing 0x422080: endbr64 
+>>> Executing 0x422084: mov edi, edi
+>>> Executing 0x422086: lea r9, [rip + 0x863f3]
+>>> Executing 0x42208d: mov rcx, rsi
+>>> Executing 0x422090: mov rax, rdi
+>>> Executing 0x422093: shl rax, 4
+>>> Executing 0x422097: add rax, rdi
+>>> Executing 0x42209a: shl rax, 3
+>>> Executing 0x42209e: lea rsi, [r9 + rax]
+>>> Executing 0x4220a2: mov r8d, dword ptr [rsi + 0x30]
+>>> Executing 0x4220a6: cmp r8d, 2
+>>> Executing 0x4220aa: ja 0x4220f0
+>>> Executing 0x4220ac: mov rax, qword ptr [rsi + 0x58]
+>>> Executing 0x4220b0: test r8d, r8d
+>>> Executing 0x4220b3: je 0x4220e8
+>>> Executing 0x4220e8: mov dword ptr [rcx], eax
+>>> Executing 0x4220ea: jmp 0x4220b8
+>>> Executing 0x4220b8: mov rax, rdi
+>>> Executing 0x4220bb: shl rax, 4
+>>> Executing 0x4220bf: add rax, rdi
+>>> Executing 0x4220c2: cmp byte ptr [r9 + rax*8 + 0x68], 0
+>>> Executing 0x4220c8: lea rcx, [rax*8]
+>>> Executing 0x4220d0: je 0x4220e0
+>>> Executing 0x4220e0: ret 
+>>> Executing 0x44224c: mov rax, qword ptr [rbp - 0x18]
+>>> Executing 0x442250: sub rax, qword ptr fs:[0x28]
+>>> Executing 0x442259: jne 0x442261
+>>> Executing 0x44225b: mov rbx, qword ptr [rbp - 8]
+>>> Executing 0x44225f: leave 
+>>> Executing 0x442260: ret 
+>>> Executing 0x424503: mov rax, qword ptr [rbp - 0x18]
+>>> Executing 0x424507: sub rax, qword ptr fs:[0x28]
+>>> Executing 0x424510: jne 0x42451c
+>>> Executing 0x424512: mov rbx, qword ptr [rbp - 8]
+>>> Executing 0x424516: leave 
+>>> Executing 0x424517: jmp 0x442100
+>>> Executing 0x442100: endbr64 
+>>> Executing 0x442104: push rbp
+>>> Executing 0x442105: lea rdx, [rip - 0x3c]
+>>> Executing 0x44210c: mov edi, 0x1c
+>>> Executing 0x442111: mov rbp, rsp
+>>> Executing 0x442114: push rbx
+>>> Executing 0x442115: lea rbx, [rbp - 0x1c]
+>>> Executing 0x442119: mov rsi, rbx
+>>> Executing 0x44211c: sub rsp, 0x18
+>>> Executing 0x442120: mov rax, qword ptr fs:[0x28]
+>>> Executing 0x442129: mov qword ptr [rbp - 0x18], rax
+>>> Executing 0x44212d: xor eax, eax
+>>> Executing 0x44212f: call 0x422080
+>>> Executing 0x422080: endbr64 
+>>> Executing 0x422084: mov edi, edi
+>>> Executing 0x422086: lea r9, [rip + 0x863f3]
+>>> Executing 0x42208d: mov rcx, rsi
+>>> Executing 0x422090: mov rax, rdi
+>>> Executing 0x422093: shl rax, 4
+>>> Executing 0x422097: add rax, rdi
+>>> Executing 0x42209a: shl rax, 3
+>>> Executing 0x42209e: lea rsi, [r9 + rax]
+>>> Executing 0x4220a2: mov r8d, dword ptr [rsi + 0x30]
+>>> Executing 0x4220a6: cmp r8d, 2
+>>> Executing 0x4220aa: ja 0x4220f0
+>>> Executing 0x4220ac: mov rax, qword ptr [rsi + 0x58]
+>>> Executing 0x4220b0: test r8d, r8d
+>>> Executing 0x4220b3: je 0x4220e8
+>>> Executing 0x4220e8: mov dword ptr [rcx], eax
+>>> Executing 0x4220ea: jmp 0x4220b8
+>>> Executing 0x4220b8: mov rax, rdi
+>>> Executing 0x4220bb: shl rax, 4
+>>> Executing 0x4220bf: add rax, rdi
+>>> Executing 0x4220c2: cmp byte ptr [r9 + rax*8 + 0x68], 0
+>>> Executing 0x4220c8: lea rcx, [rax*8]
+>>> Executing 0x4220d0: je 0x4220e0
+>>> Executing 0x4220e0: ret 
+>>> Executing 0x442134: lea rdx, [rip - 0xab]
+>>> Executing 0x44213b: mov rsi, rbx
+>>> Executing 0x44213e: mov edi, 0x27
+>>> Executing 0x442143: call 0x422080
+>>> Executing 0x422080: endbr64 
+>>> Executing 0x422084: mov edi, edi
+>>> Executing 0x422086: lea r9, [rip + 0x863f3]
+>>> Executing 0x42208d: mov rcx, rsi
+>>> Executing 0x422090: mov rax, rdi
+>>> Executing 0x422093: shl rax, 4
+>>> Executing 0x422097: add rax, rdi
+>>> Executing 0x42209a: shl rax, 3
+>>> Executing 0x42209e: lea rsi, [r9 + rax]
+>>> Executing 0x4220a2: mov r8d, dword ptr [rsi + 0x30]
+>>> Executing 0x4220a6: cmp r8d, 2
+>>> Executing 0x4220aa: ja 0x4220f0
+>>> Executing 0x4220ac: mov rax, qword ptr [rsi + 0x58]
+>>> Executing 0x4220b0: test r8d, r8d
+>>> Executing 0x4220b3: je 0x4220e8
+>>> Executing 0x4220e8: mov dword ptr [rcx], eax
+>>> Executing 0x4220ea: jmp 0x4220b8
+>>> Executing 0x4220b8: mov rax, rdi
+>>> Executing 0x4220bb: shl rax, 4
+>>> Executing 0x4220bf: add rax, rdi
+>>> Executing 0x4220c2: cmp byte ptr [r9 + rax*8 + 0x68], 0
+>>> Executing 0x4220c8: lea rcx, [rax*8]
+>>> Executing 0x4220d0: je 0x4220e0
+>>> Executing 0x4220e0: ret 
+>>> Executing 0x442148: lea rdx, [rip - 0xaf]
+>>> Executing 0x44214f: mov rsi, rbx
+>>> Executing 0x442152: mov edi, 0x25
+>>> Executing 0x442157: call 0x422080
+>>> Executing 0x422080: endbr64 
+>>> Executing 0x422084: mov edi, edi
+>>> Executing 0x422086: lea r9, [rip + 0x863f3]
+>>> Executing 0x42208d: mov rcx, rsi
+>>> Executing 0x422090: mov rax, rdi
+>>> Executing 0x422093: shl rax, 4
+>>> Executing 0x422097: add rax, rdi
+>>> Executing 0x42209a: shl rax, 3
+>>> Executing 0x42209e: lea rsi, [r9 + rax]
+>>> Executing 0x4220a2: mov r8d, dword ptr [rsi + 0x30]
+>>> Executing 0x4220a6: cmp r8d, 2
+>>> Executing 0x4220aa: ja 0x4220f0
+>>> Executing 0x4220ac: mov rax, qword ptr [rsi + 0x58]
+>>> Executing 0x4220b0: test r8d, r8d
+>>> Executing 0x4220b3: je 0x4220e8
+>>> Executing 0x4220e8: mov dword ptr [rcx], eax
+>>> Executing 0x4220ea: jmp 0x4220b8
+>>> Executing 0x4220b8: mov rax, rdi
+>>> Executing 0x4220bb: shl rax, 4
+>>> Executing 0x4220bf: add rax, rdi
+>>> Executing 0x4220c2: cmp byte ptr [r9 + rax*8 + 0x68], 0
+>>> Executing 0x4220c8: lea rcx, [rax*8]
+>>> Executing 0x4220d0: je 0x4220e0
+>>> Executing 0x4220e0: ret 
+>>> Executing 0x44215c: lea rdx, [rip - 0xb3]
+>>> Executing 0x442163: mov rsi, rbx
+>>> Executing 0x442166: mov edi, 6
+>>> Executing 0x44216b: call 0x422080
+>>> Executing 0x422080: endbr64 
+>>> Executing 0x422084: mov edi, edi
+>>> Executing 0x422086: lea r9, [rip + 0x863f3]
+>>> Executing 0x42208d: mov rcx, rsi
+>>> Executing 0x422090: mov rax, rdi
+>>> Executing 0x422093: shl rax, 4
+>>> Executing 0x422097: add rax, rdi
+>>> Executing 0x42209a: shl rax, 3
+>>> Executing 0x42209e: lea rsi, [r9 + rax]
+>>> Executing 0x4220a2: mov r8d, dword ptr [rsi + 0x30]
+>>> Executing 0x4220a6: cmp r8d, 2
+>>> Executing 0x4220aa: ja 0x4220f0
+>>> Executing 0x4220ac: mov rax, qword ptr [rsi + 0x58]
+>>> Executing 0x4220b0: test r8d, r8d
+>>> Executing 0x4220b3: je 0x4220e8
+>>> Executing 0x4220e8: mov dword ptr [rcx], eax
+>>> Executing 0x4220ea: jmp 0x4220b8
+>>> Executing 0x4220b8: mov rax, rdi
+>>> Executing 0x4220bb: shl rax, 4
+>>> Executing 0x4220bf: add rax, rdi
+>>> Executing 0x4220c2: cmp byte ptr [r9 + rax*8 + 0x68], 0
+>>> Executing 0x4220c8: lea rcx, [rax*8]
+>>> Executing 0x4220d0: je 0x4220e0
+>>> Executing 0x4220e0: ret 
+>>> Executing 0x442170: lea rdx, [rip - 0xb7]
+>>> Executing 0x442177: mov rsi, rbx
+>>> Executing 0x44217a: mov edi, 0xa
+>>> Executing 0x44217f: call 0x422080
+>>> Executing 0x422080: endbr64 
+>>> Executing 0x422084: mov edi, edi
+>>> Executing 0x422086: lea r9, [rip + 0x863f3]
+>>> Executing 0x42208d: mov rcx, rsi
+>>> Executing 0x422090: mov rax, rdi
+>>> Executing 0x422093: shl rax, 4
+>>> Executing 0x422097: add rax, rdi
+>>> Executing 0x42209a: shl rax, 3
+>>> Executing 0x42209e: lea rsi, [r9 + rax]
+>>> Executing 0x4220a2: mov r8d, dword ptr [rsi + 0x30]
+>>> Executing 0x4220a6: cmp r8d, 2
+>>> Executing 0x4220aa: ja 0x4220f0
+>>> Executing 0x4220ac: mov rax, qword ptr [rsi + 0x58]
+>>> Executing 0x4220b0: test r8d, r8d
+>>> Executing 0x4220b3: je 0x4220e8
+>>> Executing 0x4220e8: mov dword ptr [rcx], eax
+>>> Executing 0x4220ea: jmp 0x4220b8
+>>> Executing 0x4220b8: mov rax, rdi
+>>> Executing 0x4220bb: shl rax, 4
+>>> Executing 0x4220bf: add rax, rdi
+>>> Executing 0x4220c2: cmp byte ptr [r9 + rax*8 + 0x68], 0
+>>> Executing 0x4220c8: lea rcx, [rax*8]
+>>> Executing 0x4220d0: je 0x4220e0
+>>> Executing 0x4220e0: ret 
+>>> Executing 0x442184: mov eax, dword ptr [rip + 0x6ded6]
+>>> Executing 0x44218a: test eax, eax
+>>> Executing 0x44218c: jne 0x442198
+>>> Executing 0x44218e: mov dword ptr [rip + 0x698e0], 0
+>>> Executing 0x442198: mov rax, qword ptr [rbp - 0x18]
+>>> Executing 0x44219c: sub rax, qword ptr fs:[0x28]
+>>> Executing 0x4421a5: jne 0x4421ad
+>>> Executing 0x4421a7: mov rbx, qword ptr [rbp - 8]
+>>> Executing 0x4421ab: leave 
+>>> Executing 0x4421ac: ret 
+>>> Executing 0x40439b: mov rdx, qword ptr [rip + 0xafd1e]
+>>> Executing 0x4043a2: mov rsi, r12
+>>> Executing 0x4043a5: mov edi, ebx
+>>> Executing 0x4043a7: call 0x424530
+>>> Executing 0x424530: endbr64 
+>>> Executing 0x424534: push rbp
+>>> Executing 0x424535: mov rbp, rsp
+>>> Executing 0x424538: push r13
+>>> Executing 0x42453a: mov r13, rdx
+>>> Executing 0x42453d: push r12
+>>> Executing 0x42453f: mov r12, rsi
+>>> Executing 0x424542: push rbx
+>>> Executing 0x424543: mov ebx, edi
+>>> Executing 0x424545: sub rsp, 8
+>>> Executing 0x424549: mov dword ptr [rip + 0x8ff31], edi
+>>> Executing 0x42454f: mov qword ptr [rip + 0x8ff22], rsi
+>>> Executing 0x424556: mov qword ptr [rip + 0x8fb63], rdx
+>>> Executing 0x42455d: call 0x422e60
+>>> Executing 0x422e60: endbr64 
+>>> Executing 0x422e64: push rbp
+>>> Executing 0x422e65: mov rbp, rsp
+>>> Executing 0x422e68: push r15
+>>> Executing 0x422e6a: push r14
+>>> Executing 0x422e6c: push r13
+>>> Executing 0x422e6e: push r12
+>>> Executing 0x422e70: push rbx
+>>> Executing 0x422e71: sub rsp, 0x48
+>>> Executing 0x422e75: call 0x41fc60
+>>> Executing 0x41fc60: endbr64 
+>>> Executing 0x41fc64: push rbp
+>>> Executing 0x41fc65: mov rbp, rsp
+>>> Executing 0x41fc68: push r13
+>>> Executing 0x41fc6a: push r12
+>>> Executing 0x41fc6c: push rbx
+>>> Executing 0x41fc6d: sub rsp, 0x1000
+>>> Executing 0x41fc74: or qword ptr [rsp], 0
+>>> Executing 0x41fc79: sub rsp, 8
+>>> Executing 0x41fc7d: mov r10d, 0x1000
+>>> Executing 0x41fc83: mov edi, 0xffffff9c
+>>> Executing 0x41fc88: mov eax, 0x10b
+>>> Executing 0x41fc8d: lea rsi, [rip + 0x5fa7b]
+>>> Executing 0x41fc94: lea rbx, [rbp - 0x1020]
+>>> Executing 0x41fc9b: mov rdx, rbx
+>>> Executing 0x41fc9e: syscall 
+Syscall: 267, args: 0xffffff9c, 0x47f70f, 0x7fffffffddc0
+>>> Executing 0x41fca0: test eax, eax
+>>> Executing 0x41fca2: jle 0x41fd00
+>>> Executing 0x41fca4: movzx edx, byte ptr [rbp - 0x1020]
+>>> Executing 0x41fcab: cmp dl, 0x5b
+>>> Executing 0x41fcae: je 0x41fd00
+>>> Executing 0x41fcb0: cmp dl, 0x2f
+>>> Executing 0x41fcb3: jne 0x41fda6
+>>> Executing 0x41fda6: lea rcx, [rip + 0x62d03]
+>>> Executing 0x41fdad: mov edx, 0x29
+>>> Executing 0x41fdb2: lea rsi, [rip + 0x62ccf]
+>>> Executing 0x41fdb9: lea rdi, [rip + 0x5f95e]
+>>> Executing 0x41fdc0: call 0x404930
+>>> Executing 0x404930: endbr64 
+>>> Executing 0x404934: push rbp
+>>> Executing 0x404935: mov rbp, rsp
+>>> Executing 0x404938: push r13
+>>> Executing 0x40493a: mov r13, rdi
+>>> Executing 0x40493d: mov edi, edx
+>>> Executing 0x40493f: push r12
+>>> Executing 0x404941: mov edx, 0xa
+>>> Executing 0x404946: mov r12, rcx
+>>> Executing 0x404949: xor ecx, ecx
+>>> Executing 0x40494b: push rbx
+>>> Executing 0x40494c: mov rbx, rsi
+>>> Executing 0x40494f: lea rsi, [rbp - 0x29]
+>>> Executing 0x404953: sub rsp, 0x28
+>>> Executing 0x404957: mov rax, qword ptr fs:[0x28]
+>>> Executing 0x404960: mov qword ptr [rbp - 0x28], rax
+>>> Executing 0x404964: xor eax, eax
+>>> Executing 0x404966: mov byte ptr [rbp - 0x29], 0
+>>> Executing 0x40496a: call 0x4051c0
+>>> Executing 0x4051c0: endbr64 
+>>> Executing 0x4051c4: test ecx, ecx
+>>> Executing 0x4051c6: lea r8, [rip + 0x80573]
+>>> Executing 0x4051cd: lea rax, [rip + 0x805ac]
+>>> Executing 0x4051d4: cmovne r8, rax
+>>> Executing 0x4051d8: cmp edx, 0xa
+>>> Executing 0x4051db: je 0x405260
+>>> Executing 0x405260: movabs r9, 0xcccccccccccccccd
+>>> Executing 0x40526a: nop word ptr [rax + rax]
+>>> Executing 0x405270: mov rax, rdi
+>>> Executing 0x405273: mov rcx, rdi
+>>> Executing 0x405276: sub rsi, 1
+>>> Executing 0x40527a: mul r9
+>>> Executing 0x40527d: shr rdx, 3
+>>> Executing 0x405281: lea rax, [rdx + rdx*4]
+>>> Executing 0x405285: add rax, rax
+>>> Executing 0x405288: sub rcx, rax
+>>> Executing 0x40528b: movzx eax, byte ptr [r8 + rcx]
+>>> Executing 0x405290: mov byte ptr [rsi], al
+>>> Executing 0x405292: mov rax, rdi
+>>> Executing 0x405295: mov rdi, rdx
+>>> Executing 0x405298: cmp rax, 9
+>>> Executing 0x40529c: ja 0x405270
+>>> Executing 0x405270: mov rax, rdi
+>>> Executing 0x405273: mov rcx, rdi
+>>> Executing 0x405276: sub rsi, 1
+>>> Executing 0x40527a: mul r9
+>>> Executing 0x40527d: shr rdx, 3
+>>> Executing 0x405281: lea rax, [rdx + rdx*4]
+>>> Executing 0x405285: add rax, rax
+>>> Executing 0x405288: sub rcx, rax
+>>> Executing 0x40528b: movzx eax, byte ptr [r8 + rcx]
+>>> Executing 0x405290: mov byte ptr [rsi], al
+>>> Executing 0x405292: mov rax, rdi
+>>> Executing 0x405295: mov rdi, rdx
+>>> Executing 0x405298: cmp rax, 9
+>>> Executing 0x40529c: ja 0x405270
+>>> Executing 0x40529e: mov rax, rsi
+>>> Executing 0x4052a1: ret 
+>>> Executing 0x40496f: mov r8, r13
+>>> Executing 0x404972: mov rcx, r12
+>>> Executing 0x404975: mov rsi, rbx
+>>> Executing 0x404978: mov rdx, rax
+>>> Executing 0x40497b: lea rdi, [rip + 0x7c85e]
+>>> Executing 0x404982: xor eax, eax
+>>> Executing 0x404984: call 0x405650
+>>> Executing 0x405650: endbr64 
+>>> Executing 0x405654: push rbp
+>>> Executing 0x405655: mov rbp, rsp
+>>> Executing 0x405658: push r15
+>>> Executing 0x40565a: push r14
+>>> Executing 0x40565c: push r13
+>>> Executing 0x40565e: push r12
+>>> Executing 0x405660: push rbx
+>>> Executing 0x405661: sub rsp, 0xe8
+>>> Executing 0x405668: mov qword ptr [rbp - 0x58], rsi
+>>> Executing 0x40566c: mov qword ptr [rbp - 0x50], rdx
+>>> Executing 0x405670: mov qword ptr [rbp - 0x48], rcx
+>>> Executing 0x405674: mov qword ptr [rbp - 0x40], r8
+>>> Executing 0x405678: mov qword ptr [rbp - 0x38], r9
+>>> Executing 0x40567c: movzx r12d, byte ptr [rdi]
+>>> Executing 0x405680: mov rax, qword ptr fs:[0x28]
+>>> Executing 0x405689: mov qword ptr [rbp - 0x68], rax
+>>> Executing 0x40568d: xor eax, eax
+>>> Executing 0x40568f: lea rax, [rbp + 0x10]
+>>> Executing 0x405693: mov dword ptr [rbp - 0xf8], 8
+>>> Executing 0x40569d: mov qword ptr [rbp - 0xf0], rax
+>>> Executing 0x4056a4: lea rax, [rbp - 0x60]
+>>> Executing 0x4056a8: mov qword ptr [rbp - 0xe8], rax
+>>> Executing 0x4056af: test r12b, r12b
+>>> Executing 0x4056b2: je 0x4011d3
+>>> Executing 0x4056b8: lea rax, [rbp - 0xe0]
+>>> Executing 0x4056bf: mov rbx, rdi
+>>> Executing 0x4056c2: xor r14d, r14d
+>>> Executing 0x4056c5: mov qword ptr [rbp - 0x108], 0
+>>> Executing 0x4056d0: mov qword ptr [rbp - 0x110], rax
+>>> Executing 0x4056d7: mov r13, rax
+>>> Executing 0x4056da: mov r15, rax
+>>> Executing 0x4056dd: nop dword ptr [rax]
+>>> Executing 0x4056e0: mov edx, r12d
+>>> Executing 0x4056e3: mov rax, rbx
+>>> Executing 0x4056e6: jmp 0x405705
+>>> Executing 0x405705: cmp dl, 0x25
+>>> Executing 0x405708: jne 0x4056f0
+>>> Executing 0x4056f0: lea rdi, [rax + 1]
+>>> Executing 0x4056f4: mov esi, 0x25
+>>> Executing 0x4056f9: call 0x401090
+>>> Executing 0x401090: endbr64 
+>>> Executing 0x401094: jmp qword ptr [rip + 0xa8f9e]
+>>> Executing 0x4181e0: endbr64 
+>>> Executing 0x4181e4: movd xmm1, esi
+>>> Executing 0x4181e8: mov eax, edi
+>>> Executing 0x4181ea: and eax, 0xfff
+>>> Executing 0x4181ef: punpcklbw xmm1, xmm1
+>>> Executing 0x4181f3: cmp eax, 0xfc0
+>>> Executing 0x4181f8: punpcklwd xmm1, xmm1
+>>> Executing 0x4181fc: pshufd xmm1, xmm1, 0
+>>> Executing 0x418201: jg 0x418350
+>>> Executing 0x418207: movdqu xmm0, xmmword ptr [rdi]
+>>> Executing 0x41820b: pxor xmm3, xmm3
+>>> Executing 0x41820f: movdqa xmm4, xmm0
+>>> Executing 0x418213: pcmpeqb xmm0, xmm1
+>>> Executing 0x418217: pcmpeqb xmm4, xmm3
+>>> Executing 0x41821b: por xmm0, xmm4
+>>> Executing 0x41821f: pmovmskb eax, xmm0
+>>> Executing 0x418223: test eax, eax
+>>> Executing 0x418225: je 0x418230
+>>> Executing 0x418230: movdqu xmm0, xmmword ptr [rdi + 0x10]
+>>> Executing 0x418235: movdqa xmm4, xmm0
+>>> Executing 0x418239: pcmpeqb xmm0, xmm1
+>>> Executing 0x41823d: pcmpeqb xmm4, xmm3
+>>> Executing 0x418241: por xmm0, xmm4
+>>> Executing 0x418245: pmovmskb ecx, xmm0
+>>> Executing 0x418249: movdqu xmm0, xmmword ptr [rdi + 0x20]
+>>> Executing 0x41824e: movdqa xmm4, xmm0
+>>> Executing 0x418252: pcmpeqb xmm0, xmm1
+>>> Executing 0x418256: shl rcx, 0x10
+>>> Executing 0x41825a: pcmpeqb xmm4, xmm3
+>>> Executing 0x41825e: por xmm0, xmm4
+>>> Executing 0x418262: pmovmskb eax, xmm0
+>>> Executing 0x418266: movdqu xmm0, xmmword ptr [rdi + 0x30]
+>>> Executing 0x41826b: pcmpeqb xmm3, xmm0
+>>> Executing 0x41826f: shl rax, 0x20
+>>> Executing 0x418273: pcmpeqb xmm0, xmm1
+>>> Executing 0x418277: or rax, rcx
+>>> Executing 0x41827a: por xmm0, xmm3
+>>> Executing 0x41827e: pmovmskb ecx, xmm0
+>>> Executing 0x418282: shl rcx, 0x30
+>>> Executing 0x418286: or rax, rcx
+>>> Executing 0x418289: test rax, rax
+>>> Executing 0x41828c: jne 0x418340
+>>> Executing 0x418340: bsf rax, rax
+>>> Executing 0x418344: lea rax, [rdi + rax]
+>>> Executing 0x418348: ret 
+>>> Executing 0x4056fe: movzx edx, byte ptr [rax]
+>>> Executing 0x405701: test dl, dl
+>>> Executing 0x405703: je 0x405710
+>>> Executing 0x405705: cmp dl, 0x25
+>>> Executing 0x405708: jne 0x4056f0
+>>> Executing 0x40570a: cmp byte ptr [rax + 1], 0x73
+>>> Executing 0x40570e: jne 0x4056f0
+>>> Executing 0x405710: cmp r12b, 0x25
+>>> Executing 0x405714: je 0x405758
+>>> Executing 0x405716: mov rdx, rax
+>>> Executing 0x405719: mov r12, rbx
+>>> Executing 0x40571c: sub rdx, rbx
+>>> Executing 0x40571f: mov rbx, rax
+>>> Executing 0x405722: mov r8, qword ptr [rbp - 0x108]
+>>> Executing 0x405729: mov qword ptr [r13], r12
+>>> Executing 0x40572d: lea eax, [r14 + 1]
+>>> Executing 0x405731: add r13, 0x10
+>>> Executing 0x405735: mov qword ptr [r13 - 8], rdx
+>>> Executing 0x405739: movzx r12d, byte ptr [rbx]
+>>> Executing 0x40573d: add r8, rdx
+>>> Executing 0x405740: mov qword ptr [rbp - 0x108], r8
+>>> Executing 0x405747: test r12b, r12b
+>>> Executing 0x40574a: je 0x405793
+>>> Executing 0x40574c: movsxd r14, eax
+>>> Executing 0x40574f: jmp 0x4056e0
+>>> Executing 0x4056e0: mov edx, r12d
+>>> Executing 0x4056e3: mov rax, rbx
+>>> Executing 0x4056e6: jmp 0x405705
+>>> Executing 0x405705: cmp dl, 0x25
+>>> Executing 0x405708: jne 0x4056f0
+>>> Executing 0x40570a: cmp byte ptr [rax + 1], 0x73
+>>> Executing 0x40570e: jne 0x4056f0
+>>> Executing 0x405710: cmp r12b, 0x25
+>>> Executing 0x405714: je 0x405758
+>>> Executing 0x405758: cmp byte ptr [rbx + 1], 0x73
+>>> Executing 0x40575c: jne 0x405716
+>>> Executing 0x40575e: mov eax, dword ptr [rbp - 0xf8]
+>>> Executing 0x405764: cmp eax, 0x2f
+>>> Executing 0x405767: ja 0x40585f
+>>> Executing 0x40576d: mov edx, eax
+>>> Executing 0x40576f: add eax, 8
+>>> Executing 0x405772: add rdx, qword ptr [rbp - 0xe8]
+>>> Executing 0x405779: mov dword ptr [rbp - 0xf8], eax
+>>> Executing 0x40577f: mov r12, qword ptr [rdx]
+>>> Executing 0x405782: add rbx, 2
+>>> Executing 0x405786: mov rdi, r12
+>>> Executing 0x405789: call 0x401160
+>>> Executing 0x401160: endbr64 
+>>> Executing 0x401164: jmp qword ptr [rip + 0xa8f36]
+>>> Executing 0x418860: endbr64 
+>>> Executing 0x418864: pxor xmm0, xmm0
+>>> Executing 0x418868: pxor xmm1, xmm1
+>>> Executing 0x41886c: pxor xmm2, xmm2
+>>> Executing 0x418870: pxor xmm3, xmm3
+>>> Executing 0x418874: mov rax, rdi
+>>> Executing 0x418877: mov rcx, rdi
+>>> Executing 0x41887a: and rcx, 0xfff
+>>> Executing 0x418881: cmp rcx, 0xfcf
+>>> Executing 0x418888: ja 0x4188f0
+>>> Executing 0x41888a: movdqu xmm4, xmmword ptr [rax]
+>>> Executing 0x41888e: pcmpeqb xmm4, xmm0
+>>> Executing 0x418892: pmovmskb edx, xmm4
+>>> Executing 0x418896: test edx, edx
+>>> Executing 0x418898: je 0x41889e
+>>> Executing 0x41889e: and rax, 0xfffffffffffffff0
+>>> Executing 0x4188a2: pcmpeqb xmm1, xmmword ptr [rax + 0x10]
+>>> Executing 0x4188a7: pcmpeqb xmm2, xmmword ptr [rax + 0x20]
+>>> Executing 0x4188ac: pcmpeqb xmm3, xmmword ptr [rax + 0x30]
+>>> Executing 0x4188b1: pmovmskb edx, xmm1
+>>> Executing 0x4188b5: pmovmskb r8d, xmm2
+>>> Executing 0x4188ba: pmovmskb ecx, xmm3
+>>> Executing 0x4188be: shl rdx, 0x10
+>>> Executing 0x4188c2: shl rcx, 0x10
+>>> Executing 0x4188c6: or rcx, r8
+>>> Executing 0x4188c9: shl rcx, 0x20
+>>> Executing 0x4188cd: or rdx, rcx
+>>> Executing 0x4188d0: mov rcx, rdi
+>>> Executing 0x4188d3: xor rcx, rax
+>>> Executing 0x4188d6: and rax, 0xffffffffffffffc0
+>>> Executing 0x4188da: sar rdx, cl
+>>> Executing 0x4188dd: test rdx, rdx
+>>> Executing 0x4188e0: je 0x418960
+>>> Executing 0x4188e2: bsf rax, rdx
+>>> Executing 0x4188e6: ret 
+>>> Executing 0x40578e: mov rdx, rax
+>>> Executing 0x405791: jmp 0x405722
+>>> Executing 0x405722: mov r8, qword ptr [rbp - 0x108]
+>>> Executing 0x405729: mov qword ptr [r13], r12
+>>> Executing 0x40572d: lea eax, [r14 + 1]
+>>> Executing 0x405731: add r13, 0x10
+>>> Executing 0x405735: mov qword ptr [r13 - 8], rdx
+>>> Executing 0x405739: movzx r12d, byte ptr [rbx]
+>>> Executing 0x40573d: add r8, rdx
+>>> Executing 0x405740: mov qword ptr [rbp - 0x108], r8
+>>> Executing 0x405747: test r12b, r12b
+>>> Executing 0x40574a: je 0x405793
+>>> Executing 0x40574c: movsxd r14, eax
+>>> Executing 0x40574f: jmp 0x4056e0
+>>> Executing 0x4056e0: mov edx, r12d
+>>> Executing 0x4056e3: mov rax, rbx
+>>> Executing 0x4056e6: jmp 0x405705
+>>> Executing 0x405705: cmp dl, 0x25
+>>> Executing 0x405708: jne 0x4056f0
+>>> Executing 0x4056f0: lea rdi, [rax + 1]
+>>> Executing 0x4056f4: mov esi, 0x25
+>>> Executing 0x4056f9: call 0x401090
+>>> Executing 0x401090: endbr64 
+>>> Executing 0x401094: jmp qword ptr [rip + 0xa8f9e]
+>>> Executing 0x4181e0: endbr64 
+>>> Executing 0x4181e4: movd xmm1, esi
+>>> Executing 0x4181e8: mov eax, edi
+>>> Executing 0x4181ea: and eax, 0xfff
+>>> Executing 0x4181ef: punpcklbw xmm1, xmm1
+>>> Executing 0x4181f3: cmp eax, 0xfc0
+>>> Executing 0x4181f8: punpcklwd xmm1, xmm1
+>>> Executing 0x4181fc: pshufd xmm1, xmm1, 0
+>>> Executing 0x418201: jg 0x418350
+>>> Executing 0x418207: movdqu xmm0, xmmword ptr [rdi]
+>>> Executing 0x41820b: pxor xmm3, xmm3
+>>> Executing 0x41820f: movdqa xmm4, xmm0
+>>> Executing 0x418213: pcmpeqb xmm0, xmm1
+>>> Executing 0x418217: pcmpeqb xmm4, xmm3
+>>> Executing 0x41821b: por xmm0, xmm4
+>>> Executing 0x41821f: pmovmskb eax, xmm0
+>>> Executing 0x418223: test eax, eax
+>>> Executing 0x418225: je 0x418230
+>>> Executing 0x418227: bsf eax, eax
+>>> Executing 0x41822a: lea rax, [rdi + rax]
+>>> Executing 0x41822e: ret 
+>>> Executing 0x4056fe: movzx edx, byte ptr [rax]
+>>> Executing 0x405701: test dl, dl
+>>> Executing 0x405703: je 0x405710
+>>> Executing 0x405705: cmp dl, 0x25
+>>> Executing 0x405708: jne 0x4056f0
+>>> Executing 0x40570a: cmp byte ptr [rax + 1], 0x73
+>>> Executing 0x40570e: jne 0x4056f0
+>>> Executing 0x405710: cmp r12b, 0x25
+>>> Executing 0x405714: je 0x405758
+>>> Executing 0x405716: mov rdx, rax
+>>> Executing 0x405719: mov r12, rbx
+>>> Executing 0x40571c: sub rdx, rbx
+>>> Executing 0x40571f: mov rbx, rax
+>>> Executing 0x405722: mov r8, qword ptr [rbp - 0x108]
+>>> Executing 0x405729: mov qword ptr [r13], r12
+>>> Executing 0x40572d: lea eax, [r14 + 1]
+>>> Executing 0x405731: add r13, 0x10
+>>> Executing 0x405735: mov qword ptr [r13 - 8], rdx
+>>> Executing 0x405739: movzx r12d, byte ptr [rbx]
+>>> Executing 0x40573d: add r8, rdx
+>>> Executing 0x405740: mov qword ptr [rbp - 0x108], r8
+>>> Executing 0x405747: test r12b, r12b
+>>> Executing 0x40574a: je 0x405793
+>>> Executing 0x40574c: movsxd r14, eax
+>>> Executing 0x40574f: jmp 0x4056e0
+>>> Executing 0x4056e0: mov edx, r12d
+>>> Executing 0x4056e3: mov rax, rbx
+>>> Executing 0x4056e6: jmp 0x405705
+>>> Executing 0x405705: cmp dl, 0x25
+>>> Executing 0x405708: jne 0x4056f0
+>>> Executing 0x40570a: cmp byte ptr [rax + 1], 0x73
+>>> Executing 0x40570e: jne 0x4056f0
+>>> Executing 0x405710: cmp r12b, 0x25
+>>> Executing 0x405714: je 0x405758
+>>> Executing 0x405758: cmp byte ptr [rbx + 1], 0x73
+>>> Executing 0x40575c: jne 0x405716
+>>> Executing 0x40575e: mov eax, dword ptr [rbp - 0xf8]
+>>> Executing 0x405764: cmp eax, 0x2f
+>>> Executing 0x405767: ja 0x40585f
+>>> Executing 0x40576d: mov edx, eax
+>>> Executing 0x40576f: add eax, 8
+>>> Executing 0x405772: add rdx, qword ptr [rbp - 0xe8]
+>>> Executing 0x405779: mov dword ptr [rbp - 0xf8], eax
+>>> Executing 0x40577f: mov r12, qword ptr [rdx]
+>>> Executing 0x405782: add rbx, 2
+>>> Executing 0x405786: mov rdi, r12
+>>> Executing 0x405789: call 0x401160
+>>> Executing 0x401160: endbr64 
+>>> Executing 0x401164: jmp qword ptr [rip + 0xa8f36]
+>>> Executing 0x418860: endbr64 
+>>> Executing 0x418864: pxor xmm0, xmm0
+>>> Executing 0x418868: pxor xmm1, xmm1
+>>> Executing 0x41886c: pxor xmm2, xmm2
+>>> Executing 0x418870: pxor xmm3, xmm3
+>>> Executing 0x418874: mov rax, rdi
+>>> Executing 0x418877: mov rcx, rdi
+>>> Executing 0x41887a: and rcx, 0xfff
+>>> Executing 0x418881: cmp rcx, 0xfcf
+>>> Executing 0x418888: ja 0x4188f0
+>>> Executing 0x41888a: movdqu xmm4, xmmword ptr [rax]
+>>> Executing 0x41888e: pcmpeqb xmm4, xmm0
+>>> Executing 0x418892: pmovmskb edx, xmm4
+>>> Executing 0x418896: test edx, edx
+>>> Executing 0x418898: je 0x41889e
+>>> Executing 0x41889a: bsf eax, edx
+>>> Executing 0x41889d: ret 
+>>> Executing 0x40578e: mov rdx, rax
+>>> Executing 0x405791: jmp 0x405722
+>>> Executing 0x405722: mov r8, qword ptr [rbp - 0x108]
+>>> Executing 0x405729: mov qword ptr [r13], r12
+>>> Executing 0x40572d: lea eax, [r14 + 1]
+>>> Executing 0x405731: add r13, 0x10
+>>> Executing 0x405735: mov qword ptr [r13 - 8], rdx
+>>> Executing 0x405739: movzx r12d, byte ptr [rbx]
+>>> Executing 0x40573d: add r8, rdx
+>>> Executing 0x405740: mov qword ptr [rbp - 0x108], r8
+>>> Executing 0x405747: test r12b, r12b
+>>> Executing 0x40574a: je 0x405793
+>>> Executing 0x40574c: movsxd r14, eax
+>>> Executing 0x40574f: jmp 0x4056e0
+>>> Executing 0x4056e0: mov edx, r12d
+>>> Executing 0x4056e3: mov rax, rbx
+>>> Executing 0x4056e6: jmp 0x405705
+>>> Executing 0x405705: cmp dl, 0x25
+>>> Executing 0x405708: jne 0x4056f0
+>>> Executing 0x4056f0: lea rdi, [rax + 1]
+>>> Executing 0x4056f4: mov esi, 0x25
+>>> Executing 0x4056f9: call 0x401090
+>>> Executing 0x401090: endbr64 
+>>> Executing 0x401094: jmp qword ptr [rip + 0xa8f9e]
+>>> Executing 0x4181e0: endbr64 
+>>> Executing 0x4181e4: movd xmm1, esi
+>>> Executing 0x4181e8: mov eax, edi
+>>> Executing 0x4181ea: and eax, 0xfff
+>>> Executing 0x4181ef: punpcklbw xmm1, xmm1
+>>> Executing 0x4181f3: cmp eax, 0xfc0
+>>> Executing 0x4181f8: punpcklwd xmm1, xmm1
+>>> Executing 0x4181fc: pshufd xmm1, xmm1, 0
+>>> Executing 0x418201: jg 0x418350
+>>> Executing 0x418207: movdqu xmm0, xmmword ptr [rdi]
+>>> Executing 0x41820b: pxor xmm3, xmm3
+>>> Executing 0x41820f: movdqa xmm4, xmm0
+>>> Executing 0x418213: pcmpeqb xmm0, xmm1
+>>> Executing 0x418217: pcmpeqb xmm4, xmm3
+>>> Executing 0x41821b: por xmm0, xmm4
+>>> Executing 0x41821f: pmovmskb eax, xmm0
+>>> Executing 0x418223: test eax, eax
+>>> Executing 0x418225: je 0x418230
+>>> Executing 0x418227: bsf eax, eax
+>>> Executing 0x41822a: lea rax, [rdi + rax]
+>>> Executing 0x41822e: ret 
+>>> Executing 0x4056fe: movzx edx, byte ptr [rax]
+>>> Executing 0x405701: test dl, dl
+>>> Executing 0x405703: je 0x405710
+>>> Executing 0x405705: cmp dl, 0x25
+>>> Executing 0x405708: jne 0x4056f0
+>>> Executing 0x40570a: cmp byte ptr [rax + 1], 0x73
+>>> Executing 0x40570e: jne 0x4056f0
+>>> Executing 0x405710: cmp r12b, 0x25
+>>> Executing 0x405714: je 0x405758
+>>> Executing 0x405716: mov rdx, rax
+>>> Executing 0x405719: mov r12, rbx
+>>> Executing 0x40571c: sub rdx, rbx
+>>> Executing 0x40571f: mov rbx, rax
+>>> Executing 0x405722: mov r8, qword ptr [rbp - 0x108]
+>>> Executing 0x405729: mov qword ptr [r13], r12
+>>> Executing 0x40572d: lea eax, [r14 + 1]
+>>> Executing 0x405731: add r13, 0x10
+>>> Executing 0x405735: mov qword ptr [r13 - 8], rdx
+>>> Executing 0x405739: movzx r12d, byte ptr [rbx]
+>>> Executing 0x40573d: add r8, rdx
+>>> Executing 0x405740: mov qword ptr [rbp - 0x108], r8
+>>> Executing 0x405747: test r12b, r12b
+>>> Executing 0x40574a: je 0x405793
+>>> Executing 0x40574c: movsxd r14, eax
+>>> Executing 0x40574f: jmp 0x4056e0
+>>> Executing 0x4056e0: mov edx, r12d
+>>> Executing 0x4056e3: mov rax, rbx
+>>> Executing 0x4056e6: jmp 0x405705
+>>> Executing 0x405705: cmp dl, 0x25
+>>> Executing 0x405708: jne 0x4056f0
+>>> Executing 0x40570a: cmp byte ptr [rax + 1], 0x73
+>>> Executing 0x40570e: jne 0x4056f0
+>>> Executing 0x405710: cmp r12b, 0x25
+>>> Executing 0x405714: je 0x405758
+>>> Executing 0x405758: cmp byte ptr [rbx + 1], 0x73
+>>> Executing 0x40575c: jne 0x405716
+>>> Executing 0x40575e: mov eax, dword ptr [rbp - 0xf8]
+>>> Executing 0x405764: cmp eax, 0x2f
+>>> Executing 0x405767: ja 0x40585f
+>>> Executing 0x40576d: mov edx, eax
+>>> Executing 0x40576f: add eax, 8
+>>> Executing 0x405772: add rdx, qword ptr [rbp - 0xe8]
+>>> Executing 0x405779: mov dword ptr [rbp - 0xf8], eax
+>>> Executing 0x40577f: mov r12, qword ptr [rdx]
+>>> Executing 0x405782: add rbx, 2
+>>> Executing 0x405786: mov rdi, r12
+>>> Executing 0x405789: call 0x401160
+>>> Executing 0x401160: endbr64 
+>>> Executing 0x401164: jmp qword ptr [rip + 0xa8f36]
+>>> Executing 0x418860: endbr64 
+>>> Executing 0x418864: pxor xmm0, xmm0
+>>> Executing 0x418868: pxor xmm1, xmm1
+>>> Executing 0x41886c: pxor xmm2, xmm2
+>>> Executing 0x418870: pxor xmm3, xmm3
+>>> Executing 0x418874: mov rax, rdi
+>>> Executing 0x418877: mov rcx, rdi
+>>> Executing 0x41887a: and rcx, 0xfff
+>>> Executing 0x418881: cmp rcx, 0xfcf
+>>> Executing 0x418888: ja 0x4188f0
+>>> Executing 0x41888a: movdqu xmm4, xmmword ptr [rax]
+>>> Executing 0x41888e: pcmpeqb xmm4, xmm0
+>>> Executing 0x418892: pmovmskb edx, xmm4
+>>> Executing 0x418896: test edx, edx
+>>> Executing 0x418898: je 0x41889e
+>>> Executing 0x41889a: bsf eax, edx
+>>> Executing 0x41889d: ret 
+>>> Executing 0x40578e: mov rdx, rax
+>>> Executing 0x405791: jmp 0x405722
+>>> Executing 0x405722: mov r8, qword ptr [rbp - 0x108]
+>>> Executing 0x405729: mov qword ptr [r13], r12
+>>> Executing 0x40572d: lea eax, [r14 + 1]
+>>> Executing 0x405731: add r13, 0x10
+>>> Executing 0x405735: mov qword ptr [r13 - 8], rdx
+>>> Executing 0x405739: movzx r12d, byte ptr [rbx]
+>>> Executing 0x40573d: add r8, rdx
+>>> Executing 0x405740: mov qword ptr [rbp - 0x108], r8
+>>> Executing 0x405747: test r12b, r12b
+>>> Executing 0x40574a: je 0x405793
+>>> Executing 0x40574c: movsxd r14, eax
+>>> Executing 0x40574f: jmp 0x4056e0
+>>> Executing 0x4056e0: mov edx, r12d
+>>> Executing 0x4056e3: mov rax, rbx
+>>> Executing 0x4056e6: jmp 0x405705
+>>> Executing 0x405705: cmp dl, 0x25
+>>> Executing 0x405708: jne 0x4056f0
+>>> Executing 0x4056f0: lea rdi, [rax + 1]
+>>> Executing 0x4056f4: mov esi, 0x25
+>>> Executing 0x4056f9: call 0x401090
+>>> Executing 0x401090: endbr64 
+>>> Executing 0x401094: jmp qword ptr [rip + 0xa8f9e]
+>>> Executing 0x4181e0: endbr64 
+>>> Executing 0x4181e4: movd xmm1, esi
+>>> Executing 0x4181e8: mov eax, edi
+>>> Executing 0x4181ea: and eax, 0xfff
+>>> Executing 0x4181ef: punpcklbw xmm1, xmm1
+>>> Executing 0x4181f3: cmp eax, 0xfc0
+>>> Executing 0x4181f8: punpcklwd xmm1, xmm1
+>>> Executing 0x4181fc: pshufd xmm1, xmm1, 0
+>>> Executing 0x418201: jg 0x418350
+>>> Executing 0x418207: movdqu xmm0, xmmword ptr [rdi]
+>>> Executing 0x41820b: pxor xmm3, xmm3
+>>> Executing 0x41820f: movdqa xmm4, xmm0
+>>> Executing 0x418213: pcmpeqb xmm0, xmm1
+>>> Executing 0x418217: pcmpeqb xmm4, xmm3
+>>> Executing 0x41821b: por xmm0, xmm4
+>>> Executing 0x41821f: pmovmskb eax, xmm0
+>>> Executing 0x418223: test eax, eax
+>>> Executing 0x418225: je 0x418230
+>>> Executing 0x418230: movdqu xmm0, xmmword ptr [rdi + 0x10]
+>>> Executing 0x418235: movdqa xmm4, xmm0
+>>> Executing 0x418239: pcmpeqb xmm0, xmm1
+>>> Executing 0x41823d: pcmpeqb xmm4, xmm3
+>>> Executing 0x418241: por xmm0, xmm4
+>>> Executing 0x418245: pmovmskb ecx, xmm0
+>>> Executing 0x418249: movdqu xmm0, xmmword ptr [rdi + 0x20]
+>>> Executing 0x41824e: movdqa xmm4, xmm0
+>>> Executing 0x418252: pcmpeqb xmm0, xmm1
+>>> Executing 0x418256: shl rcx, 0x10
+>>> Executing 0x41825a: pcmpeqb xmm4, xmm3
+>>> Executing 0x41825e: por xmm0, xmm4
+>>> Executing 0x418262: pmovmskb eax, xmm0
+>>> Executing 0x418266: movdqu xmm0, xmmword ptr [rdi + 0x30]
+>>> Executing 0x41826b: pcmpeqb xmm3, xmm0
+>>> Executing 0x41826f: shl rax, 0x20
+>>> Executing 0x418273: pcmpeqb xmm0, xmm1
+>>> Executing 0x418277: or rax, rcx
+>>> Executing 0x41827a: por xmm0, xmm3
+>>> Executing 0x41827e: pmovmskb ecx, xmm0
+>>> Executing 0x418282: shl rcx, 0x30
+>>> Executing 0x418286: or rax, rcx
+>>> Executing 0x418289: test rax, rax
+>>> Executing 0x41828c: jne 0x418340
+>>> Executing 0x418340: bsf rax, rax
+>>> Executing 0x418344: lea rax, [rdi + rax]
+>>> Executing 0x418348: ret 
+>>> Executing 0x4056fe: movzx edx, byte ptr [rax]
+>>> Executing 0x405701: test dl, dl
+>>> Executing 0x405703: je 0x405710
+>>> Executing 0x405705: cmp dl, 0x25
+>>> Executing 0x405708: jne 0x4056f0
+>>> Executing 0x40570a: cmp byte ptr [rax + 1], 0x73
+>>> Executing 0x40570e: jne 0x4056f0
+>>> Executing 0x405710: cmp r12b, 0x25
+>>> Executing 0x405714: je 0x405758
+>>> Executing 0x405716: mov rdx, rax
+>>> Executing 0x405719: mov r12, rbx
+>>> Executing 0x40571c: sub rdx, rbx
+>>> Executing 0x40571f: mov rbx, rax
+>>> Executing 0x405722: mov r8, qword ptr [rbp - 0x108]
+>>> Executing 0x405729: mov qword ptr [r13], r12
+>>> Executing 0x40572d: lea eax, [r14 + 1]
+>>> Executing 0x405731: add r13, 0x10
+>>> Executing 0x405735: mov qword ptr [r13 - 8], rdx
+>>> Executing 0x405739: movzx r12d, byte ptr [rbx]
+>>> Executing 0x40573d: add r8, rdx
+>>> Executing 0x405740: mov qword ptr [rbp - 0x108], r8
+>>> Executing 0x405747: test r12b, r12b
+>>> Executing 0x40574a: je 0x405793
+>>> Executing 0x40574c: movsxd r14, eax
+>>> Executing 0x40574f: jmp 0x4056e0
+>>> Executing 0x4056e0: mov edx, r12d
+>>> Executing 0x4056e3: mov rax, rbx
+>>> Executing 0x4056e6: jmp 0x405705
+>>> Executing 0x405705: cmp dl, 0x25
+>>> Executing 0x405708: jne 0x4056f0
+>>> Executing 0x40570a: cmp byte ptr [rax + 1], 0x73
+>>> Executing 0x40570e: jne 0x4056f0
+>>> Executing 0x405710: cmp r12b, 0x25
+>>> Executing 0x405714: je 0x405758
+>>> Executing 0x405758: cmp byte ptr [rbx + 1], 0x73
+>>> Executing 0x40575c: jne 0x405716
+>>> Executing 0x40575e: mov eax, dword ptr [rbp - 0xf8]
+>>> Executing 0x405764: cmp eax, 0x2f
+>>> Executing 0x405767: ja 0x40585f
+>>> Executing 0x40576d: mov edx, eax
+>>> Executing 0x40576f: add eax, 8
+>>> Executing 0x405772: add rdx, qword ptr [rbp - 0xe8]
+>>> Executing 0x405779: mov dword ptr [rbp - 0xf8], eax
+>>> Executing 0x40577f: mov r12, qword ptr [rdx]
+>>> Executing 0x405782: add rbx, 2
+>>> Executing 0x405786: mov rdi, r12
+>>> Executing 0x405789: call 0x401160
+>>> Executing 0x401160: endbr64 
+>>> Executing 0x401164: jmp qword ptr [rip + 0xa8f36]
+>>> Executing 0x418860: endbr64 
+>>> Executing 0x418864: pxor xmm0, xmm0
+>>> Executing 0x418868: pxor xmm1, xmm1
+>>> Executing 0x41886c: pxor xmm2, xmm2
+>>> Executing 0x418870: pxor xmm3, xmm3
+>>> Executing 0x418874: mov rax, rdi
+>>> Executing 0x418877: mov rcx, rdi
+>>> Executing 0x41887a: and rcx, 0xfff
+>>> Executing 0x418881: cmp rcx, 0xfcf
+>>> Executing 0x418888: ja 0x4188f0
+>>> Executing 0x41888a: movdqu xmm4, xmmword ptr [rax]
+>>> Executing 0x41888e: pcmpeqb xmm4, xmm0
+>>> Executing 0x418892: pmovmskb edx, xmm4
+>>> Executing 0x418896: test edx, edx
+>>> Executing 0x418898: je 0x41889e
+>>> Executing 0x41889e: and rax, 0xfffffffffffffff0
+>>> Executing 0x4188a2: pcmpeqb xmm1, xmmword ptr [rax + 0x10]
+>>> Executing 0x4188a7: pcmpeqb xmm2, xmmword ptr [rax + 0x20]
+>>> Executing 0x4188ac: pcmpeqb xmm3, xmmword ptr [rax + 0x30]
+>>> Executing 0x4188b1: pmovmskb edx, xmm1
+>>> Executing 0x4188b5: pmovmskb r8d, xmm2
+>>> Executing 0x4188ba: pmovmskb ecx, xmm3
+>>> Executing 0x4188be: shl rdx, 0x10
+>>> Executing 0x4188c2: shl rcx, 0x10
+>>> Executing 0x4188c6: or rcx, r8
+>>> Executing 0x4188c9: shl rcx, 0x20
+>>> Executing 0x4188cd: or rdx, rcx
+>>> Executing 0x4188d0: mov rcx, rdi
+>>> Executing 0x4188d3: xor rcx, rax
+>>> Executing 0x4188d6: and rax, 0xffffffffffffffc0
+>>> Executing 0x4188da: sar rdx, cl
+>>> Executing 0x4188dd: test rdx, rdx
+>>> Executing 0x4188e0: je 0x418960
+>>> Executing 0x4188e2: bsf rax, rdx
+>>> Executing 0x4188e6: ret 
+>>> Executing 0x40578e: mov rdx, rax
+>>> Executing 0x405791: jmp 0x405722
+>>> Executing 0x405722: mov r8, qword ptr [rbp - 0x108]
+>>> Executing 0x405729: mov qword ptr [r13], r12
+>>> Executing 0x40572d: lea eax, [r14 + 1]
+>>> Executing 0x405731: add r13, 0x10
+>>> Executing 0x405735: mov qword ptr [r13 - 8], rdx
+>>> Executing 0x405739: movzx r12d, byte ptr [rbx]
+>>> Executing 0x40573d: add r8, rdx
+>>> Executing 0x405740: mov qword ptr [rbp - 0x108], r8
+>>> Executing 0x405747: test r12b, r12b
+>>> Executing 0x40574a: je 0x405793
+>>> Executing 0x40574c: movsxd r14, eax
+>>> Executing 0x40574f: jmp 0x4056e0
+>>> Executing 0x4056e0: mov edx, r12d
+>>> Executing 0x4056e3: mov rax, rbx
+>>> Executing 0x4056e6: jmp 0x405705
+>>> Executing 0x405705: cmp dl, 0x25
+>>> Executing 0x405708: jne 0x4056f0
+>>> Executing 0x4056f0: lea rdi, [rax + 1]
+>>> Executing 0x4056f4: mov esi, 0x25
+>>> Executing 0x4056f9: call 0x401090
+>>> Executing 0x401090: endbr64 
+>>> Executing 0x401094: jmp qword ptr [rip + 0xa8f9e]
+>>> Executing 0x4181e0: endbr64 
+>>> Executing 0x4181e4: movd xmm1, esi
+>>> Executing 0x4181e8: mov eax, edi
+>>> Executing 0x4181ea: and eax, 0xfff
+>>> Executing 0x4181ef: punpcklbw xmm1, xmm1
+>>> Executing 0x4181f3: cmp eax, 0xfc0
+>>> Executing 0x4181f8: punpcklwd xmm1, xmm1
+>>> Executing 0x4181fc: pshufd xmm1, xmm1, 0
+>>> Executing 0x418201: jg 0x418350
+>>> Executing 0x418207: movdqu xmm0, xmmword ptr [rdi]
+>>> Executing 0x41820b: pxor xmm3, xmm3
+>>> Executing 0x41820f: movdqa xmm4, xmm0
+>>> Executing 0x418213: pcmpeqb xmm0, xmm1
+>>> Executing 0x418217: pcmpeqb xmm4, xmm3
+>>> Executing 0x41821b: por xmm0, xmm4
+>>> Executing 0x41821f: pmovmskb eax, xmm0
+>>> Executing 0x418223: test eax, eax
+>>> Executing 0x418225: je 0x418230
+>>> Executing 0x418227: bsf eax, eax
+>>> Executing 0x41822a: lea rax, [rdi + rax]
+>>> Executing 0x41822e: ret 
+>>> Executing 0x4056fe: movzx edx, byte ptr [rax]
+>>> Executing 0x405701: test dl, dl
+>>> Executing 0x405703: je 0x405710
+>>> Executing 0x405710: cmp r12b, 0x25
+>>> Executing 0x405714: je 0x405758
+>>> Executing 0x405716: mov rdx, rax
+>>> Executing 0x405719: mov r12, rbx
+>>> Executing 0x40571c: sub rdx, rbx
+>>> Executing 0x40571f: mov rbx, rax
+>>> Executing 0x405722: mov r8, qword ptr [rbp - 0x108]
+>>> Executing 0x405729: mov qword ptr [r13], r12
+>>> Executing 0x40572d: lea eax, [r14 + 1]
+>>> Executing 0x405731: add r13, 0x10
+>>> Executing 0x405735: mov qword ptr [r13 - 8], rdx
+>>> Executing 0x405739: movzx r12d, byte ptr [rbx]
+>>> Executing 0x40573d: add r8, rdx
+>>> Executing 0x405740: mov qword ptr [rbp - 0x108], r8
+>>> Executing 0x405747: test r12b, r12b
+>>> Executing 0x40574a: je 0x405793
+>>> Executing 0x405793: movsxd rdx, eax
+>>> Executing 0x405796: mov r9d, 0x14
+>>> Executing 0x40579c: nop dword ptr [rax]
+>>> Executing 0x4057a0: mov rsi, qword ptr [rbp - 0x110]
+>>> Executing 0x4057a7: mov edi, 2
+>>> Executing 0x4057ac: mov eax, r9d
+>>> Executing 0x4057af: syscall 
+Syscall: 20, args: 0x2, 0x7fffffffdc80, 0x9
+>>> Executing 0x4057b1: cmp rax, -4
+>>> Executing 0x4057b5: je 0x4057a0
+>>> Executing 0x4057b7: xor r9d, r9d
+>>> Executing 0x4057ba: mov ecx, 0x22
+>>> Executing 0x4057bf: mov edx, 3
+>>> Executing 0x4057c4: xor edi, edi
+>>> Executing 0x4057c6: mov rax, qword ptr [rip + 0xa594b]
+>>> Executing 0x4057cd: lea r12, [r8 + rax + 4]
+>>> Executing 0x4057d2: neg rax
+>>> Executing 0x4057d5: mov r8d, 0xffffffff
+>>> Executing 0x4057db: and r12, rax
+>>> Executing 0x4057de: mov rsi, r12
+>>> Executing 0x4057e1: call 0x41a480
+>>> Executing 0x41a480: endbr64 
+>>> Executing 0x41a484: test r9d, 0xfff
+>>> Executing 0x41a48b: jne 0x41a4c0
+>>> Executing 0x41a48d: push rbp
+>>> Executing 0x41a48e: mov rbp, rsp
+>>> Executing 0x41a491: push r12
+>>> Executing 0x41a493: mov r12d, ecx
+>>> Executing 0x41a496: push rbx
+>>> Executing 0x41a497: mov rbx, rdi
+>>> Executing 0x41a49a: test rdi, rdi
+>>> Executing 0x41a49d: je 0x41a4e0
+>>> Executing 0x41a4e0: mov eax, edx
+>>> Executing 0x41a4e2: and ecx, 0x800
+>>> Executing 0x41a4e8: and eax, 4
+>>> Executing 0x41a4eb: or eax, ecx
+>>> Executing 0x41a4ed: je 0x41a49f
+>>> Executing 0x41a49f: mov r10d, r12d
+>>> Executing 0x41a4a2: mov rdi, rbx
+>>> Executing 0x41a4a5: mov eax, 9
+>>> Executing 0x41a4aa: syscall 
+Syscall: 9, args: 0x0, 0x1000, 0x3
+>>> Executing 0x41a4ac: cmp rax, -0x1000
+>>> Executing 0x41a4b2: ja 0x41a520
+>>> Executing 0x41a4b4: pop rbx
+>>> Executing 0x41a4b5: pop r12
+>>> Executing 0x41a4b7: pop rbp
+>>> Executing 0x41a4b8: ret 
+>>> Executing 0x4057e6: mov rbx, rax
+>>> Executing 0x4057e9: cmp rax, -1
+>>> Executing 0x4057ed: je 0x4011d3
+>>> Executing 0x4057f3: mov r13, qword ptr [rbp - 0x110]
+>>> Executing 0x4057fa: shl r14, 4
+>>> Executing 0x4057fe: mov dword ptr [rax], r12d
+>>> Executing 0x405801: lea rdi, [rax + 4]
+>>> Executing 0x405805: add r13, 0x10
+>>> Executing 0x405809: add r14, r13
+>>> Executing 0x40580c: jmp 0x405814
+>>> Executing 0x405814: mov rdx, qword ptr [r15 + 8]
+>>> Executing 0x405818: mov rsi, qword ptr [r15]
+>>> Executing 0x40581b: mov r15, r13
+>>> Executing 0x40581e: call 0x401130
+>>> Executing 0x401130: endbr64 
+>>> Executing 0x401134: jmp qword ptr [rip + 0xa8f4e]
+>>> Executing 0x415a80: endbr64 
+>>> Executing 0x415a84: mov rax, rdi
+>>> Executing 0x415a87: add rax, rdx
+>>> Executing 0x415a8a: jmp 0x415a97
+>>> Executing 0x415a97: cmp rdx, 0x10
+>>> Executing 0x415a9b: jb 0x415b30
+>>> Executing 0x415aa1: movups xmm0, xmmword ptr [rsi]
+>>> Executing 0x415aa4: cmp rdx, 0x20
+>>> Executing 0x415aa8: ja 0x415b9d
+>>> Executing 0x415aae: movups xmm1, xmmword ptr [rsi + rdx - 0x10]
+>>> Executing 0x415ab3: movups xmmword ptr [rdi], xmm0
+>>> Executing 0x415ab6: movups xmmword ptr [rdi + rdx - 0x10], xmm1
+>>> Executing 0x415abb: ret 
+>>> Executing 0x405823: mov rdi, rax
+>>> Executing 0x405826: cmp r14, r13
+>>> Executing 0x405829: jne 0x405810
+>>> Executing 0x405810: add r13, 0x10
+>>> Executing 0x405814: mov rdx, qword ptr [r15 + 8]
+>>> Executing 0x405818: mov rsi, qword ptr [r15]
+>>> Executing 0x40581b: mov r15, r13
+>>> Executing 0x40581e: call 0x401130
+>>> Executing 0x401130: endbr64 
+>>> Executing 0x401134: jmp qword ptr [rip + 0xa8f4e]
+>>> Executing 0x415a80: endbr64 
+>>> Executing 0x415a84: mov rax, rdi
+>>> Executing 0x415a87: add rax, rdx
+>>> Executing 0x415a8a: jmp 0x415a97
+>>> Executing 0x415a97: cmp rdx, 0x10
+>>> Executing 0x415a9b: jb 0x415b30
+>>> Executing 0x415aa1: movups xmm0, xmmword ptr [rsi]
+>>> Executing 0x415aa4: cmp rdx, 0x20
+>>> Executing 0x415aa8: ja 0x415b9d
+>>> Executing 0x415b9d: cmp rdx, 0x80
+>>> Executing 0x415ba4: ja 0x415bf0
+>>> Executing 0x415ba6: movups xmm1, xmmword ptr [rsi + 0x10]
+>>> Executing 0x415baa: cmp rdx, 0x40
+>>> Executing 0x415bae: jbe 0x415b71
+>>> Executing 0x415b71: movups xmm2, xmmword ptr [rsi + rdx - 0x10]
+>>> Executing 0x415b76: movups xmm3, xmmword ptr [rsi + rdx - 0x20]
+>>> Executing 0x415b7b: movups xmmword ptr [rdi], xmm0
+>>> Executing 0x415b7e: movups xmmword ptr [rdi + 0x10], xmm1
+>>> Executing 0x415b82: movups xmmword ptr [rdi + rdx - 0x10], xmm2
+>>> Executing 0x415b87: movups xmmword ptr [rdi + rdx - 0x20], xmm3
+>>> Executing 0x415b8c: ret 
+>>> Executing 0x405823: mov rdi, rax
+>>> Executing 0x405826: cmp r14, r13
+>>> Executing 0x405829: jne 0x405810
+>>> Executing 0x405810: add r13, 0x10
+>>> Executing 0x405814: mov rdx, qword ptr [r15 + 8]
+>>> Executing 0x405818: mov rsi, qword ptr [r15]
+>>> Executing 0x40581b: mov r15, r13
+>>> Executing 0x40581e: call 0x401130
+>>> Executing 0x401130: endbr64 
+>>> Executing 0x401134: jmp qword ptr [rip + 0xa8f4e]
+>>> Executing 0x415a80: endbr64 
+>>> Executing 0x415a84: mov rax, rdi
+>>> Executing 0x415a87: add rax, rdx
+>>> Executing 0x415a8a: jmp 0x415a97
+>>> Executing 0x415a97: cmp rdx, 0x10
+>>> Executing 0x415a9b: jb 0x415b30
+>>> Executing 0x415b30: cmp edx, 8
+>>> Executing 0x415b33: jae 0x415b60
+>>> Executing 0x415b35: cmp edx, 4
+>>> Executing 0x415b38: jae 0x415b50
+>>> Executing 0x415b3a: cmp edx, 1
+>>> Executing 0x415b3d: jl 0x415b4f
+>>> Executing 0x415b3f: mov cl, byte ptr [rsi]
+>>> Executing 0x415b41: je 0x415b4d
+>>> Executing 0x415b4d: mov byte ptr [rdi], cl
+>>> Executing 0x415b4f: ret 
+>>> Executing 0x405823: mov rdi, rax
+>>> Executing 0x405826: cmp r14, r13
+>>> Executing 0x405829: jne 0x405810
+>>> Executing 0x405810: add r13, 0x10
+>>> Executing 0x405814: mov rdx, qword ptr [r15 + 8]
+>>> Executing 0x405818: mov rsi, qword ptr [r15]
+>>> Executing 0x40581b: mov r15, r13
+>>> Executing 0x40581e: call 0x401130
+>>> Executing 0x401130: endbr64 
+>>> Executing 0x401134: jmp qword ptr [rip + 0xa8f4e]
+>>> Executing 0x415a80: endbr64 
+>>> Executing 0x415a84: mov rax, rdi
+>>> Executing 0x415a87: add rax, rdx
+>>> Executing 0x415a8a: jmp 0x415a97
+>>> Executing 0x415a97: cmp rdx, 0x10
+>>> Executing 0x415a9b: jb 0x415b30
+>>> Executing 0x415b30: cmp edx, 8
+>>> Executing 0x415b33: jae 0x415b60
+>>> Executing 0x415b35: cmp edx, 4
+>>> Executing 0x415b38: jae 0x415b50
+>>> Executing 0x415b3a: cmp edx, 1
+>>> Executing 0x415b3d: jl 0x415b4f
+>>> Executing 0x415b3f: mov cl, byte ptr [rsi]
+>>> Executing 0x415b41: je 0x415b4d
+>>> Executing 0x415b43: movzx esi, word ptr [rsi + rdx - 2]
+>>> Executing 0x415b48: mov word ptr [rdi + rdx - 2], si
+>>> Executing 0x415b4d: mov byte ptr [rdi], cl
+>>> Executing 0x415b4f: ret 
+>>> Executing 0x405823: mov rdi, rax
+>>> Executing 0x405826: cmp r14, r13
+>>> Executing 0x405829: jne 0x405810
+>>> Executing 0x405810: add r13, 0x10
+>>> Executing 0x405814: mov rdx, qword ptr [r15 + 8]
+>>> Executing 0x405818: mov rsi, qword ptr [r15]
+>>> Executing 0x40581b: mov r15, r13
+>>> Executing 0x40581e: call 0x401130
+>>> Executing 0x401130: endbr64 
+>>> Executing 0x401134: jmp qword ptr [rip + 0xa8f4e]
+>>> Executing 0x415a80: endbr64 
+>>> Executing 0x415a84: mov rax, rdi
+>>> Executing 0x415a87: add rax, rdx
+>>> Executing 0x415a8a: jmp 0x415a97
+>>> Executing 0x415a97: cmp rdx, 0x10
+>>> Executing 0x415a9b: jb 0x415b30
+>>> Executing 0x415b30: cmp edx, 8
+>>> Executing 0x415b33: jae 0x415b60
+>>> Executing 0x415b35: cmp edx, 4
+>>> Executing 0x415b38: jae 0x415b50
+>>> Executing 0x415b3a: cmp edx, 1
+>>> Executing 0x415b3d: jl 0x415b4f
+>>> Executing 0x415b3f: mov cl, byte ptr [rsi]
+>>> Executing 0x415b41: je 0x415b4d
+>>> Executing 0x415b43: movzx esi, word ptr [rsi + rdx - 2]
+>>> Executing 0x415b48: mov word ptr [rdi + rdx - 2], si
+>>> Executing 0x415b4d: mov byte ptr [rdi], cl
+>>> Executing 0x415b4f: ret 
+>>> Executing 0x405823: mov rdi, rax
+>>> Executing 0x405826: cmp r14, r13
+>>> Executing 0x405829: jne 0x405810
+>>> Executing 0x405810: add r13, 0x10
+>>> Executing 0x405814: mov rdx, qword ptr [r15 + 8]
+>>> Executing 0x405818: mov rsi, qword ptr [r15]
+>>> Executing 0x40581b: mov r15, r13
+>>> Executing 0x40581e: call 0x401130
+>>> Executing 0x401130: endbr64 
+>>> Executing 0x401134: jmp qword ptr [rip + 0xa8f4e]
+>>> Executing 0x415a80: endbr64 
+>>> Executing 0x415a84: mov rax, rdi
+>>> Executing 0x415a87: add rax, rdx
+>>> Executing 0x415a8a: jmp 0x415a97
+>>> Executing 0x415a97: cmp rdx, 0x10
+>>> Executing 0x415a9b: jb 0x415b30
+>>> Executing 0x415b30: cmp edx, 8
+>>> Executing 0x415b33: jae 0x415b60
+>>> Executing 0x415b60: mov rcx, qword ptr [rsi + rdx - 8]
+>>> Executing 0x415b65: mov rsi, qword ptr [rsi]
+>>> Executing 0x415b68: mov qword ptr [rdi], rsi
+>>> Executing 0x415b6b: mov qword ptr [rdi + rdx - 8], rcx
+>>> Executing 0x415b70: ret 
+>>> Executing 0x405823: mov rdi, rax
+>>> Executing 0x405826: cmp r14, r13
+>>> Executing 0x405829: jne 0x405810
+>>> Executing 0x405810: add r13, 0x10
+>>> Executing 0x405814: mov rdx, qword ptr [r15 + 8]
+>>> Executing 0x405818: mov rsi, qword ptr [r15]
+>>> Executing 0x40581b: mov r15, r13
+>>> Executing 0x40581e: call 0x401130
+>>> Executing 0x401130: endbr64 
+>>> Executing 0x401134: jmp qword ptr [rip + 0xa8f4e]
+>>> Executing 0x415a80: endbr64 
+>>> Executing 0x415a84: mov rax, rdi
+>>> Executing 0x415a87: add rax, rdx
+>>> Executing 0x415a8a: jmp 0x415a97
+>>> Executing 0x415a97: cmp rdx, 0x10
+>>> Executing 0x415a9b: jb 0x415b30
+>>> Executing 0x415aa1: movups xmm0, xmmword ptr [rsi]
+>>> Executing 0x415aa4: cmp rdx, 0x20
+>>> Executing 0x415aa8: ja 0x415b9d
+>>> Executing 0x415aae: movups xmm1, xmmword ptr [rsi + rdx - 0x10]
+>>> Executing 0x415ab3: movups xmmword ptr [rdi], xmm0
+>>> Executing 0x415ab6: movups xmmword ptr [rdi + rdx - 0x10], xmm1
+>>> Executing 0x415abb: ret 
+>>> Executing 0x405823: mov rdi, rax
+>>> Executing 0x405826: cmp r14, r13
+>>> Executing 0x405829: jne 0x405810
+>>> Executing 0x405810: add r13, 0x10
+>>> Executing 0x405814: mov rdx, qword ptr [r15 + 8]
+>>> Executing 0x405818: mov rsi, qword ptr [r15]
+>>> Executing 0x40581b: mov r15, r13
+>>> Executing 0x40581e: call 0x401130
+>>> Executing 0x401130: endbr64 
+>>> Executing 0x401134: jmp qword ptr [rip + 0xa8f4e]
+>>> Executing 0x415a80: endbr64 
+>>> Executing 0x415a84: mov rax, rdi
+>>> Executing 0x415a87: add rax, rdx
+>>> Executing 0x415a8a: jmp 0x415a97
+>>> Executing 0x415a97: cmp rdx, 0x10
+>>> Executing 0x415a9b: jb 0x415b30
+>>> Executing 0x415aa1: movups xmm0, xmmword ptr [rsi]
+>>> Executing 0x415aa4: cmp rdx, 0x20
+>>> Executing 0x415aa8: ja 0x415b9d
+>>> Executing 0x415aae: movups xmm1, xmmword ptr [rsi + rdx - 0x10]
+>>> Executing 0x415ab3: movups xmmword ptr [rdi], xmm0
+>>> Executing 0x415ab6: movups xmmword ptr [rdi + rdx - 0x10], xmm1
+>>> Executing 0x415abb: ret 
+>>> Executing 0x405823: mov rdi, rax
+>>> Executing 0x405826: cmp r14, r13
+>>> Executing 0x405829: jne 0x405810
+>>> Executing 0x405810: add r13, 0x10
+>>> Executing 0x405814: mov rdx, qword ptr [r15 + 8]
+>>> Executing 0x405818: mov rsi, qword ptr [r15]
+>>> Executing 0x40581b: mov r15, r13
+>>> Executing 0x40581e: call 0x401130
+>>> Executing 0x401130: endbr64 
+>>> Executing 0x401134: jmp qword ptr [rip + 0xa8f4e]
+>>> Executing 0x415a80: endbr64 
+>>> Executing 0x415a84: mov rax, rdi
+>>> Executing 0x415a87: add rax, rdx
+>>> Executing 0x415a8a: jmp 0x415a97
+>>> Executing 0x415a97: cmp rdx, 0x10
+>>> Executing 0x415a9b: jb 0x415b30
+>>> Executing 0x415b30: cmp edx, 8
+>>> Executing 0x415b33: jae 0x415b60
+>>> Executing 0x415b35: cmp edx, 4
+>>> Executing 0x415b38: jae 0x415b50
+>>> Executing 0x415b3a: cmp edx, 1
+>>> Executing 0x415b3d: jl 0x415b4f
+>>> Executing 0x415b3f: mov cl, byte ptr [rsi]
+>>> Executing 0x415b41: je 0x415b4d
+>>> Executing 0x415b4d: mov byte ptr [rdi], cl
+>>> Executing 0x415b4f: ret 
+>>> Executing 0x405823: mov rdi, rax
+>>> Executing 0x405826: cmp r14, r13
+>>> Executing 0x405829: jne 0x405810
+>>> Executing 0x40582b: mov byte ptr [rax], 0
+>>> Executing 0x40582e: lea rdx, [rip + 0x7985c]
+>>> Executing 0x405835: mov rsi, r12
+>>> Executing 0x405838: mov rdi, rbx
+>>> Executing 0x40583b: call 0x41a6c0
+>>> Executing 0x41a6c0: endbr64 
+>>> Executing 0x41a6c4: push rbp
+>>> Executing 0x41a6c5: mov rbp, rsp
+>>> Executing 0x41a6c8: push r13
+>>> Executing 0x41a6ca: push r12
+>>> Executing 0x41a6cc: push rbx
+>>> Executing 0x41a6cd: sub rsp, 0x18
+>>> Executing 0x41a6d1: mov rax, qword ptr fs:[0x28]
+>>> Executing 0x41a6da: mov qword ptr [rbp - 0x28], rax
+>>> Executing 0x41a6de: mov eax, dword ptr [rip + 0x90978]
+>>> Executing 0x41a6e4: test eax, eax
+>>> Executing 0x41a6e6: jne 0x41a708
+>>> Executing 0x41a708: mov rbx, rdi
+>>> Executing 0x41a70b: mov r12, rsi
+>>> Executing 0x41a70e: mov r13, rdx
+>>> Executing 0x41a711: mov edi, 0x12
+>>> Executing 0x41a716: lea rsi, [rbp - 0x2c]
+>>> Executing 0x41a71a: xor edx, edx
+>>> Executing 0x41a71c: call 0x422080
+>>> Executing 0x422080: endbr64 
+>>> Executing 0x422084: mov edi, edi
+>>> Executing 0x422086: lea r9, [rip + 0x863f3]
+>>> Executing 0x42208d: mov rcx, rsi
+>>> Executing 0x422090: mov rax, rdi
+>>> Executing 0x422093: shl rax, 4
+>>> Executing 0x422097: add rax, rdi
+>>> Executing 0x42209a: shl rax, 3
+>>> Executing 0x42209e: lea rsi, [r9 + rax]
+>>> Executing 0x4220a2: mov r8d, dword ptr [rsi + 0x30]
+>>> Executing 0x4220a6: cmp r8d, 2
+>>> Executing 0x4220aa: ja 0x4220f0
+>>> Executing 0x4220ac: mov rax, qword ptr [rsi + 0x58]
+>>> Executing 0x4220b0: test r8d, r8d
+>>> Executing 0x4220b3: je 0x4220e8
+>>> Executing 0x4220e8: mov dword ptr [rcx], eax
+>>> Executing 0x4220ea: jmp 0x4220b8
+>>> Executing 0x4220b8: mov rax, rdi
+>>> Executing 0x4220bb: shl rax, 4
+>>> Executing 0x4220bf: add rax, rdi
+>>> Executing 0x4220c2: cmp byte ptr [r9 + rax*8 + 0x68], 0
+>>> Executing 0x4220c8: lea rcx, [rax*8]
+>>> Executing 0x4220d0: je 0x4220e0
+>>> Executing 0x4220e0: ret 
+>>> Executing 0x41a721: mov eax, dword ptr [rbp - 0x2c]
+>>> Executing 0x41a724: test eax, eax
+>>> Executing 0x41a726: je 0x41a744
+>>> Executing 0x41a744: mov dword ptr [rip + 0x9090e], 0
+>>> Executing 0x41a74e: jmp 0x41a6e8
+>>> Executing 0x41a6e8: mov rax, qword ptr [rbp - 0x28]
+>>> Executing 0x41a6ec: sub rax, qword ptr fs:[0x28]
+>>> Executing 0x41a6f5: jne 0x41a750
+>>> Executing 0x41a6f7: add rsp, 0x18
+>>> Executing 0x41a6fb: pop rbx
+>>> Executing 0x41a6fc: pop r12
+>>> Executing 0x41a6fe: pop r13
+>>> Executing 0x41a700: pop rbp
+>>> Executing 0x41a701: ret 
+>>> Executing 0x405840: xchg qword ptr [rip + 0xaed99], rbx
+>>> Executing 0x405847: mov rdi, rbx
+>>> Executing 0x40584a: test rbx, rbx
+>>> Executing 0x40584d: je 0x4011d3
+>>> Executing 0x4011d3: call 0x40123e
+>>> Executing 0x40123e: endbr64 
+>>> Executing 0x401242: push rbp
+>>> Executing 0x401243: mov rbp, rsp
+>>> Executing 0x401246: push r12
+>>> Executing 0x401248: push rbx
+>>> Executing 0x401249: lea rbx, [rip + 0xb33a0]
+>>> Executing 0x401250: sub rsp, 0xa0
+>>> Executing 0x401257: mov rax, qword ptr fs:[0x28]
+>>> Executing 0x401260: mov qword ptr [rbp - 0x18], rax
+>>> Executing 0x401264: xor eax, eax
+>>> Executing 0x401266: mov r12, qword ptr fs:[0x10]
+>>> Executing 0x40126f: cmp qword ptr [rip + 0xb3382], r12
+>>> Executing 0x401276: je 0x401296
+>>> Executing 0x401296: inc dword ptr [rip + 0xb3358]
+>>> Executing 0x40129c: cmp dword ptr [rip + 0xb335d], 0
+>>> Executing 0x4012a3: jne 0x4012d5
+>>> Executing 0x4012a5: lea rsi, [rbp - 0xb0]
+>>> Executing 0x4012ac: mov r10d, 8
+>>> Executing 0x4012b2: xor edx, edx
+>>> Executing 0x4012b4: mov dword ptr [rip + 0xb3342], 1
+>>> Executing 0x4012be: mov qword ptr [rbp - 0xb0], 0x20
+>>> Executing 0x4012c9: mov edi, 1
+>>> Executing 0x4012ce: mov eax, 0xe
+>>> Executing 0x4012d3: syscall 
+Syscall: 14, args: 0x1, 0x7fffffffdb90, 0x0
+>>> Executing 0x4012d5: mov eax, dword ptr [rip + 0xb3325]
+>>> Executing 0x4012db: cmp eax, 1
+>>> Executing 0x4012de: jne 0x401357
+>>> Executing 0x4012e0: mov eax, dword ptr [rip + 0xb330e]
+>>> Executing 0x4012e6: xor ecx, ecx
+>>> Executing 0x4012e8: mov dword ptr [rip + 0xb3312], ecx
+>>> Executing 0x4012ee: dec eax
+>>> Executing 0x4012f0: mov dword ptr [rip + 0xb32fe], eax
+>>> Executing 0x4012f6: jne 0x401313
+>>> Executing 0x4012f8: xor edx, edx
+>>> Executing 0x4012fa: mov qword ptr [rip + 0xb32f7], rdx
+>>> Executing 0x401301: xchg dword ptr [rip + 0xb32e9], eax
+>>> Executing 0x401307: dec eax
+>>> Executing 0x401309: jle 0x401313
+>>> Executing 0x401313: mov edi, 6
+>>> Executing 0x401318: call 0x462340
+>>> Executing 0x462340: endbr64 
+>>> Executing 0x462344: push rbp
+>>> Executing 0x462345: mov rbp, rsp
+>>> Executing 0x462348: push rbx
+>>> Executing 0x462349: mov ebx, edi
+>>> Executing 0x46234b: sub rsp, 8
+>>> Executing 0x46234f: call 0x467fd0
+>>> Executing 0x467fd0: endbr64 
+>>> Executing 0x467fd4: mov rax, qword ptr fs:[0x10]
+>>> Executing 0x467fdd: ret 
+>>> Executing 0x462354: mov esi, ebx
+>>> Executing 0x462356: mov rdi, rax
+>>> Executing 0x462359: call 0x467e70
+>>> Executing 0x467e70: endbr64 
+>>> Executing 0x467e74: push rbp
+>>> Executing 0x467e75: lea edx, [rsi - 0x20]
+>>> Executing 0x467e78: mov rbp, rsp
+>>> Executing 0x467e7b: push r15
+>>> Executing 0x467e7d: push r14
+>>> Executing 0x467e7f: mov r14d, 0x16
+>>> Executing 0x467e85: push r13
+>>> Executing 0x467e87: push r12
+>>> Executing 0x467e89: push rbx
+>>> Executing 0x467e8a: sub rsp, 0x18
+>>> Executing 0x467e8e: mov rax, qword ptr fs:[0x28]
+>>> Executing 0x467e97: mov qword ptr [rbp - 0x38], rax
+>>> Executing 0x467e9b: xor eax, eax
+>>> Executing 0x467e9d: cmp edx, 1
+>>> Executing 0x467ea0: jbe 0x467f20
+>>> Executing 0x467ea2: mov rbx, rdi
+>>> Executing 0x467ea5: mov r12d, esi
+>>> Executing 0x467ea8: cmp rdi, qword ptr fs:[0x10]
+>>> Executing 0x467eb1: je 0x467f70
+>>> Executing 0x467f70: mov eax, 0xba
+>>> Executing 0x467f75: syscall 
+Syscall: 186, args: 0x0, 0x6, 0xffffffe6
+>>> Executing 0x467f77: mov ebx, eax
+>>> Executing 0x467f79: call 0x4568a0
+>>> Executing 0x4568a0: endbr64 
+>>> Executing 0x4568a4: mov eax, 0x27
+>>> Executing 0x4568a9: syscall 
+Syscall: 39, args: 0x0, 0x6, 0xffffffe6
+>>> Executing 0x4568ab: ret 
+>>> Executing 0x467f7e: mov edx, r12d
+>>> Executing 0x467f81: mov esi, ebx
+>>> Executing 0x467f83: mov edi, eax
+>>> Executing 0x467f85: mov eax, 0xea
+>>> Executing 0x467f8a: syscall 
+Syscall: 234, args: 0x27, 0xba, 0x6
+>>> Executing 0x467f8c: mov r14d, eax
+>>> Executing 0x467f8f: neg r14d
+>>> Executing 0x467f92: cmp eax, 0xfffff000
+>>> Executing 0x467f97: mov eax, 0
+>>> Executing 0x467f9c: cmovbe r14d, eax
+>>> Executing 0x467fa0: jmp 0x467f20
+>>> Executing 0x467f20: mov rax, qword ptr [rbp - 0x38]
+>>> Executing 0x467f24: sub rax, qword ptr fs:[0x28]
+>>> Executing 0x467f2d: jne 0x467fc5
+>>> Executing 0x467f33: add rsp, 0x18
+>>> Executing 0x467f37: mov eax, r14d
+>>> Executing 0x467f3a: pop rbx
+>>> Executing 0x467f3b: pop r12
+>>> Executing 0x467f3d: pop r13
+>>> Executing 0x467f3f: pop r14
+>>> Executing 0x467f41: pop r15
+>>> Executing 0x467f43: pop rbp
+>>> Executing 0x467f44: ret 
+>>> Executing 0x46235e: test eax, eax
+>>> Executing 0x462360: jne 0x462370
+>>> Executing 0x462362: mov rbx, qword ptr [rbp - 8]
+>>> Executing 0x462366: leave 
+>>> Executing 0x462367: ret 
+>>> Executing 0x40131d: mov r12, qword ptr fs:[0x10]
+>>> Executing 0x401326: cmp qword ptr [rip + 0xb32cb], r12
+>>> Executing 0x40132d: je 0x40134f
+>>> Executing 0x40134f: inc dword ptr [rip + 0xb329f]
+>>> Executing 0x401355: jmp 0x40135c
+>>> Executing 0x40135c: lea rsi, [rbp - 0xb0]
+>>> Executing 0x401363: mov ecx, 0x26
+>>> Executing 0x401368: xor eax, eax
+>>> Executing 0x40136a: xor edx, edx
+>>> Executing 0x40136c: mov dword ptr [rip + 0xb328a], 3
+>>> Executing 0x401376: mov rdi, rsi
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x401379: rep stosd dword ptr [rdi], eax
+>>> Executing 0x40137b: mov edi, 6
+>>> Executing 0x401380: mov qword ptr [rbp - 0xa8], 0xffffffffffffffff
+>>> Executing 0x40138b: call 0x4049a0
+>>> Executing 0x4049a0: endbr64 
+>>> Executing 0x4049a4: lea eax, [rdi - 1]
+>>> Executing 0x4049a7: cmp eax, 0x3f
+>>> Executing 0x4049aa: ja 0x4049c0
+>>> Executing 0x4049ac: lea eax, [rdi - 0x20]
+>>> Executing 0x4049af: cmp eax, 1
+>>> Executing 0x4049b2: jbe 0x4049c0
+>>> Executing 0x4049b4: jmp 0x404a00
+>>> Executing 0x404a00: endbr64 
+>>> Executing 0x404a04: push rbp
+>>> Executing 0x404a05: mov r8, rdx
+>>> Executing 0x404a08: mov rbp, rsp
+>>> Executing 0x404a0b: sub rsp, 0x140
+>>> Executing 0x404a12: mov rax, qword ptr fs:[0x28]
+>>> Executing 0x404a1b: mov qword ptr [rbp - 8], rax
+>>> Executing 0x404a1f: xor eax, eax
+>>> Executing 0x404a21: test rsi, rsi
+>>> Executing 0x404a24: je 0x404b80
+>>> Executing 0x404a2a: mov rax, qword ptr [rsi]
+>>> Executing 0x404a2d: movdqu xmm0, xmmword ptr [rsi + 8]
+>>> Executing 0x404a32: lea rdx, [rbp - 0xa0]
+>>> Executing 0x404a39: movdqu xmm1, xmmword ptr [rsi + 0x18]
+>>> Executing 0x404a3e: movdqu xmm2, xmmword ptr [rsi + 0x28]
+>>> Executing 0x404a43: mov qword ptr [rbp - 0x140], rax
+>>> Executing 0x404a4a: movsxd rax, dword ptr [rsi + 0x88]
+>>> Executing 0x404a51: movdqu xmm3, xmmword ptr [rsi + 0x38]
+>>> Executing 0x404a56: movdqu xmm4, xmmword ptr [rsi + 0x48]
+>>> Executing 0x404a5b: movups xmmword ptr [rbp - 0x128], xmm0
+>>> Executing 0x404a62: or rax, 0x4000000
+>>> Executing 0x404a68: movdqu xmm5, xmmword ptr [rsi + 0x58]
+>>> Executing 0x404a6d: movdqu xmm6, xmmword ptr [rsi + 0x68]
+>>> Executing 0x404a72: movups xmmword ptr [rbp - 0x118], xmm1
+>>> Executing 0x404a79: mov qword ptr [rbp - 0x138], rax
+>>> Executing 0x404a80: lea rax, [rip - 0x97]
+>>> Executing 0x404a87: movdqu xmm7, xmmword ptr [rsi + 0x78]
+>>> Executing 0x404a8c: lea rsi, [rbp - 0x140]
+>>> Executing 0x404a93: mov qword ptr [rbp - 0x130], rax
+>>> Executing 0x404a9a: xor eax, eax
+>>> Executing 0x404a9c: test r8, r8
+>>> Executing 0x404a9f: cmove rdx, rax
+>>> Executing 0x404aa3: movups xmmword ptr [rbp - 0x108], xmm2
+>>> Executing 0x404aaa: movups xmmword ptr [rbp - 0xf8], xmm3
+>>> Executing 0x404ab1: movups xmmword ptr [rbp - 0xe8], xmm4
+>>> Executing 0x404ab8: movups xmmword ptr [rbp - 0xd8], xmm5
+>>> Executing 0x404abf: movups xmmword ptr [rbp - 0xc8], xmm6
+>>> Executing 0x404ac6: movups xmmword ptr [rbp - 0xb8], xmm7
+>>> Executing 0x404acd: mov r10d, 8
+>>> Executing 0x404ad3: mov eax, 0xd
+>>> Executing 0x404ad8: syscall 
+Syscall: 13, args: 0x6, 0x7fffffffda40, 0x0
+>>> Executing 0x404ada: cmp rax, -0x1000
+>>> Executing 0x404ae0: ja 0x404ba0
+>>> Executing 0x404ae6: mov edx, eax
+>>> Executing 0x404ae8: test r8, r8
+>>> Executing 0x404aeb: je 0x404b6a
+>>> Executing 0x404b6a: mov rax, qword ptr [rbp - 8]
+>>> Executing 0x404b6e: sub rax, qword ptr fs:[0x28]
+>>> Executing 0x404b77: jne 0x404bb3
+>>> Executing 0x404b79: leave 
+>>> Executing 0x404b7a: mov eax, edx
+>>> Executing 0x404b7c: ret 
+>>> Executing 0x401390: cmp dword ptr [rip + 0xb3269], 3
+>>> Executing 0x401397: jne 0x4013ad
+>>> Executing 0x401399: mov dword ptr [rip + 0xb325d], 4
+>>> Executing 0x4013a3: mov edi, 6
+>>> Executing 0x4013a8: call 0x462340
+>>> Executing 0x462340: endbr64 
+>>> Executing 0x462344: push rbp
+>>> Executing 0x462345: mov rbp, rsp
+>>> Executing 0x462348: push rbx
+>>> Executing 0x462349: mov ebx, edi
+>>> Executing 0x46234b: sub rsp, 8
+>>> Executing 0x46234f: call 0x467fd0
+>>> Executing 0x467fd0: endbr64 
+>>> Executing 0x467fd4: mov rax, qword ptr fs:[0x10]
+>>> Executing 0x467fdd: ret 
+>>> Executing 0x462354: mov esi, ebx
+>>> Executing 0x462356: mov rdi, rax
+>>> Executing 0x462359: call 0x467e70
+>>> Executing 0x467e70: endbr64 
+>>> Executing 0x467e74: push rbp
+>>> Executing 0x467e75: lea edx, [rsi - 0x20]
+>>> Executing 0x467e78: mov rbp, rsp
+>>> Executing 0x467e7b: push r15
+>>> Executing 0x467e7d: push r14
+>>> Executing 0x467e7f: mov r14d, 0x16
+>>> Executing 0x467e85: push r13
+>>> Executing 0x467e87: push r12
+>>> Executing 0x467e89: push rbx
+>>> Executing 0x467e8a: sub rsp, 0x18
+>>> Executing 0x467e8e: mov rax, qword ptr fs:[0x28]
+>>> Executing 0x467e97: mov qword ptr [rbp - 0x38], rax
+>>> Executing 0x467e9b: xor eax, eax
+>>> Executing 0x467e9d: cmp edx, 1
+>>> Executing 0x467ea0: jbe 0x467f20
+>>> Executing 0x467ea2: mov rbx, rdi
+>>> Executing 0x467ea5: mov r12d, esi
+>>> Executing 0x467ea8: cmp rdi, qword ptr fs:[0x10]
+>>> Executing 0x467eb1: je 0x467f70
+>>> Executing 0x467f70: mov eax, 0xba
+>>> Executing 0x467f75: syscall 
+Syscall: 186, args: 0x0, 0x6, 0xffffffe6
+>>> Executing 0x467f77: mov ebx, eax
+>>> Executing 0x467f79: call 0x4568a0
+>>> Executing 0x4568a0: endbr64 
+>>> Executing 0x4568a4: mov eax, 0x27
+>>> Executing 0x4568a9: syscall 
+Syscall: 39, args: 0x0, 0x6, 0xffffffe6
+>>> Executing 0x4568ab: ret 
+>>> Executing 0x467f7e: mov edx, r12d
+>>> Executing 0x467f81: mov esi, ebx
+>>> Executing 0x467f83: mov edi, eax
+>>> Executing 0x467f85: mov eax, 0xea
+>>> Executing 0x467f8a: syscall 
+Syscall: 234, args: 0x27, 0xba, 0x6
+>>> Executing 0x467f8c: mov r14d, eax
+>>> Executing 0x467f8f: neg r14d
+>>> Executing 0x467f92: cmp eax, 0xfffff000
+>>> Executing 0x467f97: mov eax, 0
+>>> Executing 0x467f9c: cmovbe r14d, eax
+>>> Executing 0x467fa0: jmp 0x467f20
+>>> Executing 0x467f20: mov rax, qword ptr [rbp - 0x38]
+>>> Executing 0x467f24: sub rax, qword ptr fs:[0x28]
+>>> Executing 0x467f2d: jne 0x467fc5
+>>> Executing 0x467f33: add rsp, 0x18
+>>> Executing 0x467f37: mov eax, r14d
+>>> Executing 0x467f3a: pop rbx
+>>> Executing 0x467f3b: pop r12
+>>> Executing 0x467f3d: pop r13
+>>> Executing 0x467f3f: pop r14
+>>> Executing 0x467f41: pop r15
+>>> Executing 0x467f43: pop rbp
+>>> Executing 0x467f44: ret 
+>>> Executing 0x46235e: test eax, eax
+>>> Executing 0x462360: jne 0x462370
+>>> Executing 0x462362: mov rbx, qword ptr [rbp - 8]
+>>> Executing 0x462366: leave 
+>>> Executing 0x462367: ret 
+>>> Executing 0x4013ad: cmp dword ptr [rip + 0xb324c], 4
+>>> Executing 0x4013b4: jne 0x4013c1
+>>> Executing 0x4013b6: mov dword ptr [rip + 0xb3240], 5
+>>> Executing 0x4013c0: hlt 

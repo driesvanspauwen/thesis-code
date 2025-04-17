@@ -1,0 +1,850 @@
+
+nand_test.elf:     file format elf64-x86-64
+
+
+Disassembly of section .init:
+
+0000000000001000 <_init>:
+    1000:	f3 0f 1e fa          	endbr64
+    1004:	48 83 ec 08          	sub    rsp,0x8
+    1008:	48 8b 05 d9 2f 00 00 	mov    rax,QWORD PTR [rip+0x2fd9]        # 3fe8 <__gmon_start__@Base>
+    100f:	48 85 c0             	test   rax,rax
+    1012:	74 02                	je     1016 <_init+0x16>
+    1014:	ff d0                	call   rax
+    1016:	48 83 c4 08          	add    rsp,0x8
+    101a:	c3                   	ret
+
+Disassembly of section .plt:
+
+0000000000001020 <.plt>:
+    1020:	ff 35 7a 2f 00 00    	push   QWORD PTR [rip+0x2f7a]        # 3fa0 <_GLOBAL_OFFSET_TABLE_+0x8>
+    1026:	ff 25 7c 2f 00 00    	jmp    QWORD PTR [rip+0x2f7c]        # 3fa8 <_GLOBAL_OFFSET_TABLE_+0x10>
+    102c:	0f 1f 40 00          	nop    DWORD PTR [rax+0x0]
+    1030:	f3 0f 1e fa          	endbr64
+    1034:	68 00 00 00 00       	push   0x0
+    1039:	e9 e2 ff ff ff       	jmp    1020 <_init+0x20>
+    103e:	66 90                	xchg   ax,ax
+    1040:	f3 0f 1e fa          	endbr64
+    1044:	68 01 00 00 00       	push   0x1
+    1049:	e9 d2 ff ff ff       	jmp    1020 <_init+0x20>
+    104e:	66 90                	xchg   ax,ax
+    1050:	f3 0f 1e fa          	endbr64
+    1054:	68 02 00 00 00       	push   0x2
+    1059:	e9 c2 ff ff ff       	jmp    1020 <_init+0x20>
+    105e:	66 90                	xchg   ax,ax
+    1060:	f3 0f 1e fa          	endbr64
+    1064:	68 03 00 00 00       	push   0x3
+    1069:	e9 b2 ff ff ff       	jmp    1020 <_init+0x20>
+    106e:	66 90                	xchg   ax,ax
+    1070:	f3 0f 1e fa          	endbr64
+    1074:	68 04 00 00 00       	push   0x4
+    1079:	e9 a2 ff ff ff       	jmp    1020 <_init+0x20>
+    107e:	66 90                	xchg   ax,ax
+
+Disassembly of section .plt.got:
+
+0000000000001080 <__cxa_finalize@plt>:
+    1080:	f3 0f 1e fa          	endbr64
+    1084:	ff 25 6e 2f 00 00    	jmp    QWORD PTR [rip+0x2f6e]        # 3ff8 <__cxa_finalize@GLIBC_2.2.5>
+    108a:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+
+Disassembly of section .plt.sec:
+
+0000000000001090 <puts@plt>:
+    1090:	f3 0f 1e fa          	endbr64
+    1094:	ff 25 16 2f 00 00    	jmp    QWORD PTR [rip+0x2f16]        # 3fb0 <puts@GLIBC_2.2.5>
+    109a:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+
+00000000000010a0 <sigaction@plt>:
+    10a0:	f3 0f 1e fa          	endbr64
+    10a4:	ff 25 0e 2f 00 00    	jmp    QWORD PTR [rip+0x2f0e]        # 3fb8 <sigaction@GLIBC_2.2.5>
+    10aa:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+
+00000000000010b0 <__stack_chk_fail@plt>:
+    10b0:	f3 0f 1e fa          	endbr64
+    10b4:	ff 25 06 2f 00 00    	jmp    QWORD PTR [rip+0x2f06]        # 3fc0 <__stack_chk_fail@GLIBC_2.4>
+    10ba:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+
+00000000000010c0 <sigemptyset@plt>:
+    10c0:	f3 0f 1e fa          	endbr64
+    10c4:	ff 25 fe 2e 00 00    	jmp    QWORD PTR [rip+0x2efe]        # 3fc8 <sigemptyset@GLIBC_2.2.5>
+    10ca:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+
+00000000000010d0 <__printf_chk@plt>:
+    10d0:	f3 0f 1e fa          	endbr64
+    10d4:	ff 25 f6 2e 00 00    	jmp    QWORD PTR [rip+0x2ef6]        # 3fd0 <__printf_chk@GLIBC_2.3.4>
+    10da:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+
+Disassembly of section .text:
+
+00000000000010e0 <main>:
+    10e0:	f3 0f 1e fa          	endbr64
+    10e4:	55                   	push   rbp
+    10e5:	b9 13 00 00 00       	mov    ecx,0x13
+    10ea:	48 8d 2d 4f 57 00 00 	lea    rbp,[rip+0x574f]        # 6840 <in2>
+    10f1:	53                   	push   rbx
+    10f2:	48 81 ec a8 00 00 00 	sub    rsp,0xa8
+    10f9:	64 48 8b 04 25 28 00 	mov    rax,QWORD PTR fs:0x28
+    1100:	00 00 
+    1102:	48 89 84 24 98 00 00 	mov    QWORD PTR [rsp+0x98],rax
+    1109:	00 
+    110a:	31 c0                	xor    eax,eax
+    110c:	48 89 e7             	mov    rdi,rsp
+    110f:	48 89 e3             	mov    rbx,rsp
+    1112:	f3 48 ab             	rep stos QWORD PTR es:[rdi],rax
+    1115:	48 8d 7c 24 08       	lea    rdi,[rsp+0x8]
+    111a:	e8 a1 ff ff ff       	call   10c0 <sigemptyset@plt>
+    111f:	48 89 de             	mov    rsi,rbx
+    1122:	31 d2                	xor    edx,edx
+    1124:	bf 08 00 00 00       	mov    edi,0x8
+    1129:	48 8d 05 f0 01 00 00 	lea    rax,[rip+0x1f0]        # 1320 <_Z14signal_handleriP9siginfo_tPv>
+    1130:	48 8d 1d 09 5f 00 00 	lea    rbx,[rip+0x5f09]        # 7040 <in1>
+    1137:	c7 84 24 88 00 00 00 	mov    DWORD PTR [rsp+0x88],0x4
+    113e:	04 00 00 00 
+    1142:	48 89 04 24          	mov    QWORD PTR [rsp],rax
+    1146:	e8 55 ff ff ff       	call   10a0 <sigaction@plt>
+    114b:	48 8d 3d c6 0e 00 00 	lea    rdi,[rip+0xec6]        # 2018 <_IO_stdin_used+0x18>
+    1152:	c6 05 e7 5e 00 00 00 	mov    BYTE PTR [rip+0x5ee7],0x0        # 7040 <in1>
+    1159:	c6 05 e0 56 00 00 00 	mov    BYTE PTR [rip+0x56e0],0x0        # 6840 <in2>
+    1160:	c6 05 d9 4e 00 00 00 	mov    BYTE PTR [rip+0x4ed9],0x0        # 6040 <out>
+    1167:	e8 24 ff ff ff       	call   1090 <puts@plt>
+    116c:	0f ae 3d cd 5e 00 00 	clflush BYTE PTR [rip+0x5ecd]        # 7040 <in1>
+    1173:	c6 05 c6 56 00 00 00 	mov    BYTE PTR [rip+0x56c6],0x0        # 6840 <in2>
+    117a:	0f ae 3d bf 4e 00 00 	clflush BYTE PTR [rip+0x4ebf]        # 6040 <out>
+    1181:	48 8d 15 b8 4e 00 00 	lea    rdx,[rip+0x4eb8]        # 6040 <out>
+    1188:	48 89 ee             	mov    rsi,rbp
+    118b:	48 89 df             	mov    rdi,rbx
+    118e:	e8 9d 01 00 00       	call   1330 <_Z9nand_gatePhS_S_>
+    1193:	0f 01 f9             	rdtscp
+    1196:	48 c1 e2 20          	shl    rdx,0x20
+    119a:	48 89 d6             	mov    rsi,rdx
+    119d:	09 c6                	or     esi,eax
+    119f:	8a 05 9b 4e 00 00    	mov    al,BYTE PTR [rip+0x4e9b]        # 6040 <out>
+    11a5:	0f 01 f9             	rdtscp
+    11a8:	48 c1 e2 20          	shl    rdx,0x20
+    11ac:	09 c2                	or     edx,eax
+    11ae:	48 29 f2             	sub    rdx,rsi
+    11b1:	48 89 d7             	mov    rdi,rdx
+    11b4:	48 81 ff b4 00 00 00 	cmp    rdi,0xb4
+    11bb:	48 8d 15 42 0e 00 00 	lea    rdx,[rip+0xe42]        # 2004 <_IO_stdin_used+0x4>
+    11c2:	48 8d 05 43 0e 00 00 	lea    rax,[rip+0xe43]        # 200c <_IO_stdin_used+0xc>
+    11c9:	48 89 e9             	mov    rcx,rbp
+    11cc:	41 0f 96 c0          	setbe  r8b
+    11d0:	48 81 ff b5 00 00 00 	cmp    rdi,0xb5
+    11d7:	bf 02 00 00 00       	mov    edi,0x2
+    11dc:	48 0f 43 c2          	cmovae rax,rdx
+    11e0:	48 83 ec 08          	sub    rsp,0x8
+    11e4:	48 89 da             	mov    rdx,rbx
+    11e7:	45 31 c9             	xor    r9d,r9d
+    11ea:	41 83 e0 01          	and    r8d,0x1
+    11ee:	48 8d 35 4b 0e 00 00 	lea    rsi,[rip+0xe4b]        # 2040 <_IO_stdin_used+0x40>
+    11f5:	50                   	push   rax
+    11f6:	31 c0                	xor    eax,eax
+    11f8:	e8 d3 fe ff ff       	call   10d0 <__printf_chk@plt>
+    11fd:	58                   	pop    rax
+    11fe:	5a                   	pop    rdx
+    11ff:	48 8b 84 24 98 00 00 	mov    rax,QWORD PTR [rsp+0x98]
+    1206:	00 
+    1207:	64 48 2b 04 25 28 00 	sub    rax,QWORD PTR fs:0x28
+    120e:	00 00 
+    1210:	75 0c                	jne    121e <main+0x13e>
+    1212:	48 81 c4 a8 00 00 00 	add    rsp,0xa8
+    1219:	31 c0                	xor    eax,eax
+    121b:	5b                   	pop    rbx
+    121c:	5d                   	pop    rbp
+    121d:	c3                   	ret
+    121e:	e8 8d fe ff ff       	call   10b0 <__stack_chk_fail@plt>
+    1223:	66 2e 0f 1f 84 00 00 	cs nop WORD PTR [rax+rax*1+0x0]
+    122a:	00 00 00 
+    122d:	0f 1f 00             	nop    DWORD PTR [rax]
+
+0000000000001230 <_start>:
+    1230:	f3 0f 1e fa          	endbr64
+    1234:	31 ed                	xor    ebp,ebp
+    1236:	49 89 d1             	mov    r9,rdx
+    1239:	5e                   	pop    rsi
+    123a:	48 89 e2             	mov    rdx,rsp
+    123d:	48 83 e4 f0          	and    rsp,0xfffffffffffffff0
+    1241:	50                   	push   rax
+    1242:	54                   	push   rsp
+    1243:	45 31 c0             	xor    r8d,r8d
+    1246:	31 c9                	xor    ecx,ecx
+    1248:	48 8d 3d 91 fe ff ff 	lea    rdi,[rip+0xfffffffffffffe91]        # 10e0 <main>
+    124f:	ff 15 83 2d 00 00    	call   QWORD PTR [rip+0x2d83]        # 3fd8 <__libc_start_main@GLIBC_2.34>
+    1255:	f4                   	hlt
+    1256:	66 2e 0f 1f 84 00 00 	cs nop WORD PTR [rax+rax*1+0x0]
+    125d:	00 00 00 
+
+0000000000001260 <deregister_tm_clones>:
+    1260:	48 8d 3d a9 2d 00 00 	lea    rdi,[rip+0x2da9]        # 4010 <__TMC_END__>
+    1267:	48 8d 05 a2 2d 00 00 	lea    rax,[rip+0x2da2]        # 4010 <__TMC_END__>
+    126e:	48 39 f8             	cmp    rax,rdi
+    1271:	74 15                	je     1288 <deregister_tm_clones+0x28>
+    1273:	48 8b 05 66 2d 00 00 	mov    rax,QWORD PTR [rip+0x2d66]        # 3fe0 <_ITM_deregisterTMCloneTable@Base>
+    127a:	48 85 c0             	test   rax,rax
+    127d:	74 09                	je     1288 <deregister_tm_clones+0x28>
+    127f:	ff e0                	jmp    rax
+    1281:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+    1288:	c3                   	ret
+    1289:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+
+0000000000001290 <register_tm_clones>:
+    1290:	48 8d 3d 79 2d 00 00 	lea    rdi,[rip+0x2d79]        # 4010 <__TMC_END__>
+    1297:	48 8d 35 72 2d 00 00 	lea    rsi,[rip+0x2d72]        # 4010 <__TMC_END__>
+    129e:	48 29 fe             	sub    rsi,rdi
+    12a1:	48 89 f0             	mov    rax,rsi
+    12a4:	48 c1 ee 3f          	shr    rsi,0x3f
+    12a8:	48 c1 f8 03          	sar    rax,0x3
+    12ac:	48 01 c6             	add    rsi,rax
+    12af:	48 d1 fe             	sar    rsi,1
+    12b2:	74 14                	je     12c8 <register_tm_clones+0x38>
+    12b4:	48 8b 05 35 2d 00 00 	mov    rax,QWORD PTR [rip+0x2d35]        # 3ff0 <_ITM_registerTMCloneTable@Base>
+    12bb:	48 85 c0             	test   rax,rax
+    12be:	74 08                	je     12c8 <register_tm_clones+0x38>
+    12c0:	ff e0                	jmp    rax
+    12c2:	66 0f 1f 44 00 00    	nop    WORD PTR [rax+rax*1+0x0]
+    12c8:	c3                   	ret
+    12c9:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+
+00000000000012d0 <__do_global_dtors_aux>:
+    12d0:	f3 0f 1e fa          	endbr64
+    12d4:	80 3d 45 2d 00 00 00 	cmp    BYTE PTR [rip+0x2d45],0x0        # 4020 <completed.0>
+    12db:	75 2b                	jne    1308 <__do_global_dtors_aux+0x38>
+    12dd:	55                   	push   rbp
+    12de:	48 83 3d 12 2d 00 00 	cmp    QWORD PTR [rip+0x2d12],0x0        # 3ff8 <__cxa_finalize@GLIBC_2.2.5>
+    12e5:	00 
+    12e6:	48 89 e5             	mov    rbp,rsp
+    12e9:	74 0c                	je     12f7 <__do_global_dtors_aux+0x27>
+    12eb:	48 8b 3d 16 2d 00 00 	mov    rdi,QWORD PTR [rip+0x2d16]        # 4008 <__dso_handle>
+    12f2:	e8 89 fd ff ff       	call   1080 <__cxa_finalize@plt>
+    12f7:	e8 64 ff ff ff       	call   1260 <deregister_tm_clones>
+    12fc:	c6 05 1d 2d 00 00 01 	mov    BYTE PTR [rip+0x2d1d],0x1        # 4020 <completed.0>
+    1303:	5d                   	pop    rbp
+    1304:	c3                   	ret
+    1305:	0f 1f 00             	nop    DWORD PTR [rax]
+    1308:	c3                   	ret
+    1309:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+
+0000000000001310 <frame_dummy>:
+    1310:	f3 0f 1e fa          	endbr64
+    1314:	e9 77 ff ff ff       	jmp    1290 <register_tm_clones>
+    1319:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+
+0000000000001320 <_Z14signal_handleriP9siginfo_tPv>:
+    1320:	f3 0f 1e fa          	endbr64
+    1324:	48 83 82 a8 00 00 00 	add    QWORD PTR [rdx+0xa8],0x40
+    132b:	40 
+    132c:	c3                   	ret
+    132d:	0f 1f 00             	nop    DWORD PTR [rax]
+
+0000000000001330 <_Z9nand_gatePhS_S_>:
+// setup phase: initialize temp regs
+    1330:	f3 0f 1e fa          	endbr64
+    1334:	49 89 d0             	mov    r8,rdx
+    1337:	c6 05 02 45 00 00 00 	mov    BYTE PTR [rip+0x4502],0x0        # 5840 <tmp_reg1>
+    133e:	c6 05 fb 3c 00 00 00 	mov    BYTE PTR [rip+0x3cfb],0x0        # 5040 <tmp_reg2>
+    1345:	c6 05 f4 34 00 00 00 	mov    BYTE PTR [rip+0x34f4],0x0        # 4840 <tmp_reg3>
+    134c:	c6 05 ed 2c 00 00 00 	mov    BYTE PTR [rip+0x2ced],0x0        # 4040 <tmp_reg4>
+    1353:	0f ae 3d e6 44 00 00 	clflush BYTE PTR [rip+0x44e6]        # 5840 <tmp_reg1>
+    135a:	0f ae 3d df 3c 00 00 	clflush BYTE PTR [rip+0x3cdf]        # 5040 <tmp_reg2>
+    1361:	0f ae 3d d8 34 00 00 	clflush BYTE PTR [rip+0x34d8]        # 4840 <tmp_reg3>
+    1368:	0f ae 3d d1 2c 00 00 	clflush BYTE PTR [rip+0x2cd1]        # 4040 <tmp_reg4>
+// delay loop
+    136f:	c7 44 24 f4 00 00 00 	mov    DWORD PTR [rsp-0xc],0x0
+    1376:	00 
+    1377:	8b 44 24 f4          	mov    eax,DWORD PTR [rsp-0xc]
+    137b:	83 f8 3f             	cmp    eax,0x3f
+    137e:	7f 14                	jg     1394 <_Z9nand_gatePhS_S_+0x64>
+    1380:	8b 44 24 f4          	mov    eax,DWORD PTR [rsp-0xc]
+    1384:	83 c0 01             	add    eax,0x1
+    1387:	89 44 24 f4          	mov    DWORD PTR [rsp-0xc],eax
+    138b:	8b 44 24 f4          	mov    eax,DWORD PTR [rsp-0xc]
+    138f:	83 f8 3f             	cmp    eax,0x3f
+    1392:	7e ec                	jle    1380 <_Z9nand_gatePhS_S_+0x50>
+// AND gate
+    1394:	4c 8d 0d a5 44 00 00 	lea    r9,[rip+0x44a5]        # 5840 <tmp_reg1>
+    139b:	48 31 d2             	xor    rdx,rdx
+    139e:	f6 f2                	div    dl
+    13a0:	48 0f b6 0f          	movzx  rcx,BYTE PTR [rdi]
+    13a4:	48 01 f1             	add    rcx,rsi
+    13a7:	48 0f b6 11          	movzx  rdx,BYTE PTR [rcx]
+    13ab:	4c 01 ca             	add    rdx,r9
+    13ae:	8a 12                	mov    dl,BYTE PTR [rdx]
+    // 256 NOPS
+    13b0:	90                   	nop
+    13b1:	90                   	nop
+    13b2:	90                   	nop
+    13b3:	90                   	nop
+    13b4:	90                   	nop
+    13b5:	90                   	nop
+    13b6:	90                   	nop
+    13b7:	90                   	nop
+    13b8:	90                   	nop
+    13b9:	90                   	nop
+    13ba:	90                   	nop
+    13bb:	90                   	nop
+    13bc:	90                   	nop
+    13bd:	90                   	nop
+    13be:	90                   	nop
+    13bf:	90                   	nop
+    13c0:	90                   	nop
+    13c1:	90                   	nop
+    13c2:	90                   	nop
+    13c3:	90                   	nop
+    13c4:	90                   	nop
+    13c5:	90                   	nop
+    13c6:	90                   	nop
+    13c7:	90                   	nop
+    13c8:	90                   	nop
+    13c9:	90                   	nop
+    13ca:	90                   	nop
+    13cb:	90                   	nop
+    13cc:	90                   	nop
+    13cd:	90                   	nop
+    13ce:	90                   	nop
+    13cf:	90                   	nop
+    13d0:	90                   	nop
+    13d1:	90                   	nop
+    13d2:	90                   	nop
+    13d3:	90                   	nop
+    13d4:	90                   	nop
+    13d5:	90                   	nop
+    13d6:	90                   	nop
+    13d7:	90                   	nop
+    13d8:	90                   	nop
+    13d9:	90                   	nop
+    13da:	90                   	nop
+    13db:	90                   	nop
+    13dc:	90                   	nop
+    13dd:	90                   	nop
+    13de:	90                   	nop
+    13df:	90                   	nop
+    13e0:	90                   	nop
+    13e1:	90                   	nop
+    13e2:	90                   	nop
+    13e3:	90                   	nop
+    13e4:	90                   	nop
+    13e5:	90                   	nop
+    13e6:	90                   	nop
+    13e7:	90                   	nop
+    13e8:	90                   	nop
+    13e9:	90                   	nop
+    13ea:	90                   	nop
+    13eb:	90                   	nop
+    13ec:	90                   	nop
+    13ed:	90                   	nop
+    13ee:	90                   	nop
+    13ef:	90                   	nop
+    13f0:	90                   	nop
+    13f1:	90                   	nop
+    13f2:	90                   	nop
+    13f3:	90                   	nop
+    13f4:	90                   	nop
+    13f5:	90                   	nop
+    13f6:	90                   	nop
+    13f7:	90                   	nop
+    13f8:	90                   	nop
+    13f9:	90                   	nop
+    13fa:	90                   	nop
+    13fb:	90                   	nop
+    13fc:	90                   	nop
+    13fd:	90                   	nop
+    13fe:	90                   	nop
+    13ff:	90                   	nop
+    1400:	90                   	nop
+    1401:	90                   	nop
+    1402:	90                   	nop
+    1403:	90                   	nop
+    1404:	90                   	nop
+    1405:	90                   	nop
+    1406:	90                   	nop
+    1407:	90                   	nop
+    1408:	90                   	nop
+    1409:	90                   	nop
+    140a:	90                   	nop
+    140b:	90                   	nop
+    140c:	90                   	nop
+    140d:	90                   	nop
+    140e:	90                   	nop
+    140f:	90                   	nop
+    1410:	90                   	nop
+    1411:	90                   	nop
+    1412:	90                   	nop
+    1413:	90                   	nop
+    1414:	90                   	nop
+    1415:	90                   	nop
+    1416:	90                   	nop
+    1417:	90                   	nop
+    1418:	90                   	nop
+    1419:	90                   	nop
+    141a:	90                   	nop
+    141b:	90                   	nop
+    141c:	90                   	nop
+    141d:	90                   	nop
+    141e:	90                   	nop
+    141f:	90                   	nop
+    1420:	90                   	nop
+    1421:	90                   	nop
+    1422:	90                   	nop
+    1423:	90                   	nop
+    1424:	90                   	nop
+    1425:	90                   	nop
+    1426:	90                   	nop
+    1427:	90                   	nop
+    1428:	90                   	nop
+    1429:	90                   	nop
+    142a:	90                   	nop
+    142b:	90                   	nop
+    142c:	90                   	nop
+    142d:	90                   	nop
+    142e:	90                   	nop
+    142f:	90                   	nop
+    1430:	90                   	nop
+    1431:	90                   	nop
+    1432:	90                   	nop
+    1433:	90                   	nop
+    1434:	90                   	nop
+    1435:	90                   	nop
+    1436:	90                   	nop
+    1437:	90                   	nop
+    1438:	90                   	nop
+    1439:	90                   	nop
+    143a:	90                   	nop
+    143b:	90                   	nop
+    143c:	90                   	nop
+    143d:	90                   	nop
+    143e:	90                   	nop
+    143f:	90                   	nop
+    1440:	90                   	nop
+    1441:	90                   	nop
+    1442:	90                   	nop
+    1443:	90                   	nop
+    1444:	90                   	nop
+    1445:	90                   	nop
+    1446:	90                   	nop
+    1447:	90                   	nop
+    1448:	90                   	nop
+    1449:	90                   	nop
+    144a:	90                   	nop
+    144b:	90                   	nop
+    144c:	90                   	nop
+    144d:	90                   	nop
+    144e:	90                   	nop
+    144f:	90                   	nop
+    1450:	90                   	nop
+    1451:	90                   	nop
+    1452:	90                   	nop
+    1453:	90                   	nop
+    1454:	90                   	nop
+    1455:	90                   	nop
+    1456:	90                   	nop
+    1457:	90                   	nop
+    1458:	90                   	nop
+    1459:	90                   	nop
+    145a:	90                   	nop
+    145b:	90                   	nop
+    145c:	90                   	nop
+    145d:	90                   	nop
+    145e:	90                   	nop
+    145f:	90                   	nop
+    1460:	90                   	nop
+    1461:	90                   	nop
+    1462:	90                   	nop
+    1463:	90                   	nop
+    1464:	90                   	nop
+    1465:	90                   	nop
+    1466:	90                   	nop
+    1467:	90                   	nop
+    1468:	90                   	nop
+    1469:	90                   	nop
+    146a:	90                   	nop
+    146b:	90                   	nop
+    146c:	90                   	nop
+    146d:	90                   	nop
+    146e:	90                   	nop
+    146f:	90                   	nop
+    1470:	90                   	nop
+    1471:	90                   	nop
+    1472:	90                   	nop
+    1473:	90                   	nop
+    1474:	90                   	nop
+    1475:	90                   	nop
+    1476:	90                   	nop
+    1477:	90                   	nop
+    1478:	90                   	nop
+    1479:	90                   	nop
+    147a:	90                   	nop
+    147b:	90                   	nop
+    147c:	90                   	nop
+    147d:	90                   	nop
+    147e:	90                   	nop
+    147f:	90                   	nop
+    1480:	90                   	nop
+    1481:	90                   	nop
+    1482:	90                   	nop
+    1483:	90                   	nop
+    1484:	90                   	nop
+    1485:	90                   	nop
+    1486:	90                   	nop
+    1487:	90                   	nop
+    1488:	90                   	nop
+    1489:	90                   	nop
+    148a:	90                   	nop
+    148b:	90                   	nop
+    148c:	90                   	nop
+    148d:	90                   	nop
+    148e:	90                   	nop
+    148f:	90                   	nop
+    1490:	90                   	nop
+    1491:	90                   	nop
+    1492:	90                   	nop
+    1493:	90                   	nop
+    1494:	90                   	nop
+    1495:	90                   	nop
+    1496:	90                   	nop
+    1497:	90                   	nop
+    1498:	90                   	nop
+    1499:	90                   	nop
+    149a:	90                   	nop
+    149b:	90                   	nop
+    149c:	90                   	nop
+    149d:	90                   	nop
+    149e:	90                   	nop
+    149f:	90                   	nop
+    14a0:	90                   	nop
+    14a1:	90                   	nop
+    14a2:	90                   	nop
+    14a3:	90                   	nop
+    14a4:	90                   	nop
+    14a5:	90                   	nop
+    14a6:	90                   	nop
+    14a7:	90                   	nop
+    14a8:	90                   	nop
+    14a9:	90                   	nop
+    14aa:	90                   	nop
+    14ab:	90                   	nop
+    14ac:	90                   	nop
+    14ad:	90                   	nop
+    14ae:	90                   	nop
+    14af:	90                   	nop
+// delay loop
+    14b0:	c7 44 24 f8 00 00 00 	mov    DWORD PTR [rsp-0x8],0x0
+    14b7:	00 
+    14b8:	8b 44 24 f8          	mov    eax,DWORD PTR [rsp-0x8]
+    14bc:	83 f8 3f             	cmp    eax,0x3f
+    14bf:	7f 1b                	jg     14dc <_Z9nand_gatePhS_S_+0x1ac>
+    14c1:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+    14c8:	8b 44 24 f8          	mov    eax,DWORD PTR [rsp-0x8]
+    14cc:	83 c0 01             	add    eax,0x1
+    14cf:	89 44 24 f8          	mov    DWORD PTR [rsp-0x8],eax
+    14d3:	8b 44 24 f8          	mov    eax,DWORD PTR [rsp-0x8]
+    14d7:	83 f8 3f             	cmp    eax,0x3f
+    14da:	7e ec                	jle    14c8 <_Z9nand_gatePhS_S_+0x198>
+// timed read
+    14dc:	0f 01 f9             	rdtscp
+    14df:	48 c1 e2 20          	shl    rdx,0x20
+    14e3:	48 89 d6             	mov    rsi,rdx
+    14e6:	09 c6                	or     esi,eax
+    14e8:	8a 05 52 43 00 00    	mov    al,BYTE PTR [rip+0x4352]        # 5840 <tmp_reg1>
+    14ee:	0f 01 f9             	rdtscp
+    14f1:	48 c1 e2 20          	shl    rdx,0x20
+    14f5:	09 c2                	or     edx,eax
+    14f7:	48 29 f2             	sub    rdx,rsi
+    14fa:	48 89 d7             	mov    rdi,rdx
+    14fd:	48 81 ff b4 00 00 00 	cmp    rdi,0xb4
+    1504:	0f 87 66 01 00 00    	ja     1670 <_Z9nand_gatePhS_S_+0x340>
+    150a:	c6 05 2f 3b 00 00 00 	mov    BYTE PTR [rip+0x3b2f],0x0        # 5040 <tmp_reg2>
+    1511:	c6 05 28 33 00 00 00 	mov    BYTE PTR [rip+0x3328],0x0        # 4840 <tmp_reg3>
+// delay loop
+    1518:	c7 44 24 fc 00 00 00 	mov    DWORD PTR [rsp-0x4],0x0
+    151f:	00 
+    1520:	8b 44 24 fc          	mov    eax,DWORD PTR [rsp-0x4]
+    1524:	83 f8 3f             	cmp    eax,0x3f
+    1527:	7f 1b                	jg     1544 <_Z9nand_gatePhS_S_+0x214>
+    1529:	0f 1f 80 00 00 00 00 	nop    DWORD PTR [rax+0x0]
+    1530:	8b 44 24 fc          	mov    eax,DWORD PTR [rsp-0x4]
+    1534:	83 c0 01             	add    eax,0x1
+    1537:	89 44 24 fc          	mov    DWORD PTR [rsp-0x4],eax
+    153b:	8b 44 24 fc          	mov    eax,DWORD PTR [rsp-0x4]
+    153f:	83 f8 3f             	cmp    eax,0x3f
+    1542:	7e ec                	jle    1530 <_Z9nand_gatePhS_S_+0x200>
+// NOT gate
+    1544:	48 8d 35 f5 3a 00 00 	lea    rsi,[rip+0x3af5]        # 5040 <tmp_reg2>
+    154b:	48 8d 3d ee 2a 00 00 	lea    rdi,[rip+0x2aee]        # 4040 <tmp_reg4>
+    1552:	4c 8d 0d e7 32 00 00 	lea    r9,[rip+0x32e7]        # 4840 <tmp_reg3>
+    1559:	48 0f b6 16          	movzx  rdx,BYTE PTR [rsi]
+    155d:	4c 01 ca             	add    rdx,r9
+    1560:	48 0f b6 12          	movzx  rdx,BYTE PTR [rdx]
+    1564:	f6 f2                	div    dl
+    1566:	48 0f b6 0f          	movzx  rcx,BYTE PTR [rdi]
+    156a:	4c 01 c1             	add    rcx,r8
+    156d:	8a 11                	mov    dl,BYTE PTR [rcx]
+    // 256 NOPS
+    156f:	90                   	nop
+    1570:	90                   	nop
+    1571:	90                   	nop
+    1572:	90                   	nop
+    1573:	90                   	nop
+    1574:	90                   	nop
+    1575:	90                   	nop
+    1576:	90                   	nop
+    1577:	90                   	nop
+    1578:	90                   	nop
+    1579:	90                   	nop
+    157a:	90                   	nop
+    157b:	90                   	nop
+    157c:	90                   	nop
+    157d:	90                   	nop
+    157e:	90                   	nop
+    157f:	90                   	nop
+    1580:	90                   	nop
+    1581:	90                   	nop
+    1582:	90                   	nop
+    1583:	90                   	nop
+    1584:	90                   	nop
+    1585:	90                   	nop
+    1586:	90                   	nop
+    1587:	90                   	nop
+    1588:	90                   	nop
+    1589:	90                   	nop
+    158a:	90                   	nop
+    158b:	90                   	nop
+    158c:	90                   	nop
+    158d:	90                   	nop
+    158e:	90                   	nop
+    158f:	90                   	nop
+    1590:	90                   	nop
+    1591:	90                   	nop
+    1592:	90                   	nop
+    1593:	90                   	nop
+    1594:	90                   	nop
+    1595:	90                   	nop
+    1596:	90                   	nop
+    1597:	90                   	nop
+    1598:	90                   	nop
+    1599:	90                   	nop
+    159a:	90                   	nop
+    159b:	90                   	nop
+    159c:	90                   	nop
+    159d:	90                   	nop
+    159e:	90                   	nop
+    159f:	90                   	nop
+    15a0:	90                   	nop
+    15a1:	90                   	nop
+    15a2:	90                   	nop
+    15a3:	90                   	nop
+    15a4:	90                   	nop
+    15a5:	90                   	nop
+    15a6:	90                   	nop
+    15a7:	90                   	nop
+    15a8:	90                   	nop
+    15a9:	90                   	nop
+    15aa:	90                   	nop
+    15ab:	90                   	nop
+    15ac:	90                   	nop
+    15ad:	90                   	nop
+    15ae:	90                   	nop
+    15af:	90                   	nop
+    15b0:	90                   	nop
+    15b1:	90                   	nop
+    15b2:	90                   	nop
+    15b3:	90                   	nop
+    15b4:	90                   	nop
+    15b5:	90                   	nop
+    15b6:	90                   	nop
+    15b7:	90                   	nop
+    15b8:	90                   	nop
+    15b9:	90                   	nop
+    15ba:	90                   	nop
+    15bb:	90                   	nop
+    15bc:	90                   	nop
+    15bd:	90                   	nop
+    15be:	90                   	nop
+    15bf:	90                   	nop
+    15c0:	90                   	nop
+    15c1:	90                   	nop
+    15c2:	90                   	nop
+    15c3:	90                   	nop
+    15c4:	90                   	nop
+    15c5:	90                   	nop
+    15c6:	90                   	nop
+    15c7:	90                   	nop
+    15c8:	90                   	nop
+    15c9:	90                   	nop
+    15ca:	90                   	nop
+    15cb:	90                   	nop
+    15cc:	90                   	nop
+    15cd:	90                   	nop
+    15ce:	90                   	nop
+    15cf:	90                   	nop
+    15d0:	90                   	nop
+    15d1:	90                   	nop
+    15d2:	90                   	nop
+    15d3:	90                   	nop
+    15d4:	90                   	nop
+    15d5:	90                   	nop
+    15d6:	90                   	nop
+    15d7:	90                   	nop
+    15d8:	90                   	nop
+    15d9:	90                   	nop
+    15da:	90                   	nop
+    15db:	90                   	nop
+    15dc:	90                   	nop
+    15dd:	90                   	nop
+    15de:	90                   	nop
+    15df:	90                   	nop
+    15e0:	90                   	nop
+    15e1:	90                   	nop
+    15e2:	90                   	nop
+    15e3:	90                   	nop
+    15e4:	90                   	nop
+    15e5:	90                   	nop
+    15e6:	90                   	nop
+    15e7:	90                   	nop
+    15e8:	90                   	nop
+    15e9:	90                   	nop
+    15ea:	90                   	nop
+    15eb:	90                   	nop
+    15ec:	90                   	nop
+    15ed:	90                   	nop
+    15ee:	90                   	nop
+    15ef:	90                   	nop
+    15f0:	90                   	nop
+    15f1:	90                   	nop
+    15f2:	90                   	nop
+    15f3:	90                   	nop
+    15f4:	90                   	nop
+    15f5:	90                   	nop
+    15f6:	90                   	nop
+    15f7:	90                   	nop
+    15f8:	90                   	nop
+    15f9:	90                   	nop
+    15fa:	90                   	nop
+    15fb:	90                   	nop
+    15fc:	90                   	nop
+    15fd:	90                   	nop
+    15fe:	90                   	nop
+    15ff:	90                   	nop
+    1600:	90                   	nop
+    1601:	90                   	nop
+    1602:	90                   	nop
+    1603:	90                   	nop
+    1604:	90                   	nop
+    1605:	90                   	nop
+    1606:	90                   	nop
+    1607:	90                   	nop
+    1608:	90                   	nop
+    1609:	90                   	nop
+    160a:	90                   	nop
+    160b:	90                   	nop
+    160c:	90                   	nop
+    160d:	90                   	nop
+    160e:	90                   	nop
+    160f:	90                   	nop
+    1610:	90                   	nop
+    1611:	90                   	nop
+    1612:	90                   	nop
+    1613:	90                   	nop
+    1614:	90                   	nop
+    1615:	90                   	nop
+    1616:	90                   	nop
+    1617:	90                   	nop
+    1618:	90                   	nop
+    1619:	90                   	nop
+    161a:	90                   	nop
+    161b:	90                   	nop
+    161c:	90                   	nop
+    161d:	90                   	nop
+    161e:	90                   	nop
+    161f:	90                   	nop
+    1620:	90                   	nop
+    1621:	90                   	nop
+    1622:	90                   	nop
+    1623:	90                   	nop
+    1624:	90                   	nop
+    1625:	90                   	nop
+    1626:	90                   	nop
+    1627:	90                   	nop
+    1628:	90                   	nop
+    1629:	90                   	nop
+    162a:	90                   	nop
+    162b:	90                   	nop
+    162c:	90                   	nop
+    162d:	90                   	nop
+    162e:	90                   	nop
+    162f:	90                   	nop
+    1630:	90                   	nop
+    1631:	90                   	nop
+    1632:	90                   	nop
+    1633:	90                   	nop
+    1634:	90                   	nop
+    1635:	90                   	nop
+    1636:	90                   	nop
+    1637:	90                   	nop
+    1638:	90                   	nop
+    1639:	90                   	nop
+    163a:	90                   	nop
+    163b:	90                   	nop
+    163c:	90                   	nop
+    163d:	90                   	nop
+    163e:	90                   	nop
+    163f:	90                   	nop
+    1640:	90                   	nop
+    1641:	90                   	nop
+    1642:	90                   	nop
+    1643:	90                   	nop
+    1644:	90                   	nop
+    1645:	90                   	nop
+    1646:	90                   	nop
+    1647:	90                   	nop
+    1648:	90                   	nop
+    1649:	90                   	nop
+    164a:	90                   	nop
+    164b:	90                   	nop
+    164c:	90                   	nop
+    164d:	90                   	nop
+    164e:	90                   	nop
+    164f:	90                   	nop
+    1650:	90                   	nop
+    1651:	90                   	nop
+    1652:	90                   	nop
+    1653:	90                   	nop
+    1654:	90                   	nop
+    1655:	90                   	nop
+    1656:	90                   	nop
+    1657:	90                   	nop
+    1658:	90                   	nop
+    1659:	90                   	nop
+    165a:	90                   	nop
+    165b:	90                   	nop
+    165c:	90                   	nop
+    165d:	90                   	nop
+    165e:	90                   	nop
+    165f:	90                   	nop
+    1660:	90                   	nop
+    1661:	90                   	nop
+    1662:	90                   	nop
+    1663:	90                   	nop
+    1664:	90                   	nop
+    1665:	90                   	nop
+    1666:	90                   	nop
+    1667:	90                   	nop
+    1668:	90                   	nop
+    1669:	90                   	nop
+    166a:	90                   	nop
+    166b:	90                   	nop
+    166c:	90                   	nop
+    166d:	90                   	nop
+    166e:	90                   	nop
+    166f:	c3                   	ret
+    1670:	0f ae 3d c9 39 00 00 	clflush BYTE PTR [rip+0x39c9]        # 5040 <tmp_reg2>
+    1677:	0f ae 3d c2 31 00 00 	clflush BYTE PTR [rip+0x31c2]        # 4840 <tmp_reg3>
+    167e:	e9 95 fe ff ff       	jmp    1518 <_Z9nand_gatePhS_S_+0x1e8>
+
+Disassembly of section .fini:
+
+0000000000001684 <_fini>:
+    1684:	f3 0f 1e fa          	endbr64
+    1688:	48 83 ec 08          	sub    rsp,0x8
+    168c:	48 83 c4 08          	add    rsp,0x8
+    1690:	c3                   	ret
