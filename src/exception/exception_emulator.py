@@ -4,7 +4,7 @@ from helper import *
 from typing import List, Tuple, Optional, Set, Dict
 from logger import Logger
 from cache import L1DCache
-from compiler import compile_asm
+from loader import *
 from capstone import Cs, CS_ARCH_X86, CS_MODE_64, CsInsn
 import os
 import traceback
@@ -12,11 +12,6 @@ import traceback
 Checkpoint = Tuple[object, int, int, int]
 
 class ExceptionEmulator():
-    CODE_BASE = 0x1000
-    DATA_BASE = 0x2000
-    STACK_BASE = 0x3000
-    REGION_SIZE = 0x1000
-
     # initialize capstone
     cs = Cs(CS_ARCH_X86, CS_MODE_64)
     cs.detail = True
@@ -26,7 +21,7 @@ class ExceptionEmulator():
     REGULAR_INSTR_CYCLES = 1  # Regular instruction timing
     MAX_SPEC_WINDOW = 250
 
-    def __init__(self, asm_code: str, gate_name: str, debug: bool = True):
+    def __init__(self, gate_name: str, loader: Loader, debug: bool = True):
         # initialize unicorn
         self.mu = Uc(UC_ARCH_X86, UC_MODE_64)
         self.pending_fault_id: int = 0
@@ -54,29 +49,24 @@ class ExceptionEmulator():
 
         # logging & compilation
         self.gate_name = gate_name
-        output_dir = os.path.join("output", gate_name)
-        self.logger = Logger(os.path.join(output_dir, 'emulation_log.txt'), debug)
-        self.machine_code = compile_asm(asm_code, output_dir=output_dir)
-
-        # memory mappings
-        self.mu.mem_map(self.CODE_BASE, self.REGION_SIZE, UC_PROT_ALL)
-        self.mu.mem_map(self.DATA_BASE, self.REGION_SIZE, UC_PROT_READ | UC_PROT_WRITE)
-        self.mu.mem_map(self.STACK_BASE, self.REGION_SIZE, UC_PROT_READ | UC_PROT_WRITE)
-
-        self.mu.mem_write(self.CODE_BASE, self.machine_code)
+        self.output_dir = os.path.join("output", gate_name)
+        self.logger = Logger(os.path.join(self.output_dir, 'emulation_log.txt'), debug)
         
-        self.mu.reg_write(UC_X86_REG_RSP, self.STACK_BASE + self.REGION_SIZE - 8)  # Stack pointer
+        # Helper addresses
+        self.code_start_address: int
+        self.code_exit_addr: int
+        self.fault_handler_addr: int
+        self.data_start_addr: int
+
+        # load code & map memory
+        self.loader = loader
+        self.loader.load(self)
 
         # hooks
         self.mu.hook_add(UC_HOOK_MEM_READ, self.mem_read_hook, self)
         self.mu.hook_add(UC_HOOK_MEM_WRITE, self.mem_write_hook, self)
         # self.mu.hook_add(UC_HOOK_MEM_UNMAPPED, self.trace_mem_access, self)
         self.mu.hook_add(UC_HOOK_CODE, self.instruction_hook, self)
-        
-        # helper addresses
-        self.code_start_address = self.CODE_BASE
-        self.code_exit_addr = self.CODE_BASE + len(self.machine_code)
-        self.fault_handler_addr = self.code_exit_addr  # No fault handler in asm snippet
 
     def exit_reached(self, address) -> bool:
         return address == self.code_exit_addr
