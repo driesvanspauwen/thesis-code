@@ -18,7 +18,8 @@
 #define NOP256 NOP64 "," NOP64 "," NOP64 "," NOP64
 #define NOPs(data) asm volatile(".byte " data ::: "memory");
 
-#define THRESHOLD 180
+#define THRESHOLD 125
+#define DELAY 192
 
 uint8_t in1[4*512];
 uint8_t in2[4*512];
@@ -90,10 +91,10 @@ void nand_gate(uint8_t* in1, uint8_t* in2, uint8_t* out) {
     _mm_clflush(tmp_reg2);
     _mm_clflush(tmp_reg3);
     _mm_clflush(tmp_reg4);
-    for (volatile int z = 0; z < 64; z++) {}
+    for (volatile int z = 0; z < DELAY; z++) {}
 
     and_gate(in1, in2, tmp_reg1);
-    for (volatile int z = 0; z < 64; z++) {}
+    for (volatile int z = 0; z < DELAY; z++) {}
 
     uint64_t clk = timer(tmp_reg1);
     assign(tmp_reg2, clk <= THRESHOLD);
@@ -106,7 +107,7 @@ void nand_gate(uint8_t* in1, uint8_t* in2, uint8_t* out) {
 /* Jump over a WG after an exception */
 void signal_handler(int signal, siginfo_t *si, void *context)
 {
-    const int return_delta = 64;
+    const int return_delta = 256;
     ((ucontext_t*)context)->uc_mcontext.gregs[REG_RIP] += return_delta;
 }
 
@@ -125,41 +126,43 @@ int main() {
     
     printf("Testing NAND gate implementation...\n");
 
-    assign(in1, 0);
-    assign(in2, 1);
+    // Test single inputs
+    // assign(in1, 0);
+    // assign(in2, 1);
 
-    _mm_clflush(out);
+    // _mm_clflush(out);
 
-    nand_gate(in1, in2, out);
+    // nand_gate(in1, in2, out);
 
-    uint64_t result = timer(out);
-    bool output = (result <= THRESHOLD);
-    bool expected = !(in1 && in2);
+    // uint64_t result = timer(out);
+    // bool output = (result <= THRESHOLD);
+    // bool expected = !(in1 && in2);
 
-    printf("NAND(%d,%d) result = %d, expected = %d, %s\n", 
-        in1, in2, output, expected, 
-        (output == expected) ? "CORRECT" : "WRONG");
+    // printf("NAND(%d,%d) result = %d, expected = %d, %s\n", 
+    //     in1, in2, output, expected, 
+    //     (output == expected) ? "CORRECT" : "WRONG");
     
-    // for (int i = 0; i < 2; i++) {
-    //     for (int j = 0; j < 2; j++) {
-    //         // Set input values
-    //         assign(in1, i);
-    //         assign(in2, j);
-    //         _mm_clflush(out);
+    // Test all combinations of inputs
+    for (int i = 0; i < 2; i++) {
+        for (int j = 0; j < 2; j++) {
+            // Set input values
+            assign(in1, i);
+            assign(in2, j);
+            _mm_clflush(out);
             
-    //         // Run NAND gate
-    //         nand_gate(in1, in2, out);
+            // Run NAND gate
+            nand_gate(in1, in2, out);
             
-    //         // Check result
-    //         uint64_t result = timer(out);
-    //         bool output = (result <= THRESHOLD);
-    //         bool expected = !(i && j); // Expected NAND result
+            // Check result
+            uint64_t result = timer(out);
+            bool output = (result <= THRESHOLD);
+            bool expected = !(i && j); // Expected NAND result
             
-    //         printf("NAND(%d,%d) result = %d, expected = %d, %s\n", 
-    //             i, j, output, expected, 
-    //             (output == expected) ? "CORRECT" : "WRONG");
-    //     }
-    // }
+            printf("NAND(%d,%d) result = %d, expected = %d, %s\n", 
+                i, j, output, expected, 
+                (output == expected) ? "CORRECT" : "WRONG");
+        }
+    }
     
     return 0;
 }
