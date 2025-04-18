@@ -174,28 +174,42 @@ def test_not():
 
 def run_nand(in1, in2, debug=False):
     # Memory addresses from the disassembly/source code
-    IN1_ADDR = 0x7040    # Address of in1 array
-    IN2_ADDR = 0x6840    # Address of in2 array
-    OUT_ADDR = 0x6040    # Address of out array
-    TMP_REG1_ADDR = 0x5840
-    TMP_REG2_ADDR = 0x5040
-    TMP_REG3_ADDR = 0x4840
-    TMP_REG4_ADDR = 0x4040
+    IN1_ADDR = 0x7040
+    IN2_ADDR = 0x6840
+    OUT_ADDR = 0x6040
+    TMP_REG1_ADDR = 0x5840  # output AND
+    TMP_REG2_ADDR = 0x5040  # input NOT (1)
+    TMP_REG3_ADDR = 0x4840  # input NOT (2)
+    TMP_REG4_ADDR = 0x4040  # delay NOT
 
     # Function address
     NAND_GATE_START_ADDR = 0x13a0
     NAND_GATE_END_ADDR = 0x16ee
     FAULT_HANDLER_ADDR = 0x1390
 
+    # Load ELF file
     loader = ELFLoader("gates/nand/nand.elf")
     emulator = ExceptionEmulator('nand', loader, debug)
     emulator.code_start_address = NAND_GATE_START_ADDR
     emulator.code_exit_addr = NAND_GATE_END_ADDR
     emulator.fault_handler_addr = FAULT_HANDLER_ADDR
 
+    # Set inputs
+    if in1:
+        emulator.cache.read(IN1_ADDR, emulator.mu)
+    if in2:
+        emulator.cache.read(IN2_ADDR, emulator.mu)
+    emulator.mu.reg_write(UC_X86_REG_RDI, IN1_ADDR)
+    emulator.mu.reg_write(UC_X86_REG_RSI, IN2_ADDR)
+
     emulator.logger.log(f"Starting emulation of NAND({in1}, {in2})...")
 
     emulator.emulate()
+
+    result = emulator.cache.is_cached(OUT_ADDR)
+    emulator.logger.log(f"Output value: {result}")
+
+    return result
 
 def run_all_tests():
     """
@@ -211,7 +225,7 @@ def run_all_tests():
     
     print("\nAll tests completed!")
 
-# run_nand(0, 0, debug=True)
+run_nand(1, 0, debug=True)
 
 # Run tests with `python unit_tests.py <test_name>` or `python unit_tests.py all`
 if __name__ == "__main__":

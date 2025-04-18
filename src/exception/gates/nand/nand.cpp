@@ -124,22 +124,6 @@ int main() {
     out[0] = 0;
     
     printf("Testing NAND gate implementation...\n");
-
-    // Test single inputs
-    // assign(in1, 0);
-    // assign(in2, 1);
-
-    // _mm_clflush(out);
-
-    // nand_gate(in1, in2, out);
-
-    // uint64_t result = timer(out);
-    // bool output = (result <= THRESHOLD);
-    // bool expected = !(in1 && in2);
-
-    // printf("NAND(%d,%d) result = %d, expected = %d, %s\n", 
-    //     in1, in2, output, expected, 
-    //     (output == expected) ? "CORRECT" : "WRONG");
     
     // Test all combinations of inputs
     for (int i = 0; i < 2; i++) {
