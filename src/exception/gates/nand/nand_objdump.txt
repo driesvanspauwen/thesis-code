@@ -280,7 +280,9 @@ Disassembly of section .text:
     13d1:	0f ae 3d 68 34 00 00 	clflush BYTE PTR [rip+0x3468]        # 4840 <tmp_reg3>
     13d8:	0f ae 3d 61 2c 00 00 	clflush BYTE PTR [rip+0x2c61]        # 4040 <tmp_reg4>
     13df:	c7 44 24 f4 00 00 00 	mov    DWORD PTR [rsp-0xc],0x0
-    13e6:	00 
+    13e6:	00
+
+    // delay loop
     13e7:	8b 44 24 f4          	mov    eax,DWORD PTR [rsp-0xc]
     13eb:	3d bf 00 00 00       	cmp    eax,0xbf
     13f0:	7f 1c                	jg     140e <_Z9nand_gatePhS_S_+0x6e>
@@ -291,6 +293,8 @@ Disassembly of section .text:
     1403:	8b 44 24 f4          	mov    eax,DWORD PTR [rsp-0xc]
     1407:	3d bf 00 00 00       	cmp    eax,0xbf
     140c:	7e ea                	jle    13f8 <_Z9nand_gatePhS_S_+0x58>
+
+    // AND
     140e:	4c 8d 0d 2b 44 00 00 	lea    r9,[rip+0x442b]        # 5840 <tmp_reg1>
     1415:	48 31 d2             	xor    rdx,rdx
     1418:	f6 f2                	div    dl

@@ -86,8 +86,7 @@ class ExceptionEmulator():
         
         self.in_speculation = True
         self.speculation_limit = self.MAX_SPEC_WINDOW
-        regs_read, regs_written = self.curr_insn.regs_access()
-        self.speculation_limit += self.get_max_cycle_wait_for_registers(regs_read)
+        self.speculation_limit += self.cycles_to_resolve_dep(self.curr_insn)
 
         # real processors cant rewrite these registers because they cant reorder instructions that might depend on this data
         self.mu.reg_write(UC_X86_REG_RAX, 0)
@@ -126,16 +125,18 @@ class ExceptionEmulator():
 
         self.previous_context = self.mu.context_save()
         
-        # # this is in trace_instruction (start at X86FaultModelAbstract) but i just put it in instruction_hook
-        # if self.in_speculation:
-        #     self.speculation_depth += self.REGULAR_INSTR_CYCLES
-        #     # rollback on a serializing instruction
-        #     # if self.current_instruction.name in self.uc_target_desc.barriers:
-        #     #     self.mu.emu_stop()
+        # this is in trace_instruction (start at X86FaultModelAbstract) but i just put it in instruction_hook
+        if self.in_speculation:
+            self.speculation_depth += self.REGULAR_INSTR_CYCLES
+            self.logger.log(f"\tSpeculation depth: {self.speculation_depth}")
+            # rollback on a serializing instruction
+            # if self.current_instruction.name in self.uc_target_desc.barriers:
+            #     self.mu.emu_stop()
 
-        #     # and on expired speculation window
-        #     if self.speculation_depth > self.MAX_SPEC_WINDOW:
-        #         self.mu.emu_stop()
+            # and on expired speculation window
+            if self.speculation_depth > self.speculation_limit:
+                self.logger.log(f"\tSpeculation window exceeded (depth: {self.speculation_depth}, limit: {self.speculation_limit})")
+                self.mu.emu_stop()
 
     def mem_read_hook(self, uc: Uc, access, address: int, size: int, value, user_data):
         # not in speculation
@@ -156,6 +157,7 @@ class ExceptionEmulator():
                         self.skip_curr_insn()
                 else:
                     self.cache.read(address, uc)
+                    self.speculation_depth += self.CACHE_MISS_CYCLES
             self.logger.log(f"\tMemory read: address=0x{address:x}, size={size}, CACHE MISS")
         
         # cache hit: remove address and registers from pending
@@ -200,8 +202,8 @@ class ExceptionEmulator():
         # self.logger.log(f"\tRegs written: {[f'{self.cs.reg_name(reg_id)}' for reg_id in regs_written]}")
 
         # check if any read registers are pending
-        max_cycle_wait = self.get_max_cycle_wait_for_registers(regs_read)
-        self.logger.log(f"\tMaximum cycle wait: {max_cycle_wait}")
+        max_cycle_wait = self.cycles_to_resolve_dep(insn)
+        self.logger.log(f"\tCycles to resolve deps: {max_cycle_wait}")
 
         # no dependencies
         if max_cycle_wait == 0:
@@ -216,10 +218,11 @@ class ExceptionEmulator():
 
         return max_cycle_wait <= self.speculation_limit
     
-    def get_max_cycle_wait_for_registers(self, regs_read):
+    def cycles_to_resolve_dep(self, insn: CsInsn) -> int:
         """
-        Calculate the maximum cycle wait time for the given list of register dependencies. Checks both direct dependencies and aliased register dependencies.
+        Calculate the maximum amount of cycles needed for resolving the dependencies of the given instruction. Checks both direct dependencies and aliased register dependencies.
         """
+        regs_read, _ = insn.regs_access()
         max_cycle_wait = 0
         
         for reg_read in regs_read:
@@ -240,10 +243,15 @@ class ExceptionEmulator():
     def emulate(self):
         start_address = self.code_start_address
         while True:
+            self.pending_fault_id = 0
+
             if start_address is None:
                 self.finish_emulation()
                 return
-            self.pending_fault_id = 0
+            
+            if self.in_speculation and start_address == self.fault_handler_addr:
+                start_address = self.rollback()
+
             try:
                 if self.in_speculation:
                     self.logger.log(f"Entering speculative window with limit {self.speculation_limit}")
