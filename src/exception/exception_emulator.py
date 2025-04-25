@@ -1,15 +1,17 @@
 from unicorn import *
 from unicorn.x86_const import *
 from helper import *
-from typing import List, Tuple, Optional, Set, Dict
+from typing import List, Tuple, Dict, ByteString
 from logger import Logger
 from cache import L1DCache
+from read_timer import Timer
 from loader import *
 from capstone import Cs, CS_ARCH_X86, CS_MODE_64, CsInsn
+from capstone.x86 import *
 import os
 import traceback
 
-Checkpoint = Tuple[object, int, int, int]
+Checkpoint = Tuple[object, int, int]  # context, next_insn_addr, flags
 
 class ExceptionEmulator():
     # initialize capstone
@@ -39,13 +41,17 @@ class ExceptionEmulator():
         self.pending_registers: Dict[str, int] = {}
         self.pending_memory_loads = set()
 
+        # Timing (for rdtscp support)
+        self.timer = Timer()
+
         # instructions
         self.curr_insn: CsInsn
-        self.curr_instruction_addr: int = 0
+        self.curr_insn_address: int = 0
         self.next_insn_addr: int = 0
 
         # checkpointing
         self.checkpoints: List[Checkpoint] = []
+        self.store_logs: List[List[Tuple[int, ByteString]]] = []  # each entry is a list of (address, prev_value) tuples, one entry per checkpoint
 
         # logging & compilation
         self.gate_name = gate_name
@@ -71,10 +77,12 @@ class ExceptionEmulator():
     def exit_reached(self, address) -> bool:
         return address == self.code_exit_addr
 
-    def checkpoint(self, emulator: Uc, next_instruction):
+    def checkpoint(self, emulator: Uc, next_insn_addr: int):
         flags = emulator.reg_read(UC_X86_REG_EFLAGS)
         context = emulator.context_save()
-        self.checkpoints.append((context, next_instruction, flags, self.speculation_depth))
+        self.store_logs.append([])
+        self.logger.log(f"\tCheckpoint at 0x{next_insn_addr:x} (speculation depth: {self.speculation_depth})")
+        self.checkpoints.append((context, next_insn_addr, flags))
 
     def speculate_fault(self, errno: int) -> int:
         # speculates only division by zero errors currently
@@ -82,7 +90,10 @@ class ExceptionEmulator():
             self.logger.log(f"Unhandled fault: {errno}")
             return 0
         
-        self.checkpoint(self.mu, self.fault_handler_addr)
+        # normally, the fault handler would be called after rollback, which continues execution 256 bytes after the faulty instruction
+        # modelling this fault handler is difficult, so we manually hardcode the effect of the fault handler
+        insn_addr_after_fault = self.curr_insn.address + 256
+        self.checkpoint(self.mu, insn_addr_after_fault)
         
         self.in_speculation = True
         self.speculation_limit = self.MAX_SPEC_WINDOW
@@ -106,17 +117,61 @@ class ExceptionEmulator():
         self.mu.reg_write(UC_X86_REG_RIP, address + size)
 
     def instruction_hook(self, uc: Uc, address: int, size: int, user_data):
-        if self.exit_reached(address):
-            self.mu.emu_stop()
+        # when unicorn encounters unsupported instructions (e.g. rdtscp), it might set the size to garbage
+        # workaround by setting it to the x86 instruction size limit
+        if size > 15: size = 15
+        
+        try:
+            insn_bytes = uc.mem_read(address, size)
+        except UcError as e:
+            self.logger.log(f"\tError reading instruction bytes at 0x{address:x}: {e}")
             return
         
-        insn_bytes = uc.mem_read(address, size)
-        
         for insn in self.cs.disasm(insn_bytes, address, 1):
+            self.timer.increase_cycles(self.REGULAR_INSTR_CYCLES)
+
             self.curr_insn = insn
+            self.curr_insn_address = address
             self.next_insn_addr = address + size
             self.logger.log(f"Executing 0x{address:x}: {insn.mnemonic} {insn.op_str}")
             
+            # Check if instruction is rdtscp
+            if insn.mnemonic == "rdtscp":
+                self.timer.rdtscp(self)
+                self.skip_curr_insn()
+                return
+            
+            # Check if instruction is clflush
+            if insn.mnemonic == "clflush":
+                for i, op in enumerate(insn.operands):
+                    if op.type == CS_OP_MEM:
+                        # Get base register value if it exists
+                        base_value = 0
+                        if op.mem.base != 0:
+                            if op.mem.base == X86_REG_RIP:  # Special handling for RIP-relative addressing
+                                # For RIP-relative addressing, we need the address of the next instruction
+                                # which is current RIP + instruction size
+                                base_value = uc.reg_read(op.mem.base) + insn.size
+                            else:
+                                base_value = uc.reg_read(op.mem.base)
+                        
+                        # Get index register value and scale if they exist
+                        index_value = 0
+                        if op.mem.index != 0:
+                            index_value = uc.reg_read(op.mem.index)
+                            index_value *= op.mem.scale
+                        
+                        # Calculate the full address
+                        flush_addr = base_value + index_value + op.mem.disp
+                        
+                        # Flush this address from the cache
+                        self.logger.log(f"\tFlushing address 0x{flush_addr:x} from cache")
+                        self.cache.flush_address(flush_addr)
+                        break
+                
+                self.skip_curr_insn()
+                return
+
             # Check if we should execute this instruction based on dependencies
             if not self.can_resolve_deps(insn):
                 self.logger.log(f"\tSkipping instruction (resolving dependencies will exceed speculation limit)")
@@ -148,6 +203,7 @@ class ExceptionEmulator():
 
         # cache miss: add address and registers to pending
         if not self.cache.is_cached(address):
+            self.timer.increase_cycles(self.CACHE_MISS_CYCLES)
             self.pending_memory_loads.add(address)
             for reg in regs_written:
                 self.pending_registers[reg] = self.CACHE_MISS_CYCLES
@@ -155,13 +211,17 @@ class ExceptionEmulator():
                     if self.CACHE_MISS_CYCLES > self.speculation_limit:
                         self.logger.log(f"\tSkipping instruction (execution will exceed speculation limit)")
                         self.skip_curr_insn()
+                    else:
+                        self.speculation_depth += self.CACHE_MISS_CYCLES
+                        self.logger.log(f"\tReading cache address 0x{address:x}")
+                        self.cache.read(address, uc)
                 else:
                     self.cache.read(address, uc)
-                    self.speculation_depth += self.CACHE_MISS_CYCLES
             self.logger.log(f"\tMemory read: address=0x{address:x}, size={size}, CACHE MISS")
         
         # cache hit: remove address and registers from pending
         else:
+            self.timer.increase_cycles(self.REGULAR_INSTR_CYCLES)
             self.cache.read(address, uc)
             self.pending_memory_loads.discard(address)
             for reg in regs_written:
@@ -171,13 +231,34 @@ class ExceptionEmulator():
         
         self._pretty_print_pending_state(indent=1)
 
-    def mem_write_hook(self, uc, access, address, size, value, user_data):
+    def mem_write_hook(self, uc: Uc, access, address: int, size: int, value, user_data):
         self.cache.write(address, value)
-
+        if self.in_speculation:
+            # store the original value in case we need to rollback
+            original_value = uc.mem_read(address, size)
+            self.store_logs[-1].append((address, original_value))
         self.logger.log(f"\tMemory write: address=0x{address:x}, size={size}")
 
     def rollback(self):
-        pass
+        state, next_insn_addr, flags = self.checkpoints.pop()
+        if not self.checkpoints:
+            self.in_speculation = False
+            self.speculation_depth = 0
+        
+        # restore registers
+        self.mu.context_restore(state)
+
+        # rollback memory changes
+        mem_changes = self.store_logs.pop()
+        while mem_changes:
+            addr, val = mem_changes.pop()
+            self.mu.mem_write(addr, bytes(val))
+        
+        # restore flags
+        self.mu.reg_write(UC_X86_REG_EFLAGS, flags)
+
+        return next_insn_addr
+
     
     def persist_pending_loads(self):
         """
@@ -248,17 +329,18 @@ class ExceptionEmulator():
             if start_address is None:
                 self.finish_emulation()
                 return
-            
-            if self.in_speculation and start_address == self.fault_handler_addr:
-                start_address = self.rollback()
 
             try:
-                if self.in_speculation:
-                    self.logger.log(f"Entering speculative window with limit {self.speculation_limit}")
-                self.logger.log(f"(re)starting emulation with start address 0x{start_address:x}, exit address 0x{self.code_exit_addr:x}")
-                self.mu.emu_start(start_address, self.code_exit_addr, timeout=10 * UC_SECOND_SCALE)
+                self.logger.log(f"(Re)starting emulation with start address 0x{start_address:x}, exit address 0x{self.code_exit_addr:x}")
+                self.logger.log(f"Execution mode: {'speculative (limit: ' + str(self.speculation_limit) + ')' if self.in_speculation else 'normal'}")
+                self.mu.emu_start(start_address, self.code_exit_addr+1, timeout=10 * UC_SECOND_SCALE)
+
+                if self.curr_insn_address == self.code_exit_addr:
+                    self.finish_emulation()
+                    return
+                
             except UcError as e:
-                self.logger.log(f"\tError interpreting instruction at 0x{self.curr_instruction_addr:x}: {e}")
+                self.logger.log(f"\tError interpreting instruction at 0x{self.curr_insn.address:x}: {e}")
                 self.pending_fault_id = int(e.errno)
             
             except Exception as e:
@@ -292,6 +374,7 @@ class ExceptionEmulator():
     
     def finish_emulation(self):
         self.persist_pending_loads()
+        self.logger.log("Emulation finished")
         self.mu.emu_stop()
 
     def _pretty_print_pending_state(self, indent=0):

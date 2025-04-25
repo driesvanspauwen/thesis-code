@@ -21,7 +21,7 @@ class EmulatorInterface(Protocol):
     data_start_addr: int
 
     # logger
-    logger = Logger
+    logger: Logger
 
 class Loader():
     def load(self, emulator: EmulatorInterface):

@@ -279,10 +279,10 @@ Disassembly of section .text:
     13ca:	0f ae 3d 6f 3c 00 00 	clflush BYTE PTR [rip+0x3c6f]        # 5040 <tmp_reg2>
     13d1:	0f ae 3d 68 34 00 00 	clflush BYTE PTR [rip+0x3468]        # 4840 <tmp_reg3>
     13d8:	0f ae 3d 61 2c 00 00 	clflush BYTE PTR [rip+0x2c61]        # 4040 <tmp_reg4>
+    
+    // delay loop
     13df:	c7 44 24 f4 00 00 00 	mov    DWORD PTR [rsp-0xc],0x0
     13e6:	00
-
-    // delay loop
     13e7:	8b 44 24 f4          	mov    eax,DWORD PTR [rsp-0xc]
     13eb:	3d bf 00 00 00       	cmp    eax,0xbf
     13f0:	7f 1c                	jg     140e <_Z9nand_gatePhS_S_+0x6e>
@@ -559,6 +559,8 @@ Disassembly of section .text:
     1527:	90                   	nop
     1528:	90                   	nop
     1529:	90                   	nop
+    
+    // delay loop
     152a:	c7 44 24 f8 00 00 00 	mov    DWORD PTR [rsp-0x8],0x0
     1531:	00 
     1532:	8b 44 24 f8          	mov    eax,DWORD PTR [rsp-0x8]
@@ -571,6 +573,8 @@ Disassembly of section .text:
     154b:	8b 44 24 f8          	mov    eax,DWORD PTR [rsp-0x8]
     154f:	3d bf 00 00 00       	cmp    eax,0xbf
     1554:	7e ea                	jle    1540 <_Z9nand_gatePhS_S_+0x1a0>
+
+    // timing
     1556:	0f 01 f9             	rdtscp
     1559:	48 c1 e2 20          	shl    rdx,0x20
     155d:	48 89 d6             	mov    rsi,rdx
@@ -585,6 +589,8 @@ Disassembly of section .text:
     157b:	0f 87 5f 01 00 00    	ja     16e0 <_Z9nand_gatePhS_S_+0x340>
     1581:	c6 05 b8 3a 00 00 00 	mov    BYTE PTR [rip+0x3ab8],0x0        # 5040 <tmp_reg2>
     1588:	c6 05 b1 32 00 00 00 	mov    BYTE PTR [rip+0x32b1],0x0        # 4840 <tmp_reg3>
+    
+    // delay loop
     158f:	c7 44 24 fc 00 00 00 	mov    DWORD PTR [rsp-0x4],0x0
     1596:	00 
     1597:	8b 44 24 fc          	mov    eax,DWORD PTR [rsp-0x4]
@@ -596,6 +602,8 @@ Disassembly of section .text:
     15ab:	8b 44 24 fc          	mov    eax,DWORD PTR [rsp-0x4]
     15af:	83 f8 3f             	cmp    eax,0x3f
     15b2:	7e ec                	jle    15a0 <_Z9nand_gatePhS_S_+0x200>
+
+    // NOT gate
     15b4:	48 8d 35 85 3a 00 00 	lea    rsi,[rip+0x3a85]        # 5040 <tmp_reg2>
     15bb:	48 8d 3d 7e 2a 00 00 	lea    rdi,[rip+0x2a7e]        # 4040 <tmp_reg4>
     15c2:	4c 8d 0d 77 32 00 00 	lea    r9,[rip+0x3277]        # 4840 <tmp_reg3>

@@ -1,4 +1,5 @@
 from unicorn import Uc
+import binascii
 
 class L1DCache:
     """
@@ -47,7 +48,7 @@ class L1DCache:
     def read(self, address, mu: Uc) -> int:
         if self.debug:
             print(f"Reading from cache: 0x{address:x}")
-            print(f"\tUpdated cache: {self.cache}")
+            # print(f"\tUpdated cache: {self.cache}")
 
         set_index = self.get_set_index(address)
         tag = self.get_tag(address)
@@ -94,6 +95,27 @@ class L1DCache:
         self.cache = {i: [] for i in range(self.sets)}
         if self.debug:
             print("Flushed complete cache")
+    
+    def flush_address(self, address):
+        """
+        Flushes a specific address from the cache
+        
+        Args:
+            address: The memory address to flush from cache
+        """
+        set_index = self.get_set_index(address)
+        tag = self.get_tag(address)
+        cache_set = self.cache[set_index]
+        
+        for i, (existing_tag, _) in enumerate(cache_set):
+            if existing_tag == tag:
+                cache_set.pop(i)
+                if self.debug:
+                    print(f"Flushed address 0x{address:x} from cache")
+                return
+        
+        if self.debug:
+            print(f"Address 0x{address:x} was not in cache, nothing to flush")
     
     def pretty_print(self, max_sets=None, data_preview_bytes=16):
         """

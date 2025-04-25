@@ -184,7 +184,7 @@ def run_nand(in1, in2, debug=False):
 
     # Function address
     NAND_GATE_START_ADDR = 0x13a0
-    NAND_GATE_END_ADDR = 0x16ee
+    NAND_GATE_END_ADDR = 0x16df  # ret instruction of nand_gate
     FAULT_HANDLER_ADDR = 0x1390
 
     # Load ELF file
@@ -201,6 +201,7 @@ def run_nand(in1, in2, debug=False):
         emulator.cache.read(IN2_ADDR, emulator.mu)
     emulator.mu.reg_write(UC_X86_REG_RDI, IN1_ADDR)
     emulator.mu.reg_write(UC_X86_REG_RSI, IN2_ADDR)
+    emulator.mu.reg_write(UC_X86_REG_RDX, OUT_ADDR)
 
     emulator.logger.log(f"Starting emulation of NAND({in1}, {in2})...")
 
@@ -210,6 +211,18 @@ def run_nand(in1, in2, debug=False):
     emulator.logger.log(f"Output value: {result}")
 
     return result
+
+def test_nand():
+    for in1 in range(2):
+        for in2 in range(2):
+            res = run_nand(in1, in2)
+            expected = not (in1 and in2)
+            if res == expected:
+                print(f"Test passed for NAND({in1}, {in2})")
+            else:
+                print(f"Test failed for NAND({in1}, {in2}):")
+                print(f"\tExpected: {expected}")
+                print(f"\tResult: {res}")
 
 def run_all_tests():
     """
@@ -225,7 +238,8 @@ def run_all_tests():
     
     print("\nAll tests completed!")
 
-run_nand(1, 0, debug=True)
+# run_and(1, 1, debug=True)
+# run_nand(1, 1, debug=True)
 
 # Run tests with `python unit_tests.py <test_name>` or `python unit_tests.py all`
 if __name__ == "__main__":
