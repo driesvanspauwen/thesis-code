@@ -244,6 +244,8 @@ class ExceptionEmulator():
         if not self.checkpoints:
             self.in_speculation = False
             self.speculation_depth = 0
+            self.persist_pending_loads()
+            self.logger.log(f"\tRollback complete")
         
         # restore registers
         self.mu.context_restore(state)
@@ -269,6 +271,7 @@ class ExceptionEmulator():
         for address in self.pending_memory_loads:
             self.cache.write(address, self.mu.mem_read(address, self.cache.line_size))
         self.pending_memory_loads.clear()
+        self.pending_registers.clear()
 
     def can_resolve_deps(self, insn: CsInsn):
         """
@@ -333,7 +336,7 @@ class ExceptionEmulator():
             try:
                 self.logger.log(f"(Re)starting emulation with start address 0x{start_address:x}, exit address 0x{self.code_exit_addr:x}")
                 self.logger.log(f"Execution mode: {'speculative (limit: ' + str(self.speculation_limit) + ')' if self.in_speculation else 'normal'}")
-                self.mu.emu_start(start_address, self.code_exit_addr+1, timeout=10 * UC_SECOND_SCALE)
+                self.mu.emu_start(start_address, -1, timeout=10 * UC_SECOND_SCALE)
 
                 if self.curr_insn_address == self.code_exit_addr:
                     self.finish_emulation()
