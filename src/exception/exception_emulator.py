@@ -137,6 +137,7 @@ class ExceptionEmulator():
             
             # Check if instruction is rdtscp
             if insn.mnemonic == "rdtscp":
+                self.persist_pending_loads()  # rdtscp waits until all previous loads are globally visisble (Intel manual v2)
                 self.timer.rdtscp(self)
                 self.skip_curr_insn()
                 return
@@ -244,6 +245,7 @@ class ExceptionEmulator():
         if not self.checkpoints:
             self.in_speculation = False
             self.speculation_depth = 0
+            self.speculation_limit = 0
             self.persist_pending_loads()
             self.logger.log(f"\tRollback complete")
         
@@ -308,6 +310,9 @@ class ExceptionEmulator():
         """
         regs_read, _ = insn.regs_access()
         max_cycle_wait = 0
+
+        self.logger.log(f"\tRegs read: {[f'{self.cs.reg_name(reg_id)}' for reg_id in regs_read]}")
+        self.logger.log(f"\tPending registers: {[f'{self.cs.reg_name(reg_id)}' for reg_id in self.pending_registers.keys()]}")
         
         for reg_read in regs_read:
             # Check direct dependencies

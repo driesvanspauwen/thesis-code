@@ -224,6 +224,71 @@ def test_nand():
                 print(f"\tExpected: {expected}")
                 print(f"\tResult: {res}")
 
+def run_mux(in1_val, in2_val, in3_val, debug=False):
+    # OUT = (IN1 AND NOT IN3) OR (IN2 AND IN3)
+    IN1_ADDR = 0xe040
+    IN2_ADDR = 0xd840
+    IN3_ADDR = 0xd040
+    OUT_ADDR = 0xc840
+    
+    TMP_REG1_ADDR = 0x9840  # selector bit - first input NOT gate
+    TMP_REG2_ADDR = 0x9040  # selector bit - second input NOT gate
+    TMP_REG3_ADDR = 0x8840  # result of AND(in2, in3)
+    TMP_REG4_ADDR = 0x8040  # result of NOT(tmp_reg1, tmp_reg2)
+    TMP_REG5_ADDR = 0x7840  # delay for NOT
+    TMP_REG6_ADDR = 0x7040  # result of AND(in1, tmp_reg4)
+
+    # Function addresses
+    MUX_GATE_START_ADDR = 0x1560
+    MUX_GATE_END_ADDR = 0x1bae  # ret instruction of mux_gate
+    FAULT_HANDLER_ADDR = 0x1550
+
+    # Calculate the input parameter as a 3-bit value
+    input_param = (in1_val) | (in2_val << 1) | (in3_val << 2)
+
+    # Initialize emulator
+    loader = ELFLoader("gates/mux/mux.elf")
+    emulator = ExceptionEmulator('mux', loader, debug)
+    emulator.code_start_address = MUX_GATE_START_ADDR
+    emulator.code_exit_addr = MUX_GATE_END_ADDR
+    emulator.fault_handler_addr = FAULT_HANDLER_ADDR
+
+    # Set up inputs in cache if needed
+    if in1_val:
+        emulator.cache.read(IN1_ADDR, emulator.mu)
+    if in2_val:
+        emulator.cache.read(IN2_ADDR, emulator.mu)
+    if in3_val:
+        emulator.cache.read(IN3_ADDR, emulator.mu)
+
+    # Set up registers according to calling convention
+    emulator.mu.reg_write(UC_X86_REG_RDI, IN1_ADDR)  # in1
+    emulator.mu.reg_write(UC_X86_REG_RSI, IN2_ADDR)  # in2
+    emulator.mu.reg_write(UC_X86_REG_RDX, IN3_ADDR)  # in3
+    emulator.mu.reg_write(UC_X86_REG_RCX, OUT_ADDR)  # out
+    emulator.mu.reg_write(UC_X86_REG_R8D, input_param)  # input parameter
+
+    # Run the emulation
+    emulator.emulate()
+
+    # Check the result
+    result = emulator.cache.is_cached(OUT_ADDR)
+    expected = in1_val if (in3_val == 0) else in2_val  # MUX logic
+    
+    return result, expected
+
+def test_mux():
+    for in1_val in range(2):
+        for in2_val in range(2):
+            for in3_val in range(2):
+                res, expected = run_mux(in1_val, in2_val, in3_val, debug=False)
+                if res == expected:
+                    print(f"Test passed for MUX({in1_val}, {in2_val}, {in3_val})")
+                else:
+                    print(f"Test failed for MUX({in1_val}, {in2_val}, {in3_val})")
+                    print(f"\tExpected: {expected}")
+                    print(f"\tResult: {res}")
+
 def run_all_tests():
     """
     Run all test functions in this module (functions that start with 'test_').
@@ -238,9 +303,11 @@ def run_all_tests():
     
     print("\nAll tests completed!")
 
+# run_mux(0, 0, 0, debug=True)
 # run_and(1, 1, debug=True)
 # run_nand(1, 0, debug=True)
 # run_and_or(1, 1, 0, debug=True)
+# run_not(1, debug=True)
 
 # Run tests with `python unit_tests.py <test_name>` or `python unit_tests.py all`
 if __name__ == "__main__":
