@@ -4,6 +4,7 @@ from helper import *
 from typing import List, Tuple, Dict, ByteString
 from logger import Logger
 from cache import L1DCache
+from rsb import RSB
 from read_timer import Timer
 from loader import *
 from capstone import Cs, CS_ARCH_X86, CS_MODE_64, CsInsn
@@ -30,6 +31,9 @@ class ExceptionEmulator():
 
         # cache
         self.cache = L1DCache()
+
+        # rsb
+        self.rsb = RSB()
 
         # speculation control
         self.in_speculation: bool = False
@@ -74,9 +78,6 @@ class ExceptionEmulator():
         # self.mu.hook_add(UC_HOOK_MEM_UNMAPPED, self.trace_mem_access, self)
         self.mu.hook_add(UC_HOOK_CODE, self.instruction_hook, self)
 
-    def exit_reached(self, address) -> bool:
-        return address == self.code_exit_addr
-
     def checkpoint(self, emulator: Uc, next_insn_addr: int):
         flags = emulator.reg_read(UC_X86_REG_EFLAGS)
         context = emulator.context_save()
@@ -104,6 +105,13 @@ class ExceptionEmulator():
         self.mu.reg_write(UC_X86_REG_RDX, 0)
 
         return self.next_insn_addr
+
+    def speculate_rsb_misprediction(self, actual_ret_addr: int, predicted_ret_addr: int):
+        self.checkpoint(self.mu, actual_ret_addr)
+        self.mu.reg_write(UC_X86_REG_RIP, predicted_ret_addr)
+
+        self.in_speculation = True
+        self.speculation_limit = self.MAX_SPEC_WINDOW
 
     def handle_fault(self, errno: int) -> int:
         next_addr = self.speculate_fault(errno)
@@ -134,6 +142,28 @@ class ExceptionEmulator():
             self.curr_insn_address = address
             self.next_insn_addr = address + size
             self.logger.log(f"Executing 0x{address:x}: {insn.mnemonic} {insn.op_str}")
+
+            if address == self.code_exit_addr:
+                output_value = self.mu.mem_read(0x8000, 1)
+                self.logger.log(f"\tOutput value: {output_value}")
+                self.finish_emulation()
+                return
+
+            if insn.mnemonic == "call":
+                return_addr = address + insn.size
+                self.rsb.add_ret_addr(return_addr)
+            
+            if insn.mnemonic == "ret":
+                predicted_ret_addr = self.rsb.pop_ret_addr()
+
+                rsp = uc.reg_read(UC_X86_REG_RSP)
+                actual_ret_addr = int.from_bytes(uc.mem_read(rsp, 8), byteorder='little')
+
+                misprediction = predicted_ret_addr != actual_ret_addr and predicted_ret_addr != 0
+                if misprediction:
+                    self.logger.log(f"\tRSB misprediction detected: RSB predicted 0x{predicted_ret_addr:x}, actual 0x{actual_ret_addr:x}")
+                    self.speculate_rsb_misprediction(actual_ret_addr, predicted_ret_addr)
+                    return
             
             # Check if instruction is rdtscp
             if insn.mnemonic == "rdtscp":
@@ -238,11 +268,12 @@ class ExceptionEmulator():
             # store the original value in case we need to rollback
             original_value = uc.mem_read(address, size)
             self.store_logs[-1].append((address, original_value))
-        self.logger.log(f"\tMemory write: address=0x{address:x}, size={size}")
+        self.logger.log(f"\tMemory write: address=0x{address:x}, size={size}, value={value}")
 
     def rollback(self):
         state, next_insn_addr, flags = self.checkpoints.pop()
         if not self.checkpoints:
+            # reset speculative state
             self.in_speculation = False
             self.speculation_depth = 0
             self.speculation_limit = 0
@@ -344,7 +375,6 @@ class ExceptionEmulator():
                 self.mu.emu_start(start_address, -1, timeout=10 * UC_SECOND_SCALE)
 
                 if self.curr_insn_address == self.code_exit_addr:
-                    self.finish_emulation()
                     return
                 
             except UcError as e:

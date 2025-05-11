@@ -224,7 +224,7 @@ def test_nand():
                 print(f"\tExpected: {expected}")
                 print(f"\tResult: {res}")
 
-def run_mux(in1_val, in2_val, in3_val, debug=False):
+def run_mux(in1, in2, in3, debug=False):
     # OUT = (IN1 AND NOT IN3) OR (IN2 AND IN3)
     IN1_ADDR = 0xe040
     IN2_ADDR = 0xd840
@@ -244,7 +244,7 @@ def run_mux(in1_val, in2_val, in3_val, debug=False):
     FAULT_HANDLER_ADDR = 0x1550
 
     # Calculate the input parameter as a 3-bit value
-    input_param = (in1_val) | (in2_val << 1) | (in3_val << 2)
+    input_param = (in1) | (in2 << 1) | (in3 << 2)
 
     # Initialize emulator
     loader = ELFLoader("gates/mux/mux.elf")
@@ -254,11 +254,11 @@ def run_mux(in1_val, in2_val, in3_val, debug=False):
     emulator.fault_handler_addr = FAULT_HANDLER_ADDR
 
     # Set up inputs in cache if needed
-    if in1_val:
+    if in1:
         emulator.cache.read(IN1_ADDR, emulator.mu)
-    if in2_val:
+    if in2:
         emulator.cache.read(IN2_ADDR, emulator.mu)
-    if in3_val:
+    if in3:
         emulator.cache.read(IN3_ADDR, emulator.mu)
 
     # Set up registers according to calling convention
@@ -273,7 +273,7 @@ def run_mux(in1_val, in2_val, in3_val, debug=False):
 
     # Check the result
     result = emulator.cache.is_cached(OUT_ADDR)
-    expected = in1_val if (in3_val == 0) else in2_val  # MUX logic
+    expected = in1 if (in3 == 0) else in2  # MUX logic
     
     return result, expected
 
@@ -288,6 +288,69 @@ def test_mux():
                     print(f"Test failed for MUX({in1_val}, {in2_val}, {in3_val})")
                     print(f"\tExpected: {expected}")
                     print(f"\tResult: {res}")
+
+def run_flexo_and(in1, in2, debug=False):
+    POS_WIRE_ADDR = 0x800ea48  # Address of positive wire (from log)
+    NEG_WIRE_ADDR = 0x800fc48  # Address of negative wire (from log)
+    OUT_ADDR = 0x8000
+
+    # Function addresses
+    AND_GATE_START_ADDR = 0x11d0
+    AND_GATE_END_ADDR = 0x13eb  # ret instruction of __weird__and
+    
+    loader = ELFLoader("gates/flexo/test.elf")
+    emulator = ExceptionEmulator('flexo-and', loader, debug)
+    emulator.code_start_address = AND_GATE_START_ADDR
+    emulator.code_exit_addr = AND_GATE_END_ADDR
+
+    try:
+        # Check if memory is already mapped
+        emulator.mu.mem_read(OUT_ADDR, 1)
+    except:
+        # If not, map it
+        emulator.logger.log(f"Manually mapping memory for output address {OUT_ADDR:#x}")
+        emulator.mu.mem_map(OUT_ADDR & 0xFFFFF000, 0x1000, UC_PROT_ALL)
+
+    # Add hook to skip the call to rand@plt
+    def hook_rand_call(uc, address, size, user_data):
+        # Check if we're at the call to rand@plt
+        if address == 0x11e9:  # The address of the call instruction
+            # Simply skip the call and put a fixed value in RAX
+            # (since rand returns an integer in RAX)
+            uc.reg_write(UC_X86_REG_RAX, 0x12345678)
+            # Skip to the instruction after the call
+            uc.reg_write(UC_X86_REG_RIP, 0x11ee)  # Address after the call
+            return True
+        return False
+
+    # Add hook for the call instruction
+    emulator.mu.hook_add(UC_HOOK_CODE, hook_rand_call, None, 0x11e9, 0x11ea)
+
+    # Set up inputs according to calling convention
+    emulator.mu.reg_write(UC_X86_REG_RDI, in1 & 0x1)  # First boolean input
+    emulator.mu.reg_write(UC_X86_REG_RSI, in2 & 0x1)  # Second boolean input
+    emulator.mu.reg_write(UC_X86_REG_RDX, OUT_ADDR)  # Output byte pointer
+
+    # Run the emulation
+    emulator.emulate()
+
+    # Retrieve the output
+    result_bytes = emulator.mu.mem_read(0x8000, 1)
+    return int(result_bytes[0])
+
+def test_flexo_and():
+    for in1 in range(2):
+        for in2 in range(2):
+            res = run_flexo_and(in1, in2)
+            expected = in1 and in2
+            if res == expected:
+                print(f"Test passed for AND({in1}, {in2})")
+            else:
+                print(f"Test failed for AND({in1}, {in2}):")
+                print(f"\tExpected: {expected}")
+                print(f"\tResult: {res}")
+
+run_flexo_and(1, 1, debug=True)
 
 def run_all_tests():
     """
