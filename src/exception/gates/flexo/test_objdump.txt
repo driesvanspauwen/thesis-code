@@ -130,10 +130,10 @@ Disassembly of section .text:
     1180:	48 c7 c1 99 3a 00 00 	mov    rcx,0x3a99
     1187:	48 c7 c0 d3 54 00 00 	mov    rax,0x54d3
     118e:	48 c7 c2 98 1c 00 00 	mov    rdx,0x1c98
-    1195:	66 f7 f1             	div    cx
-    1198:	66 f7 f1             	div    cx
-    119b:	66 f7 f1             	div    cx
-    119e:	66 f7 f1             	div    cx
+    1195:	66 f7 f1             	div    cx       # divides (dx:ax) by cx, result in ax, remainder in dx
+    1198:	66 f7 f1             	div    cx       # these division operations control the transient window
+    119b:	66 f7 f1             	div    cx       # the more division operations, the longer it takes for the CPU to
+    119e:	66 f7 f1             	div    cx       # calculate the actual return address to store on the stack
     11a1:	66 f7 f1             	div    cx
     11a4:	48 01 14 24          	add    QWORD PTR [rsp],rdx
     11a8:	c3                   	ret
