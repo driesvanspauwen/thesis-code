@@ -350,8 +350,6 @@ def test_flexo_and():
                 print(f"\tExpected: {expected}")
                 print(f"\tResult: {res}")
 
-run_flexo_and(1, 1, debug=True)
-
 def run_all_tests():
     """
     Run all test functions in this module (functions that start with 'test_').
@@ -366,13 +364,6 @@ def run_all_tests():
     
     print("\nAll tests completed!")
 
-# run_mux(0, 0, 0, debug=True)
-# run_and(1, 1, debug=True)
-# run_nand(1, 0, debug=True)
-# run_and_or(1, 1, 0, debug=True)
-# run_not(1, debug=True)
-
-# Run tests with `python unit_tests.py <test_name>` or `python unit_tests.py all`
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: python unit_tests.py <test_name>")

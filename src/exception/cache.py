@@ -5,30 +5,27 @@ class L1DCache:
     """
     A simple L1D cache model with LUR replacement policy
     """
-    def __init__(self, sets=64, ways=8, line_size=64):
+    def __init__(self, amt_sets=64, amt_ways=8, line_size=64, debug=False):
         """
         Args:
             sets: Number of cache sets (default: 64 for a typical L1D cache)
             ways: Number of ways per set (default: 8-way associative)
             line_size: Size of each cache line in bytes (default: 64 bytes)
         """
-        self.sets = sets
-        self.ways = ways
+        self.amt_sets = amt_sets
+        self.amt_ways = amt_ways
         self.line_size = line_size
-        self.debug = False
+        self.debug = debug
         
         # Initialize cache structure as a dictionary of sets
         # Each set is a list of (tag, data) tuples representing the ways
-        self.cache = {i: [] for i in range(sets)}
-        
-        # For weird register implementation
-        self.weird_registers = {}
+        self.cache = {i: [] for i in range(amt_sets)}
     
     def get_set_index(self, address) -> int:
-        return (address // self.line_size) % self.sets
+        return (address // self.line_size) % self.amt_sets
     
     def get_tag(self, address) -> int:
-        return address // (self.line_size * self.sets)
+        return address // (self.line_size * self.amt_sets)
     
     def is_cached(self, address) -> bool:
         set_index = self.get_set_index(address)
@@ -48,11 +45,10 @@ class L1DCache:
     def read(self, address, mu: Uc) -> int:
         if self.debug:
             print(f"Reading from cache: 0x{address:x}")
-            # print(f"\tUpdated cache: {self.cache}")
 
-        set_index = self.get_set_index(address)
+        set_idx = self.get_set_index(address)
         tag = self.get_tag(address)
-        cache_set = self.cache[set_index]
+        cache_set = self.cache[set_idx]
 
         for i, (existing_tag, data) in enumerate(cache_set):
             if existing_tag == tag:
@@ -63,7 +59,7 @@ class L1DCache:
         # Cache miss - read from memory and update cache
         value = mu.mem_read(address, self.line_size)
         self.write(address, value)
-        return None
+        return value
     
     def write(self, address, value):
         set_idx = self.get_set_index(address)
@@ -77,22 +73,20 @@ class L1DCache:
                 cache_set.insert(0, (tag, value))
                 if self.debug:
                     print(f"Writing to cache: 0x{address:x}, value = {value} (replaced old value)")
-                    print(f"\tUpdated cache: {self.cache}")
 
                 return
 
         # Cache miss, add to cache
-        if len(cache_set) >= self.ways:
+        if len(cache_set) >= self.amt_ways:
             # Evict least recently used (last item)
             cache_set.pop(-1)
         cache_set.insert(0, (tag, value))
 
         if self.debug:
             print(f"Writing to cache: 0x{address:x}, value = {value}")
-            print(f"\tUpdated cache: {self.cache}")
     
     def flush(self):
-        self.cache = {i: [] for i in range(self.sets)}
+        self.cache = {i: [] for i in range(self.amt_sets)}
         if self.debug:
             print("Flushed complete cache")
     
@@ -126,16 +120,16 @@ class L1DCache:
             data_preview_bytes: Number of bytes to preview for each cache line
         """
         if max_sets is None:
-            sets_to_print = self.sets
+            sets_to_print = self.amt_sets
         else:
-            sets_to_print = min(max_sets, self.sets)
+            sets_to_print = min(max_sets, self.amt_sets)
             
-        total_size_kb = (self.sets * self.ways * self.line_size) / 1024
+        total_size_kb = (self.amt_sets * self.amt_ways * self.line_size) / 1024
         occupancy = sum(len(ways) for ways in self.cache.values())
-        total_ways = self.sets * self.ways
+        total_ways = self.amt_sets * self.amt_ways
         
         print(f"L1D Cache Status:")
-        print(f"  Configuration: {self.sets} sets x {self.ways} ways x {self.line_size} bytes")
+        print(f"  Configuration: {self.amt_sets} sets x {self.amt_ways} ways x {self.line_size} bytes")
         print(f"  Total Size: {total_size_kb:.2f} KB")
         print(f"  Occupancy: {occupancy}/{total_ways} lines ({occupancy/total_ways*100:.1f}%)")
         print("-" * 80)
@@ -145,11 +139,11 @@ class L1DCache:
             if not ways and not self.debug:
                 continue  # Skip empty sets unless in debug mode
                 
-            print(f"Set {set_idx:3d}: {len(ways)}/{self.ways} ways occupied")
+            print(f"Set {set_idx:3d}: {len(ways)}/{self.amt_ways} ways occupied")
             
             for way_idx, (tag, data) in enumerate(ways):
                 # Calculate the full address from tag and set
-                addr = (tag * self.sets + set_idx) * self.line_size
+                addr = (tag * self.amt_sets + set_idx) * self.line_size
                 
                 # Convert data to hex representation for display
                 if isinstance(data, bytes) or isinstance(data, bytearray):
@@ -165,5 +159,5 @@ class L1DCache:
             
             print()
         
-        if sets_to_print < self.sets:
-            print(f"... {self.sets - sets_to_print} more sets ...")
+        if sets_to_print < self.amt_sets:
+            print(f"... {self.amt_sets - sets_to_print} more sets ...")
