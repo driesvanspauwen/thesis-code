@@ -150,20 +150,39 @@ class ExceptionEmulator():
                 return
 
             if insn.mnemonic == "call":
+                current_rsp = uc.reg_read(UC_X86_REG_RSP)
+                stack_location = current_rsp - 8 # the call will push the return address to the stack at this location
+
                 return_addr = address + insn.size
-                self.rsb.add_ret_addr(return_addr)
+                self.logger.log(f"\tCall instruction detected, adding to RSB: 0x{return_addr:x}")
+
+                self.rsb.add_ret_addr(return_addr, stack_location)
             
             if insn.mnemonic == "ret":
-                predicted_ret_addr = self.rsb.pop_ret_addr()
+                predicted_ret_addr, real_address_location = self.rsb.pop_ret_addr()
+                self.logger.log(f"\tReturn instruction detected, popping from RSB: 0x{predicted_ret_addr:x}")
 
                 rsp = uc.reg_read(UC_X86_REG_RSP)
-                actual_ret_addr = int.from_bytes(uc.mem_read(rsp, 8), byteorder='little')
+                actual_ret_addr = int.from_bytes(uc.mem_read(real_address_location, 8), byteorder='little')
 
                 misprediction = predicted_ret_addr != actual_ret_addr and predicted_ret_addr != 0
                 if misprediction:
-                    self.logger.log(f"\tRSB misprediction detected: RSB predicted 0x{predicted_ret_addr:x}, actual 0x{actual_ret_addr:x}")
+                    self.logger.log(f"\tCurrent RSB stack: {self.rsb.stack}")
+                    test = int.from_bytes(uc.mem_read(rsp + 8, 8), byteorder='little')
+                    self.logger.log(f"\ttest: 0x{test:x}")
+                    self.logger.log(f"\tRSB misprediction detected: RSB predicted 0x{predicted_ret_addr:x}, actual 0x{actual_ret_addr:x}, RSP located at 0x{rsp:x}")
                     self.speculate_rsb_misprediction(actual_ret_addr, predicted_ret_addr)
                     return
+
+                # 1. Set RIP to the predicted return address
+                uc.reg_write(UC_X86_REG_RIP, actual_ret_addr)
+    
+                # 2. Increment RSP by 8 (as ret normally would)
+                current_rsp = uc.reg_read(UC_X86_REG_RSP)
+                uc.reg_write(UC_X86_REG_RSP, current_rsp + 8)
+                
+                self.logger.log(f"\tManually returning to: 0x{actual_ret_addr:x}")
+                return
             
             # Check if instruction is rdtscp
             if insn.mnemonic == "rdtscp":
@@ -271,14 +290,15 @@ class ExceptionEmulator():
         self.logger.log(f"\tMemory write: address=0x{address:x}, size={size}, value={value}")
 
     def rollback(self):
+        self.logger.log(f"RSP before rollback: 0x{self.mu.reg_read(UC_X86_REG_RSP):x}")
         state, next_insn_addr, flags = self.checkpoints.pop()
-        if not self.checkpoints:
-            # reset speculative state
-            self.in_speculation = False
-            self.speculation_depth = 0
-            self.speculation_limit = 0
-            self.persist_pending_loads()
-            self.logger.log(f"\tRollback complete")
+        # if not self.checkpoints:
+        # reset speculative state
+        self.in_speculation = False
+        self.speculation_depth = 0
+        self.speculation_limit = 0
+        self.persist_pending_loads()
+        self.logger.log(f"\tRollback complete")
         
         # restore registers
         self.mu.context_restore(state)
@@ -291,6 +311,8 @@ class ExceptionEmulator():
         
         # restore flags
         self.mu.reg_write(UC_X86_REG_EFLAGS, flags)
+
+        self.logger.log(f"RSP after rollback: 0x{self.mu.reg_read(UC_X86_REG_RSP):x}")
 
         return next_insn_addr
 
@@ -372,7 +394,7 @@ class ExceptionEmulator():
             try:
                 self.logger.log(f"(Re)starting emulation with start address 0x{start_address:x}, exit address 0x{self.code_exit_addr:x}")
                 self.logger.log(f"Execution mode: {'speculative (limit: ' + str(self.speculation_limit) + ')' if self.in_speculation else 'normal'}")
-                self.mu.emu_start(start_address, -1, timeout=10 * UC_SECOND_SCALE)
+                self.mu.emu_start(start_address, -1)
 
                 if self.curr_insn_address == self.code_exit_addr:
                     return

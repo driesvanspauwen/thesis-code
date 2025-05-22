@@ -64,8 +64,10 @@ class ELFLoader(Loader):
     STACK_ADDR = 0x8000000
     STACK_SIZE = 0x10000
 
-    def __init__(self, elf_path: str):
+    def __init__(self, elf_path: str, stack_addr: int = STACK_ADDR, stack_size: int = STACK_SIZE):
         self.elf_path = elf_path
+        self.stack_addr = stack_addr
+        self.stack_size = stack_size
     
     def load(self, emulator: EmulatorInterface):
         """Load ELF file into the emulator"""
@@ -119,5 +121,5 @@ class ELFLoader(Loader):
     
     def map_stack(self, emulator: EmulatorInterface):
         emulator.logger.log("Mapping stack:")
-        emulator.mu.mem_map(self.STACK_ADDR, self.STACK_SIZE, UC_PROT_READ | UC_PROT_WRITE)
-        emulator.mu.reg_write(UC_X86_REG_RSP, self.STACK_ADDR + self.STACK_SIZE - 0x100)
+        emulator.mu.mem_map(self.stack_addr, self.stack_size, UC_PROT_READ | UC_PROT_WRITE)
+        emulator.mu.reg_write(UC_X86_REG_RSP, self.stack_addr + self.stack_size - 0x100)
