@@ -1,0 +1,50 @@
+dries@aeolus:~/thesis/Transient-Weird-Machine$ ./run_all.sh
+** Testing exception-based gates...
+rm -rf *.o build/ *.elf *~
+mkdir build
+g++ -O2 -D INTEL -c -o build/compose.o gates/compose.cpp
+g++ -O2 -D INTEL -o main.elf main.cpp build/compose.o -lm
+=== AND gate (Exception) ===
+Correct rate: (avg, std) = (99.2060%, 0.0118)
+Time usage: 2.179s over 1000000 iterations.
+=== OR gate (Exception) ===
+Correct rate: (avg, std) = (93.7932%, 0.0123)
+Time usage: 1.995s over 1000000 iterations.
+=== ASSIGN gate (Exception) ===
+Correct rate: (avg, std) = (98.8206%, 0.0466)
+Time usage: 2.099s over 1000000 iterations.
+=== NOT gate (Exception) ===
+Correct rate: (avg, std) = (98.5254%, 0.0031)
+Time usage: 2.944s over 1000000 iterations.
+=== NAND gate (Exception) ===
+Correct rate: (avg, std) = (82.7170%, 0.0322)
+Time usage: 6.622s over 1000000 iterations.
+=== XOR gate (Exception) ===
+Correct rate: (avg, std) = (74.9563%, 0.0002)
+Time usage: 13.566s over 1000000 iterations.
+=== MUX gate (Exception) ===
+Correct rate: (avg, std) = (98.9993%, 0.0013)
+Time usage: 12.292s over 1000000 iterations.
+
+** Testing branch predictor-based gates...
+rm -f spectre.elf
+cc -std=c99 -O0 -o spectre.elf spectre.c
+=== AND gate (Branch predictor) ===
+Correct rate: 74.22%
+Time usage: 1.747s over 1000000 iterations.
+
+** Testing branch target buffer-based gates...
+rm -f spectrev2.elf
+cc -std=c99 -O0 -o spectrev2.elf spectrev2.c
+=== AND gate (Branch target buffer) ===
+Correct rate: 75.00%
+Time usage: 2.814s over 1000000 iterations.
+
+** Testing TSX-based gates...
+rm -f *.o tsx.elf *~
+gcc -O2 -o tsx.elf tsx.c -lm
+=== AND gate (TSX) ===
+Correct rate: (avg, std) = (74.9997%, 0.0001)
+Time usage: 0.504s over 1000000 iterations.
+
+** Done!
