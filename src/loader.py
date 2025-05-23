@@ -11,7 +11,7 @@ class EmulatorInterface(Protocol):
     Protocol defining the interface for an emulator.
     Provides type checking without creating a circular dependency.
     """
-    mu: Uc
+    uc: Uc
     output_dir: str
 
     # Helper addresses
@@ -46,13 +46,13 @@ class AsmLoader(Loader):
     def _map_memory(self, emulator: EmulatorInterface):
         """Map memory for the emulator"""
         # memory mappings
-        emulator.mu.mem_map(self.CODE_BASE, self.REGION_SIZE, UC_PROT_ALL)
-        emulator.mu.mem_map(self.DATA_BASE, self.REGION_SIZE, UC_PROT_READ | UC_PROT_WRITE)
-        emulator.mu.mem_map(self.STACK_BASE, self.REGION_SIZE, UC_PROT_READ | UC_PROT_WRITE)
+        emulator.uc.mem_map(self.CODE_BASE, self.REGION_SIZE, UC_PROT_ALL)
+        emulator.uc.mem_map(self.DATA_BASE, self.REGION_SIZE, UC_PROT_READ | UC_PROT_WRITE)
+        emulator.uc.mem_map(self.STACK_BASE, self.REGION_SIZE, UC_PROT_READ | UC_PROT_WRITE)
 
-        emulator.mu.mem_write(self.CODE_BASE, self.machine_code)
+        emulator.uc.mem_write(self.CODE_BASE, self.machine_code)
         
-        emulator.mu.reg_write(UC_X86_REG_RSP, self.STACK_BASE + self.REGION_SIZE - 8)  # Stack pointer
+        emulator.uc.reg_write(UC_X86_REG_RSP, self.STACK_BASE + self.REGION_SIZE - 8)  # Stack pointer
 
         # helper addresses
         emulator.code_start_address = self.CODE_BASE
@@ -103,23 +103,23 @@ class ELFLoader(Loader):
                 emulator.logger.log(f"Mapping segment at 0x{mem_start:x} - 0x{mem_end-1:x}, size: 0x{mem_size:x}")
                 
                 try:
-                    emulator.mu.mem_map(mem_start, mem_size, perm)
+                    emulator.uc.mem_map(mem_start, mem_size, perm)
                     
                     # Map segment data
                     data = segment.data()
-                    emulator.mu.mem_write(segment.header.p_vaddr, data)
+                    emulator.uc.mem_write(segment.header.p_vaddr, data)
                     emulator.logger.log(f"\tData written: 0x{len(data):x} bytes at 0x{segment.header.p_vaddr:x}")
                     
                     # Zero out uninitialized data
                     if segment.header.p_memsz > segment.header.p_filesz:
                         padding_size = segment.header.p_memsz - segment.header.p_filesz
                         padding_addr = segment.header.p_vaddr + segment.header.p_filesz
-                        emulator.mu.mem_write(padding_addr, b'\x00' * padding_size)
+                        emulator.uc.mem_write(padding_addr, b'\x00' * padding_size)
                         emulator.logger.log(f"\tZeroed: 0x{padding_size:x} bytes at 0x{padding_addr:x}")
                 except UcError as e:
                     emulator.logger.log(f"\tError mapping segment: {e}")
     
     def map_stack(self, emulator: EmulatorInterface):
         emulator.logger.log("Mapping stack:")
-        emulator.mu.mem_map(self.stack_addr, self.stack_size, UC_PROT_READ | UC_PROT_WRITE)
-        emulator.mu.reg_write(UC_X86_REG_RSP, self.stack_addr + self.stack_size - 0x100)
+        emulator.uc.mem_map(self.stack_addr, self.stack_size, UC_PROT_READ | UC_PROT_WRITE)
+        emulator.uc.reg_write(UC_X86_REG_RSP, self.stack_addr + self.stack_size - 0x100)
