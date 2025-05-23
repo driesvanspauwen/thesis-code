@@ -14,7 +14,7 @@ import traceback
 
 Checkpoint = Tuple[object, int, int]  # context, next_insn_addr, flags
 
-class ExceptionEmulator():
+class MuWMEmulator():
     # initialize capstone
     cs = Cs(CS_ARCH_X86, CS_MODE_64)
     cs.detail = True
@@ -26,7 +26,7 @@ class ExceptionEmulator():
 
     def __init__(self, gate_name: str, loader: Loader, debug: bool = True):
         # initialize unicorn
-        self.mu = Uc(UC_ARCH_X86, UC_MODE_64)
+        self.uc = Uc(UC_ARCH_X86, UC_MODE_64)
         self.pending_fault_id: int = 0
 
         # cache
@@ -73,10 +73,10 @@ class ExceptionEmulator():
         self.loader.load(self)
 
         # hooks
-        self.mu.hook_add(UC_HOOK_MEM_READ, self.mem_read_hook, self)
-        self.mu.hook_add(UC_HOOK_MEM_WRITE, self.mem_write_hook, self)
+        self.uc.hook_add(UC_HOOK_MEM_READ, self.mem_read_hook, self)
+        self.uc.hook_add(UC_HOOK_MEM_WRITE, self.mem_write_hook, self)
         # self.mu.hook_add(UC_HOOK_MEM_UNMAPPED, self.trace_mem_access, self)
-        self.mu.hook_add(UC_HOOK_CODE, self.instruction_hook, self)
+        self.uc.hook_add(UC_HOOK_CODE, self.instruction_hook, self)
 
     def checkpoint(self, emulator: Uc, next_insn_addr: int):
         flags = emulator.reg_read(UC_X86_REG_EFLAGS)
@@ -94,21 +94,21 @@ class ExceptionEmulator():
         # normally, the fault handler would be called after rollback, which continues execution 256 bytes after the faulty instruction
         # modelling this fault handler is difficult, so we manually hardcode the effect of the fault handler
         insn_addr_after_fault = self.curr_insn.address + 256
-        self.checkpoint(self.mu, insn_addr_after_fault)
+        self.checkpoint(self.uc, insn_addr_after_fault)
         
         self.in_speculation = True
         self.speculation_limit = self.MAX_SPEC_WINDOW
         self.speculation_limit += self.cycles_to_resolve_dep(self.curr_insn)
 
         # real processors cant rewrite these registers because they cant reorder instructions that might depend on this data
-        self.mu.reg_write(UC_X86_REG_RAX, 0)
-        self.mu.reg_write(UC_X86_REG_RDX, 0)
+        self.uc.reg_write(UC_X86_REG_RAX, 0)
+        self.uc.reg_write(UC_X86_REG_RDX, 0)
 
         return self.next_insn_addr
 
     def speculate_rsb_misprediction(self, actual_ret_addr: int, predicted_ret_addr: int):
-        self.checkpoint(self.mu, actual_ret_addr)
-        self.mu.reg_write(UC_X86_REG_RIP, predicted_ret_addr)
+        self.checkpoint(self.uc, actual_ret_addr)
+        self.uc.reg_write(UC_X86_REG_RIP, predicted_ret_addr)
 
         self.in_speculation = True
         self.speculation_limit = self.MAX_SPEC_WINDOW
@@ -122,7 +122,7 @@ class ExceptionEmulator():
         """Skips current instruction by directly jumping to the next one"""
         address = self.curr_insn.address
         size = self.curr_insn.size
-        self.mu.reg_write(UC_X86_REG_RIP, address + size)
+        self.uc.reg_write(UC_X86_REG_RIP, address + size)
 
     def instruction_hook(self, uc: Uc, address: int, size: int, user_data):
         # when unicorn encounters unsupported instructions (e.g. rdtscp), it might set the size to garbage
@@ -144,7 +144,7 @@ class ExceptionEmulator():
             self.logger.log(f"Executing 0x{address:x}: {insn.mnemonic} {insn.op_str}")
 
             if address == self.code_exit_addr:
-                output_value = self.mu.mem_read(0x8000, 1)
+                output_value = self.uc.mem_read(0x8000, 1)
                 self.logger.log(f"\tOutput value: {output_value}")
                 self.finish_emulation()
                 return
@@ -228,7 +228,7 @@ class ExceptionEmulator():
                 self.skip_curr_insn()
                 return
 
-        self.previous_context = self.mu.context_save()
+        self.previous_context = self.uc.context_save()
         
         # this is in trace_instruction (start at X86FaultModelAbstract) but i just put it in instruction_hook
         if self.in_speculation:
@@ -241,7 +241,7 @@ class ExceptionEmulator():
             # and on expired speculation window
             if self.speculation_depth > self.speculation_limit:
                 self.logger.log(f"\tSpeculation window exceeded (depth: {self.speculation_depth}, limit: {self.speculation_limit})")
-                self.mu.emu_stop()
+                self.uc.emu_stop()
 
     def mem_read_hook(self, uc: Uc, access, address: int, size: int, value, user_data):
         # not in speculation
@@ -290,7 +290,7 @@ class ExceptionEmulator():
         self.logger.log(f"\tMemory write: address=0x{address:x}, size={size}, value={value}")
 
     def rollback(self):
-        self.logger.log(f"RSP before rollback: 0x{self.mu.reg_read(UC_X86_REG_RSP):x}")
+        self.logger.log(f"RSP before rollback: 0x{self.uc.reg_read(UC_X86_REG_RSP):x}")
         state, next_insn_addr, flags = self.checkpoints.pop()
         # if not self.checkpoints:
         # reset speculative state
@@ -301,18 +301,18 @@ class ExceptionEmulator():
         self.logger.log(f"\tRollback complete")
         
         # restore registers
-        self.mu.context_restore(state)
+        self.uc.context_restore(state)
 
         # rollback memory changes
         mem_changes = self.store_logs.pop()
         while mem_changes:
             addr, val = mem_changes.pop()
-            self.mu.mem_write(addr, bytes(val))
+            self.uc.mem_write(addr, bytes(val))
         
         # restore flags
-        self.mu.reg_write(UC_X86_REG_EFLAGS, flags)
+        self.uc.reg_write(UC_X86_REG_EFLAGS, flags)
 
-        self.logger.log(f"RSP after rollback: 0x{self.mu.reg_read(UC_X86_REG_RSP):x}")
+        self.logger.log(f"RSP after rollback: 0x{self.uc.reg_read(UC_X86_REG_RSP):x}")
 
         return next_insn_addr
 
@@ -324,7 +324,7 @@ class ExceptionEmulator():
         self.logger.log("Persisting pending memory loads...")
         self._pretty_print_pending_state(indent=1)
         for address in self.pending_memory_loads:
-            self.cache.write(address, self.mu.mem_read(address, self.cache.line_size))
+            self.cache.write(address, self.uc.mem_read(address, self.cache.line_size))
         self.pending_memory_loads.clear()
         self.pending_registers.clear()
 
@@ -394,7 +394,7 @@ class ExceptionEmulator():
             try:
                 self.logger.log(f"(Re)starting emulation with start address 0x{start_address:x}, exit address 0x{self.code_exit_addr:x}")
                 self.logger.log(f"Execution mode: {'speculative (limit: ' + str(self.speculation_limit) + ')' if self.in_speculation else 'normal'}")
-                self.mu.emu_start(start_address, -1)
+                self.uc.emu_start(start_address, -1)
 
                 if self.curr_insn_address == self.code_exit_addr:
                     return
@@ -415,9 +415,9 @@ class ExceptionEmulator():
                 # workaround for a Unicorn bug: after catching an exception
                 # we need to restore some pre-exception context. otherwise,
                 # the emulator becomes corrupted
-                self.mu.context_restore(self.previous_context)
+                self.uc.context_restore(self.previous_context)
                 # another workaround, specifically for flags
-                self.mu.reg_write(UC_X86_REG_EFLAGS, self.mu.reg_read(UC_X86_REG_EFLAGS))
+                self.uc.reg_write(UC_X86_REG_EFLAGS, self.uc.reg_read(UC_X86_REG_EFLAGS))
             
                 start_address = self.handle_fault(self.pending_fault_id)
 
@@ -435,7 +435,7 @@ class ExceptionEmulator():
     def finish_emulation(self):
         self.persist_pending_loads()
         self.logger.log("Emulation finished")
-        self.mu.emu_stop()
+        self.uc.emu_stop()
 
     def _pretty_print_pending_state(self, indent=0):
         """

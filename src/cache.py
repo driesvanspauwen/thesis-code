@@ -3,7 +3,7 @@ import binascii
 
 class L1DCache:
     """
-    A simple L1D cache model with LUR replacement policy
+    A simple L1D cache model with LRU replacement policy
     """
     def __init__(self, amt_sets=64, amt_ways=8, line_size=64, debug=False):
         """
@@ -91,12 +91,6 @@ class L1DCache:
             print("Flushed complete cache")
     
     def flush_address(self, address):
-        """
-        Flushes a specific address from the cache
-        
-        Args:
-            address: The memory address to flush from cache
-        """
         set_index = self.get_set_index(address)
         tag = self.get_tag(address)
         cache_set = self.cache[set_index]
@@ -112,13 +106,6 @@ class L1DCache:
             print(f"Address 0x{address:x} was not in cache, nothing to flush")
     
     def pretty_print(self, max_sets=None, data_preview_bytes=16):
-        """
-        Print a human-readable representation of the cache state
-        
-        Args:
-            max_sets: Maximum number of sets to display (None = all)
-            data_preview_bytes: Number of bytes to preview for each cache line
-        """
         if max_sets is None:
             sets_to_print = self.amt_sets
         else:

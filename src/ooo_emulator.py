@@ -1,9 +1,9 @@
 from capstone import CsInsn
-from exception_emulator import ExceptionEmulator
+from emulator import MuWMEmulator
 from cache import L1DCache
 from logger import Logger
 
-class OOOEmulator(ExceptionEmulator):
+class OOOEmulator(MuWMEmulator):
     def __init__(self, asm_code: str, gate_name: str, debug: bool = True):
         super().__init__(asm_code, gate_name, debug)
         

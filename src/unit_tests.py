@@ -1,5 +1,5 @@
 import sys
-from exception_emulator import ExceptionEmulator
+from emulator import MuWMEmulator
 from loader import *
 from gates.asm import *
 from unicorn.x86_const import *
@@ -10,13 +10,13 @@ from gates.flexo.sha1.sha1_ref import ref_sha1_round
 def run_assign(in1, debug=False):
     code = get_asm_exception_assign(in1)
     loader = AsmLoader(code)
-    emulator = ExceptionEmulator('assign', loader, debug)
+    emulator = MuWMEmulator('assign', loader, debug)
 
     # Set input and output addresses of assign gate
     input_address = emulator.data_start_addr
-    emulator.mu.reg_write(UC_X86_REG_R14, input_address)
+    emulator.uc.reg_write(UC_X86_REG_R14, input_address)
     output_address = emulator.data_start_addr + emulator.cache.line_size  # makes sure output goes in different cache set than input
-    emulator.mu.reg_write(UC_X86_REG_R15, output_address)
+    emulator.uc.reg_write(UC_X86_REG_R15, output_address)
 
     emulator.emulate()
 
@@ -37,17 +37,17 @@ def test_assign():
 def run_or(in1, in2, debug=False):
     code = get_asm_exception_or(in1, in2)
     loader = AsmLoader(code)
-    emulator = ExceptionEmulator('or', loader, debug)
+    emulator = MuWMEmulator('or', loader, debug)
 
     emulator.logger.log(f"Starting emulation of OR({in1}, {in2})...")
 
     # Set input and output addresses of OR gate
     input1_address = emulator.data_start_addr
-    emulator.mu.reg_write(UC_X86_REG_R13, input1_address)
+    emulator.uc.reg_write(UC_X86_REG_R13, input1_address)
     input2_address = emulator.data_start_addr + emulator.cache.line_size
-    emulator.mu.reg_write(UC_X86_REG_R14, input2_address)
+    emulator.uc.reg_write(UC_X86_REG_R14, input2_address)
     output_address = emulator.data_start_addr + 2 * emulator.cache.line_size
-    emulator.mu.reg_write(UC_X86_REG_R15, output_address)
+    emulator.uc.reg_write(UC_X86_REG_R15, output_address)
 
     emulator.emulate()
 
@@ -69,17 +69,17 @@ def test_or():
 def run_and(in1, in2, debug=False):
     code = get_asm_exception_and(in1, in2)
     loader = AsmLoader(code)
-    emulator = ExceptionEmulator('and', loader, debug)
+    emulator = MuWMEmulator('and', loader, debug)
 
     emulator.logger.log(f"Starting emulation of AND({in1}, {in2})...")
 
     # Set input and output addresses of AND gate
     input1_address = emulator.data_start_addr
-    emulator.mu.reg_write(UC_X86_REG_R13, input1_address)
+    emulator.uc.reg_write(UC_X86_REG_R13, input1_address)
     input2_address = emulator.data_start_addr + emulator.cache.line_size
-    emulator.mu.reg_write(UC_X86_REG_R14, input2_address)
+    emulator.uc.reg_write(UC_X86_REG_R14, input2_address)
     output_address = emulator.data_start_addr + 2 * emulator.cache.line_size
-    emulator.mu.reg_write(UC_X86_REG_R15, output_address)
+    emulator.uc.reg_write(UC_X86_REG_R15, output_address)
 
     emulator.emulate()
 
@@ -103,22 +103,22 @@ def test_and():
 def run_and_or(in1, in2, in3, debug=False):
     code = get_asm_exception_and_or(in1, in2, in3)
     loader = AsmLoader(code)
-    emulator = ExceptionEmulator('and_or', loader, debug)
+    emulator = MuWMEmulator('and_or', loader, debug)
 
     emulator.logger.log(f"Starting emulation of AND-OR({in1}, {in2}, {in3})...")
 
     # Set input and output addresses
     input1_address = emulator.data_start_addr
-    emulator.mu.reg_write(UC_X86_REG_R13, input1_address)
+    emulator.uc.reg_write(UC_X86_REG_R13, input1_address)
     
     input2_address = emulator.data_start_addr + emulator.cache.line_size
-    emulator.mu.reg_write(UC_X86_REG_R14, input2_address)
+    emulator.uc.reg_write(UC_X86_REG_R14, input2_address)
     
     input3_address = emulator.data_start_addr + 2 * emulator.cache.line_size
-    emulator.mu.reg_write(UC_X86_REG_R12, input3_address)
+    emulator.uc.reg_write(UC_X86_REG_R12, input3_address)
     
     output_address = emulator.data_start_addr + 3 * emulator.cache.line_size
-    emulator.mu.reg_write(UC_X86_REG_R15, output_address)
+    emulator.uc.reg_write(UC_X86_REG_R15, output_address)
 
     emulator.emulate()
 
@@ -143,19 +143,19 @@ def test_and_or():
 def run_not(in1, debug=False):
     code = get_asm_exception_not(in1)
     loader = AsmLoader(code)
-    emulator = ExceptionEmulator('not', loader, True)
+    emulator = MuWMEmulator('not', loader, True)
 
     emulator.logger.log(f"Starting emulation of NOT({in1})...")
 
     # Set input and output addresses
     input1_address = emulator.data_start_addr
-    emulator.mu.reg_write(UC_X86_REG_R13, input1_address)
+    emulator.uc.reg_write(UC_X86_REG_R13, input1_address)
     
     input2_address = emulator.data_start_addr + emulator.cache.line_size
-    emulator.mu.reg_write(UC_X86_REG_R14, input2_address)
+    emulator.uc.reg_write(UC_X86_REG_R14, input2_address)
 
     output_address = emulator.data_start_addr + 3 * emulator.cache.line_size
-    emulator.mu.reg_write(UC_X86_REG_R15, output_address)
+    emulator.uc.reg_write(UC_X86_REG_R15, output_address)
 
     emulator.emulate()
 
@@ -192,19 +192,19 @@ def run_nand(in1, in2, debug=False):
 
     # Load ELF file
     loader = ELFLoader("gates/nand/nand.elf")
-    emulator = ExceptionEmulator('nand', loader, debug)
+    emulator = MuWMEmulator('nand', loader, debug)
     emulator.code_start_address = NAND_GATE_START_ADDR
     emulator.code_exit_addr = NAND_GATE_END_ADDR
     emulator.fault_handler_addr = FAULT_HANDLER_ADDR
 
     # Set inputs
     if in1:
-        emulator.cache.read(IN1_ADDR, emulator.mu)
+        emulator.cache.read(IN1_ADDR, emulator.uc)
     if in2:
-        emulator.cache.read(IN2_ADDR, emulator.mu)
-    emulator.mu.reg_write(UC_X86_REG_RDI, IN1_ADDR)
-    emulator.mu.reg_write(UC_X86_REG_RSI, IN2_ADDR)
-    emulator.mu.reg_write(UC_X86_REG_RDX, OUT_ADDR)
+        emulator.cache.read(IN2_ADDR, emulator.uc)
+    emulator.uc.reg_write(UC_X86_REG_RDI, IN1_ADDR)
+    emulator.uc.reg_write(UC_X86_REG_RSI, IN2_ADDR)
+    emulator.uc.reg_write(UC_X86_REG_RDX, OUT_ADDR)
 
     emulator.logger.log(f"Starting emulation of NAND({in1}, {in2})...")
 
@@ -251,25 +251,25 @@ def run_mux(in1, in2, in3, debug=False):
 
     # Initialize emulator
     loader = ELFLoader("gates/mux/mux.elf")
-    emulator = ExceptionEmulator('mux', loader, debug)
+    emulator = MuWMEmulator('mux', loader, debug)
     emulator.code_start_address = MUX_GATE_START_ADDR
     emulator.code_exit_addr = MUX_GATE_END_ADDR
     emulator.fault_handler_addr = FAULT_HANDLER_ADDR
 
     # Set up inputs in cache if needed
     if in1:
-        emulator.cache.read(IN1_ADDR, emulator.mu)
+        emulator.cache.read(IN1_ADDR, emulator.uc)
     if in2:
-        emulator.cache.read(IN2_ADDR, emulator.mu)
+        emulator.cache.read(IN2_ADDR, emulator.uc)
     if in3:
-        emulator.cache.read(IN3_ADDR, emulator.mu)
+        emulator.cache.read(IN3_ADDR, emulator.uc)
 
     # Set up registers according to calling convention
-    emulator.mu.reg_write(UC_X86_REG_RDI, IN1_ADDR)  # in1
-    emulator.mu.reg_write(UC_X86_REG_RSI, IN2_ADDR)  # in2
-    emulator.mu.reg_write(UC_X86_REG_RDX, IN3_ADDR)  # in3
-    emulator.mu.reg_write(UC_X86_REG_RCX, OUT_ADDR)  # out
-    emulator.mu.reg_write(UC_X86_REG_R8D, input_param)  # input parameter
+    emulator.uc.reg_write(UC_X86_REG_RDI, IN1_ADDR)  # in1
+    emulator.uc.reg_write(UC_X86_REG_RSI, IN2_ADDR)  # in2
+    emulator.uc.reg_write(UC_X86_REG_RDX, IN3_ADDR)  # in3
+    emulator.uc.reg_write(UC_X86_REG_RCX, OUT_ADDR)  # out
+    emulator.uc.reg_write(UC_X86_REG_R8D, input_param)  # input parameter
 
     # Run the emulation
     emulator.emulate()
@@ -302,17 +302,17 @@ def run_flexo_and(in1, in2, debug=False):
     AND_GATE_END_ADDR = 0x13eb  # ret instruction of __weird__and
     
     loader = ELFLoader("gates/flexo/test.elf")
-    emulator = ExceptionEmulator('flexo-and', loader, debug)
+    emulator = MuWMEmulator('flexo-and', loader, debug)
     emulator.code_start_address = AND_GATE_START_ADDR
     emulator.code_exit_addr = AND_GATE_END_ADDR
 
     try:
         # Check if memory is already mapped
-        emulator.mu.mem_read(OUT_ADDR, 1)
+        emulator.uc.mem_read(OUT_ADDR, 1)
     except:
         # If not, map it
         emulator.logger.log(f"Manually mapping memory for output address {OUT_ADDR:#x}")
-        emulator.mu.mem_map(OUT_ADDR & 0xFFFFF000, 0x1000, UC_PROT_ALL)
+        emulator.uc.mem_map(OUT_ADDR & 0xFFFFF000, 0x1000, UC_PROT_ALL)
 
     # Add hook to skip the call to rand@plt
     def hook_rand_call(uc, address, size, user_data):
@@ -327,18 +327,18 @@ def run_flexo_and(in1, in2, debug=False):
         return False
 
     # Add hook for the call instruction
-    emulator.mu.hook_add(UC_HOOK_CODE, hook_rand_call, None, 0x11e9, 0x11ea)
+    emulator.uc.hook_add(UC_HOOK_CODE, hook_rand_call, None, 0x11e9, 0x11ea)
 
     # Set up inputs according to calling convention
-    emulator.mu.reg_write(UC_X86_REG_RDI, in1 & 0x1)  # First boolean input
-    emulator.mu.reg_write(UC_X86_REG_RSI, in2 & 0x1)  # Second boolean input
-    emulator.mu.reg_write(UC_X86_REG_RDX, OUT_ADDR)  # Output byte pointer
+    emulator.uc.reg_write(UC_X86_REG_RDI, in1 & 0x1)  # First boolean input
+    emulator.uc.reg_write(UC_X86_REG_RSI, in2 & 0x1)  # Second boolean input
+    emulator.uc.reg_write(UC_X86_REG_RDX, OUT_ADDR)  # Output byte pointer
 
     # Run the emulation
     emulator.emulate()
 
     # Retrieve the output
-    result_bytes = emulator.mu.mem_read(0x8000, 1)
+    result_bytes = emulator.uc.mem_read(0x8000, 1)
     return int(result_bytes[0])
 
 def test_flexo_and():
@@ -367,29 +367,29 @@ def run_flexo_sha1_round(state_in, w_in, debug=False):
 
     # Create emulator
     loader = ELFLoader("gates/flexo/sha1/sha1_round.elf", stack_addr=0x80000,stack_size=0x1000000)
-    emulator = ExceptionEmulator('flexo-sha1', loader, True)
+    emulator = MuWMEmulator('flexo-sha1', loader, True)
 
     emulator.code_start_address = WEIRD_SHA1_ADDR
     emulator.code_exit_addr = SHA1_RET_ADDR
 
     # Set up memory for inputs and outputs
-    emulator.mu.mem_map(INPUT_ADDR, PAGE_SIZE)
-    emulator.mu.mem_map(OUTPUT_ADDR, PAGE_SIZE)
-    emulator.mu.mem_map(ERROR_OUTPUT_ADDR, PAGE_SIZE)
+    emulator.uc.mem_map(INPUT_ADDR, PAGE_SIZE)
+    emulator.uc.mem_map(OUTPUT_ADDR, PAGE_SIZE)
+    emulator.uc.mem_map(ERROR_OUTPUT_ADDR, PAGE_SIZE)
 
     # Write input: state (5x uint32) + w (1x uint32)
     input_data = state_in + [w_in]
-    emulator.mu.mem_write(INPUT_ADDR, struct.pack("<6I", *input_data))
+    emulator.uc.mem_write(INPUT_ADDR, struct.pack("<6I", *input_data))
 
     # Zero output and error buffer
-    emulator.mu.mem_write(OUTPUT_ADDR, b"\x00" * 20)
-    emulator.mu.mem_write(ERROR_OUTPUT_ADDR, b"\x00" * 20)
+    emulator.uc.mem_write(OUTPUT_ADDR, b"\x00" * 20)
+    emulator.uc.mem_write(ERROR_OUTPUT_ADDR, b"\x00" * 20)
 
     # Register setup: rdi=input, rsi=w, rdx=output, rcx=error_output
-    emulator.mu.reg_write(UC_X86_REG_RDI, INPUT_ADDR)
-    emulator.mu.reg_write(UC_X86_REG_RSI, w_in)
-    emulator.mu.reg_write(UC_X86_REG_RDX, OUTPUT_ADDR)
-    emulator.mu.reg_write(UC_X86_REG_RCX, ERROR_OUTPUT_ADDR)
+    emulator.uc.reg_write(UC_X86_REG_RDI, INPUT_ADDR)
+    emulator.uc.reg_write(UC_X86_REG_RSI, w_in)
+    emulator.uc.reg_write(UC_X86_REG_RDX, OUTPUT_ADDR)
+    emulator.uc.reg_write(UC_X86_REG_RCX, ERROR_OUTPUT_ADDR)
 
     # The rand@plt function call is skipped
     emulator.rsb.add_exception_addr(RAND_CALL_ADDR)
@@ -399,14 +399,14 @@ def run_flexo_sha1_round(state_in, w_in, debug=False):
             uc.reg_write(UC_X86_REG_RIP, address + 5)
             return True
         return False
-    emulator.mu.hook_add(UC_HOOK_CODE, hook_rand_call, None, WEIRD_SHA1_ADDR, SHA1_RET_ADDR)
+    emulator.uc.hook_add(UC_HOOK_CODE, hook_rand_call, None, WEIRD_SHA1_ADDR, SHA1_RET_ADDR)
 
     # Emulate
     emulator.emulate()
 
     # Read outputs
-    result = list(struct.unpack("<5I", emulator.mu.mem_read(OUTPUT_ADDR, 20)))
-    err_out = list(struct.unpack("<5I", emulator.mu.mem_read(ERROR_OUTPUT_ADDR, 20)))
+    result = list(struct.unpack("<5I", emulator.uc.mem_read(OUTPUT_ADDR, 20)))
+    err_out = list(struct.unpack("<5I", emulator.uc.mem_read(ERROR_OUTPUT_ADDR, 20)))
 
     return result, err_out
 
