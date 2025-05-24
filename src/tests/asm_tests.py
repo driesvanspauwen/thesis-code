@@ -3,7 +3,7 @@ from loader import AsmLoader
 from gates.asm import *
 from unicorn.x86_const import *
 
-def run_assign(in1, debug=False):
+def run_assign_asm(in1, debug=False):
     code = get_asm_exception_assign(in1)
     loader = AsmLoader(code)
     emulator = MuWMEmulator('assign', loader, debug)
@@ -20,17 +20,7 @@ def run_assign(in1, debug=False):
 
     return emulator.cache.is_cached(output_address)
 
-def test_assign():
-    for in1 in range(2):
-        res = run_assign(in1)
-        if res == in1:
-            print(f"Test passed for Assign({in1})")
-        else:
-            print(f"Test failed for Assign({in1}):")
-            print(f"\tExpected: {in1}")
-            print(f"\tResult: {res}")
-
-def run_or(in1, in2, debug=False):
+def run_or_asm(in1, in2, debug=False):
     code = get_asm_exception_or(in1, in2)
     loader = AsmLoader(code)
     emulator = MuWMEmulator('or', loader, debug)
@@ -51,18 +41,7 @@ def run_or(in1, in2, debug=False):
 
     return emulator.cache.is_cached(output_address)
 
-def test_or():
-    for in1 in range(2):
-        for in2 in range(2):
-            res = run_or(in1, in2)
-            if res == in1 or in2:
-                print(f"Test passed for OR({in1}, {in2})")
-            else:
-                print(f"Test failed for OR({in1}, {in2}):")
-                print(f"\tExpected: {in1 or in2}")
-                print(f"\tResult: {res}")
-
-def run_and(in1, in2, debug=False):
+def run_and_asm(in1, in2, debug=False):
     code = get_asm_exception_and(in1, in2)
     loader = AsmLoader(code)
     emulator = MuWMEmulator('and', loader, debug)
@@ -83,20 +62,8 @@ def run_and(in1, in2, debug=False):
 
     return emulator.cache.is_cached(output_address)
 
-def test_and():
-    for in1 in range(2):
-        for in2 in range(2):
-            res = run_and(in1, in2)
-            expected = in1 and in2
-            if res == expected:
-                print(f"Test passed for AND({in1}, {in2})")
-            else:
-                print(f"Test failed for AND({in1}, {in2}):")
-                print(f"\tExpected: {expected}")
-                print(f"\tResult: {res}")
-
 # Test Out[0] = (In1[0] ∧ In2[0]) ∨ In3[0]
-def run_and_or(in1, in2, in3, debug=False):
+def run_and_or_asm(in1, in2, in3, debug=False):
     code = get_asm_exception_and_or(in1, in2, in3)
     loader = AsmLoader(code)
     emulator = MuWMEmulator('and_or', loader, debug)
@@ -123,20 +90,7 @@ def run_and_or(in1, in2, in3, debug=False):
 
     return result
 
-def test_and_or():
-    for in1 in range(2):
-        for in2 in range(2):
-            for in3 in range(2):
-                res = run_and_or(in1, in2, in3)
-                expected = (in1 and in2) or in3
-                if res == expected:
-                    print(f"Test passed for AND-OR({in1}, {in2}, {in3})")
-                else:
-                    print(f"Test failed for AND-OR({in1}, {in2}, {in3}):")
-                    print(f"\tExpected: {expected}")
-                    print(f"\tResult: {res}")
-
-def run_not(in1, debug=False):
+def run_not_asm(in1, debug=False):
     code = get_asm_exception_not(in1)
     loader = AsmLoader(code)
     emulator = MuWMEmulator('not', loader, True)
@@ -159,14 +113,3 @@ def run_not(in1, debug=False):
     emulator.logger.log(f"Output value: {result}")
 
     return result
-
-def test_not():
-    for in1 in range(2):
-        res = run_not(in1)
-        expected = not in1
-        if res == expected:
-            print(f"Test passed for NOT({in1})")
-        else:
-            print(f"Test failed for NOT({in1}):")
-            print(f"\tExpected: {expected}")
-            print(f"\tResult: {res}")

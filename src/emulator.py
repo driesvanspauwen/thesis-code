@@ -65,7 +65,7 @@ class MuWMEmulator():
         # Helper addresses
         self.code_start_address: int
         self.code_exit_addr: int
-        self.fault_handler_addr: int
+        # self.fault_handler_addr: int
         self.data_start_addr: int
 
         # load code & map memory
