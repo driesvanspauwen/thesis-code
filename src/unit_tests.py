@@ -72,7 +72,7 @@ def test_and_flexo():
     verifier = lambda a, b: a and b
     return run_gate_test('FLEXO-AND', run_and_flexo, verifier, 2)
 
-
+# run_nand_gitm(1, 1, True)
 
 ##########################################
 # CLI

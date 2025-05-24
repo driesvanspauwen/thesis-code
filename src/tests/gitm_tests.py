@@ -148,64 +148,64 @@ def run_not_gitm(input_val, debug=False):
 
 def run_nand_gitm(in1, in2, debug=False):
     # Memory addresses (based on disassembly)
-    IN1_ADDR = 0x7040
-    IN2_ADDR = 0x6840
-    OUT_ADDR = 0x6040
-    TMP_REG1_ADDR = 0x5840  # output AND
-    TMP_REG2_ADDR = 0x5040  # input NOT (1)
-    TMP_REG3_ADDR = 0x4840  # input NOT (2)
-    TMP_REG4_ADDR = 0x4040  # delay NOT
+    IN1_ADDR = 0x81c0
+    IN2_ADDR = 0x79c0
+    OUT_ADDR = 0x71c0
+    TMP_REG1_ADDR = 0xd1e0  # output AND
+    TMP_REG2_ADDR = 0xc9e0  # input NOT (1)
+    TMP_REG3_ADDR = 0xc1e0  # input NOT (2)
+    TMP_REG4_ADDR = 0xb9e0  # delay NOT
 
     # Function address (based on disassembly)
-    NAND_GATE_START_ADDR = 0x13a0
-    NAND_GATE_END_ADDR = 0x16df  # ret instruction of nand_gate
+    NAND_GATE_START_ADDR = 0x1490  # Start of _Z12do_nand_gatej
+    NAND_GATE_END_ADDR = 0x2a6e  # Last nop of NOT gate (in _Z9nand_gatePhS_S_) - bypass rdtscp section
 
     # Load ELF file
-    loader = ELFLoader("gates/nand/nand.elf")
+    loader = ELFLoader("gates/gitm/main_nand.elf")
     emulator = MuWMEmulator('gitm_nand', loader, debug)
     emulator.code_start_address = NAND_GATE_START_ADDR
     emulator.code_exit_addr = NAND_GATE_END_ADDR
 
     # Set inputs
+    input_param = (in2 << 1) | in1 # Combine inputs into parameter (based on source code)
+
     if in1:
         emulator.cache.read(IN1_ADDR, emulator.uc)
     if in2:
         emulator.cache.read(IN2_ADDR, emulator.uc)
-    emulator.uc.reg_write(UC_X86_REG_RDI, IN1_ADDR)
-    emulator.uc.reg_write(UC_X86_REG_RSI, IN2_ADDR)
-    emulator.uc.reg_write(UC_X86_REG_RDX, OUT_ADDR)
+
+    emulator.uc.reg_write(UC_X86_REG_EDI, input_param)
 
     # Run emulation
     emulator.logger.log(f"Starting emulation of NAND({in1}, {in2})...")
     emulator.emulate()
 
-    # Retrieve output from cache-based weird register
+    # Read output from cache-based weird register
     result = emulator.cache.is_cached(OUT_ADDR)
-    emulator.logger.log(f"Output value: {result}")
 
     return result
 
 # OUT = (IN1 AND NOT IN3) OR (IN2 AND IN3)
 def run_mux_gitm(in1, in2, in3, debug=False):
     # Memory addresses (based on disassembly)
-    IN1_ADDR = 0xe040
-    IN2_ADDR = 0xd840
-    IN3_ADDR = 0xd040
-    OUT_ADDR = 0xc840
+    IN1_ADDR = 0x81c0
+    IN2_ADDR = 0x79c0
+    IN3_ADDR = 0x71c0
+    OUT_ADDR = 0x69c0
     
-    TMP_REG1_ADDR = 0x9840  # selector bit - first input NOT gate
-    TMP_REG2_ADDR = 0x9040  # selector bit - second input NOT gate
-    TMP_REG3_ADDR = 0x8840  # result of AND(in2, in3)
-    TMP_REG4_ADDR = 0x8040  # result of NOT(tmp_reg1, tmp_reg2)
-    TMP_REG5_ADDR = 0x7840  # delay for NOT
-    TMP_REG6_ADDR = 0x7040  # result of AND(in1, tmp_reg4)
+    TMP_REG1_ADDR = 0xd1e0  # selector bit - first input NOT gate
+    TMP_REG2_ADDR = 0xc9e0  # selector bit - second input NOT gate
+    TMP_REG3_ADDR = 0xc1e0  # result of AND(in2, in3)
+    TMP_REG4_ADDR = 0xb9e0  # result of NOT(tmp_reg1, tmp_reg2)
+    TMP_REG5_ADDR = 0xb1e0  # delay for NOT
+    TMP_REG6_ADDR = 0xa9e0  # result of AND(in1, tmp_reg4)
 
     # Function addresses (based on disassembly)
-    MUX_GATE_START_ADDR = 0x1560
-    MUX_GATE_END_ADDR = 0x1bae  # ret instruction of mux_gate
+    MUX_GATE_START_ADDR = 0x1ea0  # start of _Z11do_mux_gatej
+    MUX_GATE_END_ADDR = 0x356d  # last nop of OR gate (in _Z8mux_gatePhS_S_S_j) - bypass rdtscp section
 
     # Load ELF file
-    loader = ELFLoader("gates/mux/mux.elf")
+    loader = ELFLoader("gates/gitm/main_mux.elf")
     emulator = MuWMEmulator('gitm_mux', loader, debug)
     emulator.code_start_address = MUX_GATE_START_ADDR
     emulator.code_exit_addr = MUX_GATE_END_ADDR
@@ -220,11 +220,7 @@ def run_mux_gitm(in1, in2, in3, debug=False):
     if in3:
         emulator.cache.read(IN3_ADDR, emulator.uc)
 
-    emulator.uc.reg_write(UC_X86_REG_RDI, IN1_ADDR)  # in1
-    emulator.uc.reg_write(UC_X86_REG_RSI, IN2_ADDR)  # in2
-    emulator.uc.reg_write(UC_X86_REG_RDX, IN3_ADDR)  # in3
-    emulator.uc.reg_write(UC_X86_REG_RCX, OUT_ADDR)  # out
-    emulator.uc.reg_write(UC_X86_REG_R8D, input_param)  # input parameter
+    emulator.uc.reg_write(UC_X86_REG_EDI, input_param)
 
     # Run emulation
     emulator.emulate()
