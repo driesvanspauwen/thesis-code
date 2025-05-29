@@ -1,10 +1,11 @@
+from typing import Tuple
 from emulator import MuWMEmulator
 from loader import ELFLoader
 from gates.asm import *
 from unicorn import *
 from unicorn.x86_const import *
 
-def run_and_flexo(in1, in2, debug=False):
+def emulate_and_flexo(in1, in2, debug=False):
     OUT_ADDR = 0x10000000
     
     # Function addresses
@@ -47,7 +48,7 @@ def run_and_flexo(in1, in2, debug=False):
     result_bytes = emulator.uc.mem_read(OUT_ADDR, 1)
     return int(result_bytes[0])
 
-def run_or_flexo(in1, in2, debug=False):
+def emulate_or_flexo(in1, in2, debug=False):
     OUT_ADDR = 0x10000000
     
     # Function addresses for OR gate
@@ -94,7 +95,7 @@ def run_or_flexo(in1, in2, debug=False):
     return int(result_bytes[0])
 
 
-def run_not_flexo(in1, debug=False):
+def emulate_not_flexo(in1, debug=False):
     OUT_ADDR = 0x10000000
     
     # Function addresses for NOT gate
@@ -140,7 +141,7 @@ def run_not_flexo(in1, debug=False):
     result_bytes = emulator.uc.mem_read(OUT_ADDR, 1)
     return int(result_bytes[0])
 
-def run_nand_flexo(in1, in2, debug=False):
+def emulate_nand_flexo(in1, in2, debug=False):
     OUT_ADDR = 0x10000000
     
     # Function addresses for NAND
@@ -186,7 +187,7 @@ def run_nand_flexo(in1, in2, debug=False):
     result_bytes = emulator.uc.mem_read(OUT_ADDR, 1)
     return int(result_bytes[0])
 
-def run_xor_flexo(in1, in2, debug=False):
+def emulate_xor_flexo(in1, in2, debug=False):
     OUT_ADDR = 0x10000000
     
     # Function addresses for XOR
@@ -229,7 +230,7 @@ def run_xor_flexo(in1, in2, debug=False):
     result_bytes = emulator.uc.mem_read(OUT_ADDR, 1)
     return int(result_bytes[0])
 
-def run_xor3_flexo(in1, in2, in3, debug=False):
+def emulate_xor3_flexo(in1, in2, in3, debug=False):
     OUT_ADDR = 0x10000000
     
     # Function addresses for XOR3
@@ -269,7 +270,7 @@ def run_xor3_flexo(in1, in2, in3, debug=False):
     result_bytes = emulator.uc.mem_read(OUT_ADDR, 1)
     return int(result_bytes[0])
 
-def run_xor4_flexo(in1, in2, in3, in4, debug=False):
+def emulate_xor4_flexo(in1, in2, in3, in4, debug=False):
     OUT_ADDR = 0x10000000
     
     # Function addresses for XOR4
@@ -310,8 +311,8 @@ def run_xor4_flexo(in1, in2, in3, in4, debug=False):
     result_bytes = emulator.uc.mem_read(OUT_ADDR, 1)
     return int(result_bytes[0])
 
-def run_mux_flexo(in1, in2, sel, debug=False):
-    OUT_ADDR = 0x10000000
+def emulate_mux_flexo(in1, in2, sel, debug=False):
+    OUT_ADDR = 0x10000000 # pick an address not in code and stack sections
     
     # Function addresses for MUX
     MUX_GATE_START_ADDR = 0x1c20
@@ -349,3 +350,205 @@ def run_mux_flexo(in1, in2, sel, debug=False):
     
     result_bytes = emulator.uc.mem_read(OUT_ADDR, 1)
     return int(result_bytes[0])
+
+def emulate_adder8_flexo(a: int, b: int, debug: bool = False) -> Tuple[int, int]:
+    """
+    Emulate the Flexo‐compiled 8‐bit weird‐machine adder (__weird__adder8).
+    Returns (sum, error_flag) as two 8-bit integers.
+    """
+
+    # Addresses for code and data
+    ADDER_START_ADDR = 0x1270
+    ADDER_END_ADDR   = 0x362e  # address of 'ret' in __weird__adder8
+    RAND_CALL_ADDR   = 0x12a0  # call to rand@plt
+    MEM_SIZE         = 0x1000
+
+    # data buffers in guest RAM
+    IN1_ADDR     = 0x20000000
+    IN2_ADDR     = 0x20001000
+    OUT_ADDR     = 0x20002000
+    ERR_OUT_ADDR = 0x20003000
+
+    # load binary and create emulator
+    loader = ELFLoader("gates/flexo/arithmetic/adder.elf")
+    emulator = MuWMEmulator("flexo-adder8", loader, debug)
+    emulator.code_start_address = ADDER_START_ADDR
+    emulator.code_exit_addr = ADDER_END_ADDR
+
+    # map and initialize memory for inputs/outputs
+    for addr in (IN1_ADDR, IN2_ADDR, OUT_ADDR, ERR_OUT_ADDR):
+        try:
+            emulator.uc.mem_read(addr, 1)
+        except:
+            emulator.logger.log(f"Mapping 0x{addr:08x}")
+            emulator.uc.mem_map(addr, MEM_SIZE, UC_PROT_ALL)
+
+    # write little‐endian 8‐byte inputs (only low byte nonzero)
+    in1_bytes = bytes([a & 0xFF] + [0]*7)
+    in2_bytes = bytes([b & 0xFF] + [0]*7)
+    emulator.uc.mem_write(IN1_ADDR,     in1_bytes)
+    emulator.uc.mem_write(IN2_ADDR,     in2_bytes)
+    emulator.uc.mem_write(OUT_ADDR,     b'\x00'*8)
+    emulator.uc.mem_write(ERR_OUT_ADDR, b'\x00'*8)
+
+    # intercept rand() calls to deterministic value
+    def hook_rand(uc, address, size, user_data):
+        if address == RAND_CALL_ADDR:
+            uc.reg_write(UC_X86_REG_RAX, 0x12345678)
+            emulator.skip_curr_insn()
+            return True
+        return False
+
+    emulator.uc.hook_add(UC_HOOK_CODE, hook_rand, None, RAND_CALL_ADDR, RAND_CALL_ADDR+1)
+
+    # set up function arguments:
+    emulator.uc.reg_write(UC_X86_REG_RDI, IN1_ADDR)
+    emulator.uc.reg_write(UC_X86_REG_RSI, IN2_ADDR)
+    emulator.uc.reg_write(UC_X86_REG_RDX, OUT_ADDR)
+    emulator.uc.reg_write(UC_X86_REG_RCX, ERR_OUT_ADDR)
+
+    # run until ret in __weird__adder8
+    emulator.emulate()
+
+    # fetch results (low bytes only)
+    result = emulator.uc.mem_read(OUT_ADDR, 1)[0]
+    error_flag = emulator.uc.mem_read(ERR_OUT_ADDR, 1)[0]
+
+    return result, error_flag
+
+def emulate_adder16_flexo(a: int, b: int, debug: bool = False) -> Tuple[int, int]:
+    # Addresses from objdump
+    ADDER_START_ADDR = 0x3630
+    ADDER_END_ADDR   = 0x94da  # address of 'ret' in __weird__adder16
+    RAND_CALL_ADDR   = 0x3660  # call to rand@plt
+    MEM_SIZE         = 0x1000
+
+    # data buffers
+    IN1_ADDR     = 0x20000000
+    IN2_ADDR     = 0x20001000
+    OUT_ADDR     = 0x20002000
+    ERR_OUT_ADDR = 0x20003000
+
+    loader   = ELFLoader("gates/flexo/arithmetic/adder.elf")
+    emulator = MuWMEmulator("flexo-adder16", loader, debug)
+    emulator.code_start_address = ADDER_START_ADDR
+    emulator.code_exit_addr = ADDER_END_ADDR
+
+    # map memory
+    for addr in (IN1_ADDR, IN2_ADDR, OUT_ADDR, ERR_OUT_ADDR):
+        try:
+            emulator.uc.mem_read(addr, 1)
+        except:
+            emulator.uc.mem_map(addr, MEM_SIZE, UC_PROT_ALL)
+
+    # write inputs (8‐byte buffers, low 2 bytes hold the value)
+    in1 = (a & 0xFFFF).to_bytes(2, 'little') + b'\x00'*6
+    in2 = (b & 0xFFFF).to_bytes(2, 'little') + b'\x00'*6
+    emulator.uc.mem_write(IN1_ADDR,     in1)
+    emulator.uc.mem_write(IN2_ADDR,     in2)
+    emulator.uc.mem_write(OUT_ADDR,     b'\x00'*8)
+    emulator.uc.mem_write(ERR_OUT_ADDR, b'\x00'*8)
+
+    # hook rand()
+    def hook_rand(uc, addr, size, ud):
+        if addr == RAND_CALL_ADDR:
+            uc.reg_write(UC_X86_REG_RAX, 0x12345678)
+            emulator.skip_curr_insn()
+            return True
+        return False
+    emulator.uc.hook_add(UC_HOOK_CODE, hook_rand, None, RAND_CALL_ADDR, RAND_CALL_ADDR+1)
+
+    # arguments: rdi, rsi, rdx, rcx
+    uc = emulator.uc
+    uc.reg_write(UC_X86_REG_RDI, IN1_ADDR)
+    uc.reg_write(UC_X86_REG_RSI, IN2_ADDR)
+    uc.reg_write(UC_X86_REG_RDX, OUT_ADDR)
+    uc.reg_write(UC_X86_REG_RCX, ERR_OUT_ADDR)
+
+    emulator.emulate()
+
+    # read 2-byte result and error_flag
+    result = int.from_bytes(uc.mem_read(OUT_ADDR, 2), 'little')
+    error_flag = uc.mem_read(ERR_OUT_ADDR, 1)[0]
+    return result, error_flag
+
+def verify_memory_layout(emulator: MuWMEmulator):
+    """Verify memory regions don't overlap"""
+    regions = []
+    
+    # Add all mapped regions
+    for region in emulator.uc.mem_regions():
+        start, end, perms = region
+        regions.append((start, end, "mapped"))
+    
+    # Sort by start address
+    regions.sort(key=lambda x: x[0])
+    
+    # Check for overlaps
+    for i in range(len(regions) - 1):
+        if regions[i][1] > regions[i+1][0]:
+            print(f"WARNING: Memory overlap detected!")
+            print(f"  Region 1: 0x{regions[i][0]:x} - 0x{regions[i][1]:x}")
+            print(f"  Region 2: 0x{regions[i+1][0]:x} - 0x{regions[i+1][1]:x}")
+
+def emulate_adder32_flexo(a: int, b: int, debug: bool = False) -> Tuple[int, int]:
+    # Addresses from objdump
+    ADDER_START_ADDR = 0x94e0
+    ADDER_END_ADDR   = 0x16bd1  # address of 'ret' in __weird__adder16
+    RAND_CALL_ADDR   = 0x9510  # call to rand@plt
+    MEM_SIZE         = 0x1000
+
+    # data buffers
+    IN1_ADDR     = 0x20000000
+    IN2_ADDR     = 0x20001000
+    OUT_ADDR     = 0x20002000
+    ERR_OUT_ADDR = 0x20003000
+
+    loader   = ELFLoader("gates/flexo/arithmetic/adder.elf")
+    emulator = MuWMEmulator("flexo-adder32", loader, debug)
+    
+    emulator.reset_state()
+    
+    emulator.code_start_address = ADDER_START_ADDR
+    emulator.code_exit_addr = ADDER_END_ADDR
+
+    # map memory
+    for addr in (IN1_ADDR, IN2_ADDR, OUT_ADDR, ERR_OUT_ADDR):
+        try:
+            emulator.uc.mem_unmap(addr, MEM_SIZE)
+        except:
+            pass
+        emulator.uc.mem_map(addr, MEM_SIZE, UC_PROT_READ | UC_PROT_WRITE)
+
+    # write inputs (8‐byte buffers, low 4 bytes hold the value)
+    in1 = (a & 0xFFFFFFFF).to_bytes(4, 'little') + b'\x00'*4
+    in2 = (b & 0xFFFFFFFF).to_bytes(4, 'little') + b'\x00'*4
+    emulator.uc.mem_write(IN1_ADDR,     in1)
+    emulator.uc.mem_write(IN2_ADDR,     in2)
+    emulator.uc.mem_write(OUT_ADDR,     b'\x00'*8)
+    emulator.uc.mem_write(ERR_OUT_ADDR, b'\x00'*8)
+
+    # hook rand()
+    def hook_rand(uc, addr, size, ud):
+        if addr == RAND_CALL_ADDR:
+            uc.reg_write(UC_X86_REG_RAX, 0x12345678)
+            emulator.skip_curr_insn()
+            return True
+        return False
+    emulator.uc.hook_add(UC_HOOK_CODE, hook_rand, None, RAND_CALL_ADDR, RAND_CALL_ADDR+1)
+
+    # arguments
+    uc = emulator.uc
+    uc.reg_write(UC_X86_REG_RDI, IN1_ADDR)
+    uc.reg_write(UC_X86_REG_RSI, IN2_ADDR)
+    uc.reg_write(UC_X86_REG_RDX, OUT_ADDR)
+    uc.reg_write(UC_X86_REG_RCX, ERR_OUT_ADDR)
+
+    verify_memory_layout(emulator)
+
+    emulator.emulate()
+
+    # read 4-byte result and error_flag
+    result = int.from_bytes(uc.mem_read(OUT_ADDR, 4), 'little')
+    error_flag = uc.mem_read(ERR_OUT_ADDR, 1)[0]
+    return result, error_flag

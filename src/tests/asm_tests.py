@@ -3,7 +3,7 @@ from loader import AsmLoader
 from gates.asm import *
 from unicorn.x86_const import *
 
-def run_assign_asm(in1, debug=False):
+def emulate_assign_asm(in1, debug=False):
     code = get_asm_exception_assign(in1)
     loader = AsmLoader(code)
     emulator = MuWMEmulator('assign', loader, debug)
@@ -20,7 +20,7 @@ def run_assign_asm(in1, debug=False):
 
     return emulator.cache.is_cached(output_address)
 
-def run_or_asm(in1, in2, debug=False):
+def emulate_or_asm(in1, in2, debug=False):
     code = get_asm_exception_or(in1, in2)
     loader = AsmLoader(code)
     emulator = MuWMEmulator('or', loader, debug)
@@ -41,7 +41,7 @@ def run_or_asm(in1, in2, debug=False):
 
     return emulator.cache.is_cached(output_address)
 
-def run_and_asm(in1, in2, debug=False):
+def emulate_and_asm(in1, in2, debug=False):
     code = get_asm_exception_and(in1, in2)
     loader = AsmLoader(code)
     emulator = MuWMEmulator('and', loader, debug)
@@ -63,7 +63,7 @@ def run_and_asm(in1, in2, debug=False):
     return emulator.cache.is_cached(output_address)
 
 # Test Out[0] = (In1[0] ∧ In2[0]) ∨ In3[0]
-def run_and_or_asm(in1, in2, in3, debug=False):
+def emulate_and_or_asm(in1, in2, in3, debug=False):
     code = get_asm_exception_and_or(in1, in2, in3)
     loader = AsmLoader(code)
     emulator = MuWMEmulator('and_or', loader, debug)
@@ -90,7 +90,7 @@ def run_and_or_asm(in1, in2, in3, debug=False):
 
     return result
 
-def run_not_asm(in1, debug=False):
+def emulate_not_asm(in1, debug=False):
     code = get_asm_exception_not(in1)
     loader = AsmLoader(code)
     emulator = MuWMEmulator('not', loader, True)

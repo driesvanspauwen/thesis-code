@@ -61,8 +61,8 @@ class AsmLoader(Loader):
         emulator.data_start_addr = self.DATA_BASE
 
 class ELFLoader(Loader):
-    STACK_ADDR = 0x7fff0000
-    STACK_SIZE = 0x10000
+    STACK_ADDR = 0x70000000
+    STACK_SIZE = 0x10000000
 
     def __init__(self, elf_path: str, stack_addr: int = STACK_ADDR, stack_size: int = STACK_SIZE):
         self.elf_path = elf_path

@@ -3,7 +3,7 @@ from unicorn.x86_const import *
 from helper import *
 from typing import List, Tuple, Dict, ByteString
 from logger import Logger
-from cache import L1DCache
+from cache import L1DCache, InfiniteCache
 from rsb import RSB
 from read_timer import Timer
 from loader import *
@@ -30,7 +30,8 @@ class MuWMEmulator():
         self.pending_fault_id: int = 0
 
         # cache
-        self.cache = L1DCache()
+        # self.cache = L1DCache()
+        self.cache = InfiniteCache()
 
         # rsb
         self.rsb = RSB()
@@ -218,6 +219,14 @@ class MuWMEmulator():
                 self.skip_curr_insn()
                 return
 
+            # Check if instruction is mfence
+            if insn.mnemonic == "mfence":
+                self.logger.log(f"\tMFENCE encountered, serializing all memory operations")
+                self.persist_pending_loads()  # Complete all prior memory ops
+                self.pending_registers.clear()  # Clear pending registers
+                self.skip_curr_insn()
+                return
+
             # Check if we should execute this instruction based on dependencies
             if not self.can_resolve_deps(insn):
                 self.logger.log(f"\tSkipping instruction (resolving dependencies will exceed speculation limit)")
@@ -240,6 +249,9 @@ class MuWMEmulator():
                 self.uc.emu_stop()
 
     def mem_read_hook(self, uc: Uc, access, address: int, size: int, value, user_data):
+        # if 0x20000000 <= address <= 0x20004000:  # Input/output region
+        #     access_type = "READ" if access == UC_MEM_READ else "WRITE"
+        #     print(f"[MEM {access_type}] curr_insn=0x{self.curr_insn_address}, addr=0x{address:x}, size={size}, value=0x{value:x}")
         # not in speculation
         # if not self.in_speculation:
         #     is_hit = 
@@ -278,6 +290,10 @@ class MuWMEmulator():
         self._pretty_print_pending_state(indent=1)
 
     def mem_write_hook(self, uc: Uc, access, address: int, size: int, value, user_data):
+        # if 0x20000000 <= address <= 0x20004000:  # Input/output region
+        #     access_type = "READ" if access == UC_MEM_READ else "WRITE"
+        #     print(f"[MEM {access_type}] curr_insn=0x{self.curr_insn_address}, addr=0x{address:x}, size={size}, value=0x{value:x}")
+
         self.cache.write(address, value)
         if self.in_speculation:
             # store the original value in case we need to rollback
@@ -447,6 +463,18 @@ class MuWMEmulator():
         self.persist_pending_loads()
         self.logger.log("Emulation finished")
         self.uc.emu_stop()
+    
+    def reset_state(self):
+        """Reset all emulator state for a fresh run"""
+        self.cache.reset()
+        self.rsb.stack.clear()
+        self.pending_registers.clear()
+        self.pending_memory_loads.clear()
+        self.in_speculation = False
+        self.speculation_depth = 0
+        self.speculation_limit = 0
+        self.checkpoints.clear()
+        self.store_logs.clear()
 
     def _pretty_print_pending_state(self, indent=0):
         """
