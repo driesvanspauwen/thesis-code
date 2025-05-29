@@ -57,10 +57,10 @@ def run_and_gitm(in1, in2, debug=False):
     emulator.code_exit_addr = AND_GATE_END_ADDR
     
     # Set inputs
-    if in1:
-        emulator.cache.read(IN1_ADDR, emulator.uc)
-    if in2:
-        emulator.cache.read(IN2_ADDR, emulator.uc)
+    # if in1:
+    #     emulator.cache.read(IN1_ADDR, emulator.uc)
+    # if in2:
+    #     emulator.cache.read(IN2_ADDR, emulator.uc)
     
     input_param = (in1) | (in2 << 1)  # Combine inputs into parameter (based on source code)
     emulator.uc.reg_write(UC_X86_REG_RDI, input_param)
@@ -92,10 +92,10 @@ def run_or_gitm(in1, in2, debug=False):
     emulator.code_exit_addr = OR_GATE_END_ADDR
     
     # Set inputs
-    if in1:
-        emulator.cache.read(IN1_ADDR, emulator.uc)
-    if in2:
-        emulator.cache.read(IN2_ADDR, emulator.uc)
+    # if in1:
+    #     emulator.cache.read(IN1_ADDR, emulator.uc)
+    # if in2:
+    #     emulator.cache.read(IN2_ADDR, emulator.uc)
     
     # Combine inputs into parameter (based on source code pattern)
     input_param = (in1) | (in2 << 1)
@@ -129,9 +129,9 @@ def run_not_gitm(input_val, debug=False):
     emulator.code_exit_addr = NOT_GATE_END_ADDR
     
     # Set inputs (NOT gate uses same input for reg1 and reg2 based on C++ code)
-    if input_val:
-        emulator.cache.read(IN1_ADDR, emulator.uc)
-        emulator.cache.read(IN2_ADDR, emulator.uc)
+    # if input_val:
+    #     emulator.cache.read(IN1_ADDR, emulator.uc)
+    #     emulator.cache.read(IN2_ADDR, emulator.uc)
     
     # Set input parameter (only 1 bit for NOT gate)
     emulator.uc.reg_write(UC_X86_REG_RDI, input_val & 1)
@@ -169,10 +169,10 @@ def run_nand_gitm(in1, in2, debug=False):
     # Set inputs
     input_param = (in2 << 1) | in1 # Combine inputs into parameter (based on source code)
 
-    if in1:
-        emulator.cache.read(IN1_ADDR, emulator.uc)
-    if in2:
-        emulator.cache.read(IN2_ADDR, emulator.uc)
+    # if in1:
+    #     emulator.cache.read(IN1_ADDR, emulator.uc)
+    # if in2:
+    #     emulator.cache.read(IN2_ADDR, emulator.uc)
 
     emulator.uc.reg_write(UC_X86_REG_EDI, input_param)
 
@@ -213,12 +213,12 @@ def run_mux_gitm(in1, in2, in3, debug=False):
     # Set inputs
     input_param = (in1) | (in2 << 1) | (in3 << 2) # Combine inputs into parameter (based on source code)
     
-    if in1:
-        emulator.cache.read(IN1_ADDR, emulator.uc)
-    if in2:
-        emulator.cache.read(IN2_ADDR, emulator.uc)
-    if in3:
-        emulator.cache.read(IN3_ADDR, emulator.uc)
+    # if in1:
+    #     emulator.cache.read(IN1_ADDR, emulator.uc)
+    # if in2:
+    #     emulator.cache.read(IN2_ADDR, emulator.uc)
+    # if in3:
+    #     emulator.cache.read(IN3_ADDR, emulator.uc)
 
     emulator.uc.reg_write(UC_X86_REG_EDI, input_param)
 
@@ -227,4 +227,39 @@ def run_mux_gitm(in1, in2, in3, debug=False):
 
     # Retrieve output from cache-based weird register
     result = emulator.cache.is_cached(OUT_ADDR)
+    return result
+
+def run_xor_gitm(in1, in2, debug=False):
+    # Memory addresses (based on disassembly)
+    IN1_ADDR = 0x81c0  # reg1
+    IN2_ADDR = 0x79c0  # reg2
+    OUT_ADDR = 0x71c0  # reg3
+    
+    # Function addresses (based on disassembly)
+    XOR_GATE_START_ADDR = 0x1490  # _Z11do_xor_gatej
+    XOR_GATE_END_ADDR = 0x2e54    # Last nop before rdtscp timing section
+    
+    # Load ELF file
+    loader = ELFLoader("gates/gitm/main_xor.elf")
+    emulator = MuWMEmulator('gitm_xor', loader, debug)
+    emulator.code_start_address = XOR_GATE_START_ADDR
+    emulator.code_exit_addr = XOR_GATE_END_ADDR
+    
+    # Set inputs
+    # if in1:
+    #     emulator.cache.read(IN1_ADDR, emulator.uc)
+    # if in2:
+    #     emulator.cache.read(IN2_ADDR, emulator.uc)
+    
+    input_param = (in1) | (in2 << 1)  # Combine inputs into parameter (based on source code)
+    emulator.uc.reg_write(UC_X86_REG_RDI, input_param)
+    
+    # Run emulation
+    emulator.logger.log(f"Starting emulation of XOR({in1}, {in2})...")
+    emulator.emulate()
+    
+    # Retrieve output from cache-based weird register
+    result = emulator.cache.is_cached(OUT_ADDR)
+    emulator.logger.log(f"Output value: {result}")
+    
     return result
