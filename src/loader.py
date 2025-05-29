@@ -61,7 +61,7 @@ class AsmLoader(Loader):
         emulator.data_start_addr = self.DATA_BASE
 
 class ELFLoader(Loader):
-    STACK_ADDR = 0x8000000
+    STACK_ADDR = 0x7fff0000
     STACK_SIZE = 0x10000
 
     def __init__(self, elf_path: str, stack_addr: int = STACK_ADDR, stack_size: int = STACK_SIZE):
@@ -120,6 +120,6 @@ class ELFLoader(Loader):
                     emulator.logger.log(f"\tError mapping segment: {e}")
     
     def map_stack(self, emulator: EmulatorInterface):
-        emulator.logger.log("Mapping stack:")
+        emulator.logger.log("Mapping stack with base 0x{self.stack_addr:x} and size 0x{self.stack_size:x}")
         emulator.uc.mem_map(self.stack_addr, self.stack_size, UC_PROT_READ | UC_PROT_WRITE)
         emulator.uc.reg_write(UC_X86_REG_RSP, self.stack_addr + self.stack_size - 0x100)

@@ -82,7 +82,7 @@ class MuWMEmulator():
         flags = emulator.reg_read(UC_X86_REG_EFLAGS)
         context = emulator.context_save()
         self.store_logs.append([])
-        self.logger.log(f"\tCheckpoint at 0x{next_insn_addr:x} (speculation depth: {self.speculation_depth})")
+        self.logger.log(f"\tCheckpoint at 0x{next_insn_addr:x}")
         self.checkpoints.append((context, next_insn_addr, flags))
 
     def speculate_fault(self, errno: int) -> int:
@@ -143,45 +143,41 @@ class MuWMEmulator():
             self.next_insn_addr = address + size
             self.logger.log(f"Executing 0x{address:x}: {insn.mnemonic} {insn.op_str}")
 
+            if address == 0x3841 or address == 0x3842 or address == 0x3843:
+                self.logger.log(f"\tRSP: 0x{uc.reg_read(UC_X86_REG_RSP):x}")
+
             if address == self.code_exit_addr:
-                output_value = self.uc.mem_read(0x8000, 1)
-                self.logger.log(f"\tOutput value: {output_value}")
                 self.finish_emulation()
                 return
 
             if insn.mnemonic == "call":
-                current_rsp = uc.reg_read(UC_X86_REG_RSP)
-                stack_location = current_rsp - 8 # the call will push the return address to the stack at this location
-
                 return_addr = address + insn.size
                 self.logger.log(f"\tCall instruction detected, adding to RSB: 0x{return_addr:x}")
 
-                self.rsb.add_ret_addr(return_addr, stack_location)
+                self.rsb.add_ret_addr(return_addr)
             
             if insn.mnemonic == "ret":
-                predicted_ret_addr, real_address_location = self.rsb.pop_ret_addr()
+                predicted_ret_addr = self.rsb.pop_ret_addr()
                 self.logger.log(f"\tReturn instruction detected, popping from RSB: 0x{predicted_ret_addr:x}")
 
                 rsp = uc.reg_read(UC_X86_REG_RSP)
-                actual_ret_addr = int.from_bytes(uc.mem_read(real_address_location, 8), byteorder='little')
+                actual_ret_addr = int.from_bytes(uc.mem_read(rsp, 8), byteorder='little')
 
                 misprediction = predicted_ret_addr != actual_ret_addr and predicted_ret_addr != 0
                 if misprediction:
                     self.logger.log(f"\tCurrent RSB stack: {self.rsb.stack}")
-                    test = int.from_bytes(uc.mem_read(rsp + 8, 8), byteorder='little')
-                    self.logger.log(f"\ttest: 0x{test:x}")
                     self.logger.log(f"\tRSB misprediction detected: RSB predicted 0x{predicted_ret_addr:x}, actual 0x{actual_ret_addr:x}, RSP located at 0x{rsp:x}")
+                    self.logger.log(f"\tAddress at rsp: 0x{actual_ret_addr:x}")
+                    test = int.from_bytes(uc.mem_read(rsp + 8, 8), byteorder='little')
+                    self.logger.log(f"\tAddress at rsp+8: 0x{test:x}")
+                    test2 = int.from_bytes(uc.mem_read(rsp + 16, 8), byteorder='little')
+                    self.logger.log(f"\tAddress at rsp+16: 0x{test2:x}")
+                    uc.reg_write(UC_X86_REG_RSP, rsp+8) # fix this line, it should add 8 to the rsp
+                    self.logger.log(f"\tRSP after fixing: 0x{uc.reg_read(UC_X86_REG_RSP):x}")
                     self.speculate_rsb_misprediction(actual_ret_addr, predicted_ret_addr)
+
                     return
 
-                # 1. Set RIP to the predicted return address
-                uc.reg_write(UC_X86_REG_RIP, actual_ret_addr)
-    
-                # 2. Increment RSP by 8 (as ret normally would)
-                current_rsp = uc.reg_read(UC_X86_REG_RSP)
-                uc.reg_write(UC_X86_REG_RSP, current_rsp + 8)
-                
-                self.logger.log(f"\tManually returning to: 0x{actual_ret_addr:x}")
                 return
             
             # Check if instruction is rdtscp
@@ -287,7 +283,7 @@ class MuWMEmulator():
             # store the original value in case we need to rollback
             original_value = uc.mem_read(address, size)
             self.store_logs[-1].append((address, original_value))
-        self.logger.log(f"\tMemory write: address=0x{address:x}, size={size}, value={value}")
+        self.logger.log(f"\tMemory write: address=0x{address:x}, size={size}, value=0x{value:x}")
 
     def rollback(self):
         self.logger.log(f"RSP before rollback: 0x{self.uc.reg_read(UC_X86_REG_RSP):x}")
@@ -347,6 +343,7 @@ class MuWMEmulator():
         # no dependencies
         if max_cycle_wait == 0:
             for reg in regs_written:
+                self.logger.log(f"\tPopping register {self.cs.reg_name(reg)}")
                 self.pending_registers.pop(reg, None)
 
             return True
