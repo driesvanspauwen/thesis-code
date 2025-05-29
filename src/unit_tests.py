@@ -106,7 +106,7 @@ def test_mux_flexo():
     verifier = lambda a, b, sel: a if sel == 0 else b
     return run_gate_test('FLEXO-MUX', run_mux_flexo, verifier, 3)
 
-run_xor_flexo(0, 1, True)
+# run_xor_flexo(0, 1, True)
 # run_and_flexo(0, 1, True)
 
 ##########################################

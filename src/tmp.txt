@@ -1,0 +1,219 @@
+Executing 0x35fd: call 0x1180
+	Call instruction detected, adding to RSB: 0x3602
+	Memory write: address=0x7fffdab0, size=8, value=13826
+Executing 0x1180: mov rcx, 0x3a99
+Executing 0x1187: mov rax, 0x69b
+Executing 0x118e: mov rdx, 0xdb5
+Executing 0x1195: div cx
+Executing 0x1198: div cx
+Executing 0x119b: div cx
+Executing 0x119e: div cx
+Executing 0x11a1: div cx
+Executing 0x11a4: div cx
+Executing 0x11a7: div cx
+Executing 0x11aa: div cx
+Executing 0x11ad: div cx
+Executing 0x11b0: div cx
+Executing 0x11b3: div cx
+Executing 0x11b6: div cx
+Executing 0x11b9: add qword ptr [rsp], rdx
+	Memory read: address=0x7fffdab0, size=8, CACHE HIT
+	Pending memory loads: []
+	Pending registers: []
+	Memory write: address=0x7fffdab0, size=8, value=14338
+Executing 0x11bd: ret 
+	Return instruction detected, popping from RSB: 0x3602
+	Current RSB stack: [6686, 7103]
+	RSB misprediction detected: RSB predicted 0x3602, actual 0x3802, RSP located at 0x7fffdab0
+	Address at rsp: 0x7fffdab0
+	Address at rsp+8: 0x1380
+	Checkpoint at 0x3802
+Executing 0x3602: movzx rdi, byte ptr [rdi]
+	Regs read: ['rdi']
+	Pending registers: []
+	Cycles to resolve deps: 0
+	Speculation depth: 1
+	Skipping instruction (execution will exceed speculation limit)
+	Memory read: address=0x7fffe7c8, size=1, CACHE MISS
+	Pending memory loads: ['0x7fffe7c8']
+	Pending registers: ['rdi:300']
+Executing 0x3606: movzx rsi, byte ptr [rsi]
+	Regs read: ['rsi']
+	Pending registers: ['rdi']
+	Cycles to resolve deps: 0
+	Speculation depth: 2
+	Memory read: address=0x7fffde08, size=1, CACHE HIT
+	Pending memory loads: ['0x7fffe7c8']
+	Pending registers: ['rdi:300']
+Executing 0x360a: movzx r8, byte ptr [r8]
+	Regs read: ['r8']
+	Pending registers: ['rdi']
+	Cycles to resolve deps: 0
+	Speculation depth: 3
+	Memory read: address=0x7fffe488, size=1, CACHE HIT
+	Pending memory loads: ['0x7fffe7c8']
+	Pending registers: ['rdi:300']
+Executing 0x360e: movzx r9, byte ptr [r9]
+	Regs read: ['r9']
+	Pending registers: ['rdi']
+	Cycles to resolve deps: 0
+	Speculation depth: 4
+	Skipping instruction (execution will exceed speculation limit)
+	Memory read: address=0x7ffff808, size=1, CACHE MISS
+	Pending memory loads: ['0x7fffe7c8', '0x7ffff808']
+	Pending registers: ['rdi:300', 'r9:300']
+Executing 0x3612: lea r10, [rbx + rdi]
+	Regs read: ['rbx', 'rdi']
+	Pending registers: ['rdi', 'r9']
+	Cycles to resolve deps: 300
+	Skipping instruction (resolving dependencies will exceed speculation limit)
+Executing 0x3616: mov r10b, byte ptr [r10 + r9 + 0x100]
+	Regs read: ['r10', 'r9']
+	Pending registers: ['rdi', 'r9', 'r10']
+	Cycles to resolve deps: 300
+	Skipping instruction (resolving dependencies will exceed speculation limit)
+Executing 0x361e: lea r10, [rbx + rsi]
+	Regs read: ['rbx', 'rsi']
+	Pending registers: ['rdi', 'r9', 'r10', 'r10b']
+	Cycles to resolve deps: 0
+	Speculation depth: 5
+Executing 0x3622: mov r10b, byte ptr [r10 + r8 + 0x100]
+	Regs read: ['r10', 'r8']
+	Pending registers: ['rdi', 'r9', 'r10b']
+	Cycles to resolve deps: 300
+	Skipping instruction (resolving dependencies will exceed speculation limit)
+Executing 0x362a: lea r10, [r11 + rdi]
+	Regs read: ['r11', 'rdi']
+	Pending registers: ['rdi', 'r9', 'r10b']
+	Cycles to resolve deps: 300
+	Skipping instruction (resolving dependencies will exceed speculation limit)
+Executing 0x362e: mov r10b, byte ptr [r10 + r8 + 0x100]
+	Regs read: ['r10', 'r8']
+	Pending registers: ['rdi', 'r9', 'r10b', 'r10']
+	Cycles to resolve deps: 300
+	Skipping instruction (resolving dependencies will exceed speculation limit)
+Executing 0x3636: lea r10, [r11 + rsi]
+	Regs read: ['r11', 'rsi']
+	Pending registers: ['rdi', 'r9', 'r10b', 'r10']
+	Cycles to resolve deps: 0
+	Speculation depth: 6
+Executing 0x363a: mov r10b, byte ptr [r10 + r9 + 0x100]
+	Regs read: ['r10', 'r9']
+	Pending registers: ['rdi', 'r9', 'r10b']
+	Cycles to resolve deps: 300
+	Skipping instruction (resolving dependencies will exceed speculation limit)
+Executing 0x3642: nop 
+	Regs read: []
+	Pending registers: ['rdi', 'r9', 'r10b']
+	Cycles to resolve deps: 0
+	Speculation depth: 7
+Executing 0x3643: nop 
+	Regs read: []
+	Pending registers: ['rdi', 'r9', 'r10b']
+	Cycles to resolve deps: 0
+	Speculation depth: 8
+Executing 0x3644: nop 
+	Regs read: []
+	Pending registers: ['rdi', 'r9', 'r10b']
+	Cycles to resolve deps: 0
+	Speculation depth: 9
+Executing 0x3645: nop 
+	Regs read: []
+	Pending registers: ['rdi', 'r9', 'r10b']
+	Cycles to resolve deps: 0
+	Speculation depth: 10
+...
+Executing 0x3735: nop 
+	Regs read: []
+	Pending registers: ['rdi', 'r9', 'r10b']
+	Cycles to resolve deps: 0
+	Speculation depth: 250
+Executing 0x3736: nop 
+	Regs read: []
+	Pending registers: ['rdi', 'r9', 'r10b']
+	Cycles to resolve deps: 0
+	Speculation depth: 251
+	Speculation window exceeded (depth: 251, limit: 250)
+RSP before rollback: 0x7fffdab0
+Persisting pending memory loads...
+	Pending memory loads: ['0x7fffe7c8', '0x7ffff808']
+	Pending registers: ['rdi:300', 'r9:300', 'r10b:300']
+	Rollback complete
+RSP after rollback: 0x7fffdab0
+(Re)starting emulation with start address 0x3802, exit address 0x1c1b
+Execution mode: normal
+Executing 0x3802: nop 
+Executing 0x3803: nop 
+Executing 0x3804: nop 
+Executing 0x3805: nop 
+Executing 0x3806: nop 
+Executing 0x3807: nop 
+Executing 0x3808: nop 
+Executing 0x3809: nop 
+Executing 0x380a: nop 
+Executing 0x380b: nop 
+Executing 0x380c: nop 
+Executing 0x380d: nop 
+Executing 0x380e: nop 
+Executing 0x380f: nop 
+Executing 0x3810: nop 
+Executing 0x3811: nop 
+Executing 0x3812: nop 
+Executing 0x3813: nop 
+Executing 0x3814: nop 
+Executing 0x3815: nop 
+Executing 0x3816: nop 
+Executing 0x3817: nop 
+Executing 0x3818: nop 
+Executing 0x3819: nop 
+Executing 0x381a: nop 
+Executing 0x381b: nop 
+Executing 0x381c: nop 
+Executing 0x381d: nop 
+Executing 0x381e: nop 
+Executing 0x381f: nop 
+Executing 0x3820: nop 
+Executing 0x3821: nop 
+Executing 0x3822: nop 
+Executing 0x3823: nop 
+Executing 0x3824: nop 
+Executing 0x3825: nop 
+Executing 0x3826: nop 
+Executing 0x3827: nop 
+Executing 0x3828: nop 
+Executing 0x3829: nop 
+Executing 0x382a: nop 
+Executing 0x382b: nop 
+Executing 0x382c: nop 
+Executing 0x382d: nop 
+Executing 0x382e: nop 
+Executing 0x382f: nop 
+Executing 0x3830: nop 
+Executing 0x3831: nop 
+Executing 0x3832: nop 
+Executing 0x3833: nop 
+Executing 0x3834: nop 
+Executing 0x3835: nop 
+Executing 0x3836: nop 
+Executing 0x3837: nop 
+Executing 0x3838: nop 
+Executing 0x3839: nop 
+Executing 0x383a: nop 
+Executing 0x383b: nop 
+Executing 0x383c: nop 
+Executing 0x383d: nop 
+Executing 0x383e: nop 
+Executing 0x383f: nop 
+Executing 0x3840: nop 
+Executing 0x3841: nop 
+Executing 0x3842: pop rbx
+	Memory read: address=0x7fffdab0, size=8, CACHE HIT
+	Pending memory loads: []
+	Pending registers: []
+Executing 0x3843: ret 
+	Return instruction detected, popping from RSB: 0x1bbf
+	Current RSB stack: [6686]
+	RSB misprediction detected: RSB predicted 0x1bbf, actual 0x1380, RSP located at 0x7fffdab8
+	Address at rsp: 0x7fffdab8
+	Address at rsp+8: 0x1bbf
+	Checkpoint at 0x1380

@@ -271,7 +271,7 @@ class MuWMEmulator():
             self.cache.read(address, uc)
             self.pending_memory_loads.discard(address)
             for reg in regs_written:
-                self.pending_registers.pop(reg, None)
+                self.remove_pending_register(reg)
 
             self.logger.log(f"\tMemory read: address=0x{address:x}, size={size}, CACHE HIT")
         
@@ -343,8 +343,7 @@ class MuWMEmulator():
         # no dependencies
         if max_cycle_wait == 0:
             for reg in regs_written:
-                self.logger.log(f"\tPopping register {self.cs.reg_name(reg)}")
-                self.pending_registers.pop(reg, None)
+                self.remove_pending_register(reg)
 
             return True
 
@@ -377,6 +376,21 @@ class MuWMEmulator():
                     break
                     
         return max_cycle_wait
+    
+    def remove_pending_register(self, reg_id: int):
+        """
+        Remove a register and all its aliases from pending_registers.
+        """
+        from helper import get_register_aliases
+        
+        # Get all aliases for this register
+        aliases = get_register_aliases(reg_id)
+        
+        # Remove the register and all its aliases from pending_registers
+        for alias in aliases:
+            if alias in self.pending_registers:
+                self.logger.log(f"\tRemoving pending register {self.cs.reg_name(alias)}")
+                self.pending_registers.pop(alias)
 
     
     def emulate(self):

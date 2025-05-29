@@ -4307,21 +4307,21 @@ Disassembly of section .text:
     35f7:	49 89 c9             	mov    r9,rcx
     35fa:	49 89 d0             	mov    r8,rdx
     35fd:	e8 7e db ff ff       	call   1180 <mod_ret_addr>
-    3602:	48 0f b6 3f          	movzx  rdi,BYTE PTR [rdi]   // in1_m
-    3606:	48 0f b6 36          	movzx  rsi,BYTE PTR [rsi]   // in1_p
-    360a:	4d 0f b6 00          	movzx  r8,BYTE PTR [r8]     // in2_m
-    360e:	4d 0f b6 09          	movzx  r9,BYTE PTR [r9]     // in2_p
+    3602:	48 0f b6 3f          	movzx  rdi,BYTE PTR [rdi]   // L -> In1_p
+    3606:	48 0f b6 36          	movzx  rsi,BYTE PTR [rsi]   // H -> In1_m
+    360a:	4d 0f b6 00          	movzx  r8,BYTE PTR [r8]     // H -> In2_p
+    360e:	4d 0f b6 09          	movzx  r9,BYTE PTR [r9]     // L -> In2_m
     3612:	4c 8d 14 3b          	lea    r10,[rbx+rdi*1]
-    3616:	47 8a 94 0a 00 01 00 	mov    r10b,BYTE PTR [r10+r9*1+0x100]
+    3616:	47 8a 94 0a 00 01 00 	mov    r10b,BYTE PTR [r10+r9*1+0x100] // Out_p[In1_p[In2_m[0]]]
     361d:	00 
     361e:	4c 8d 14 33          	lea    r10,[rbx+rsi*1]
-    3622:	47 8a 94 02 00 01 00 	mov    r10b,BYTE PTR [r10+r8*1+0x100]
+    3622:	47 8a 94 02 00 01 00 	mov    r10b,BYTE PTR [r10+r8*1+0x100] // Out_p[In1_m[In2_p[0]]]
     3629:	00 
     362a:	4d 8d 14 3b          	lea    r10,[r11+rdi*1]
-    362e:	47 8a 94 02 00 01 00 	mov    r10b,BYTE PTR [r10+r8*1+0x100]
+    362e:	47 8a 94 02 00 01 00 	mov    r10b,BYTE PTR [r10+r8*1+0x100] // Out_m[In1_p[In2_p[0]]]
     3635:	00 
     3636:	4d 8d 14 33          	lea    r10,[r11+rsi*1]
-    363a:	47 8a 94 0a 00 01 00 	mov    r10b,BYTE PTR [r10+r9*1+0x100]
+    363a:	47 8a 94 0a 00 01 00 	mov    r10b,BYTE PTR [r10+r9*1+0x100] // Out_m[In1_m[In2_m[0]]]
     3641:	00 
     3642:	90                   	nop
     3643:	90                   	nop
