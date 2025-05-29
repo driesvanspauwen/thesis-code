@@ -64,6 +64,19 @@ add rcx, r15             ; Add r15 (output base address) to rcx
 mov al, byte [rcx]       ; Access memory at rcx, causing cache side effect
 """
 
+ASM_EXCEPTION_AND_GITM = """
+; Trigger division by zero exception
+xor rdx, rdx
+div dl
+
+; Transient gate computations
+movzx rcx, byte [r13]    ; Load in1[0] into rcx
+add rcx, r14             ; Add in2 base address to rcx
+movzx rdx, byte [rcx]    ; Load in2[in1[0]] into rdx
+add rdx, r15             ; Add out base address to rdx
+mov dl, byte [rdx]       ; Access out[in2[in1[0]]], causing cache side effect
+"""
+
 def get_asm_exception_and(in1, in2):
     res = ASM_START
     if in1: 
