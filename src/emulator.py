@@ -3,7 +3,7 @@ from unicorn.x86_const import *
 from helper import *
 from typing import List, Tuple, Dict, ByteString
 from logger import Logger
-from cache import L1DCache, InfiniteCache
+from cache import *
 from rsb import RSB
 from read_timer import Timer
 from loader import *
@@ -24,14 +24,16 @@ class MuWMEmulator():
     REGULAR_INSTR_CYCLES = 1  # Regular instruction timing
     MAX_SPEC_WINDOW = 250
 
-    def __init__(self, gate_name: str, loader: Loader, debug: bool = True):
+    def __init__(self, name: str, loader: Loader, cache: Cache = None, debug: bool = True):
         # initialize unicorn
         self.uc = Uc(UC_ARCH_X86, UC_MODE_64)
         self.pending_fault_id: int = 0
 
         # cache
-        # self.cache = L1DCache()
-        self.cache = InfiniteCache()
+        if cache is None:
+            self.cache = InfiniteCache()
+        else:
+            self.cache = cache
 
         # rsb
         self.rsb = RSB()
@@ -59,8 +61,8 @@ class MuWMEmulator():
         self.store_logs: List[List[Tuple[int, ByteString]]] = []  # each entry is a list of (address, prev_value) tuples, one entry per checkpoint
 
         # logging & compilation
-        self.gate_name = gate_name
-        self.output_dir = os.path.join("output", gate_name)
+        self.name = name
+        self.output_dir = os.path.join("output", name)
         self.logger = Logger(os.path.join(self.output_dir, 'emulation_log.txt'), debug)
         
         # Helper addresses
@@ -249,14 +251,6 @@ class MuWMEmulator():
                 self.uc.emu_stop()
 
     def mem_read_hook(self, uc: Uc, access, address: int, size: int, value, user_data):
-        # if 0x20000000 <= address <= 0x20004000:  # Input/output region
-        #     access_type = "READ" if access == UC_MEM_READ else "WRITE"
-        #     print(f"[MEM {access_type}] curr_insn=0x{self.curr_insn_address}, addr=0x{address:x}, size={size}, value=0x{value:x}")
-        # not in speculation
-        # if not self.in_speculation:
-        #     is_hit = 
-        #     self.logger.log(f"\tMemory read: address=0x{address:x}, size={size}, cached={is_hit is not None}")
-        
         regs_read, regs_written = self.curr_insn.regs_access()
 
         # cache miss: add address and registers to pending
@@ -290,10 +284,6 @@ class MuWMEmulator():
         self._pretty_print_pending_state(indent=1)
 
     def mem_write_hook(self, uc: Uc, access, address: int, size: int, value, user_data):
-        # if 0x20000000 <= address <= 0x20004000:  # Input/output region
-        #     access_type = "READ" if access == UC_MEM_READ else "WRITE"
-        #     print(f"[MEM {access_type}] curr_insn=0x{self.curr_insn_address}, addr=0x{address:x}, size={size}, value=0x{value:x}")
-
         self.cache.write(address, value)
         if self.in_speculation:
             # store the original value in case we need to rollback
@@ -327,7 +317,6 @@ class MuWMEmulator():
         self.logger.log(f"RSP after rollback: 0x{self.uc.reg_read(UC_X86_REG_RSP):x}")
 
         return next_insn_addr
-
     
     def persist_pending_loads(self):
         """

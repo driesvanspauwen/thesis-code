@@ -4,7 +4,7 @@ from gates.asm import *
 from unicorn import *
 from unicorn.x86_const import *
 
-def emulate_assign_gitm(input_val, debug=False):
+def emulate_gitm_assign(input_val, debug=False):
     # Memory addresses (based on disassembly)
     IN_ADDR = 0x81c0   # reg1
     OUT1_ADDR = 0x79c0  # reg2 
@@ -16,7 +16,7 @@ def emulate_assign_gitm(input_val, debug=False):
     
     # Load ELF file
     loader = ELFLoader("gates/gitm/main_assign.elf")
-    emulator = MuWMEmulator('gitm_assign', loader, debug)
+    emulator = MuWMEmulator(name='gitm_assign', loader=loader, debug=debug)
     emulator.code_start_address = ASSIGN_GATE_START_ADDR
     emulator.code_exit_addr = ASSIGN_GATE_END_ADDR
     
@@ -40,7 +40,7 @@ def emulate_assign_gitm(input_val, debug=False):
     # Both outputs should match the input for assign gate
     return result1 and result2 == input_val
 
-def emulate_and_gitm(in1, in2, debug=False):
+def emulate_gitm_and(in1, in2, debug=False):
     # Memory addresses (based on disassembly)
     IN1_ADDR = 0x81c0
     IN2_ADDR = 0x79c0
@@ -52,7 +52,7 @@ def emulate_and_gitm(in1, in2, debug=False):
     
     # Load ELF file
     loader = ELFLoader("gates/gitm/main_and.elf")
-    emulator = MuWMEmulator('gitm_and', loader, debug)
+    emulator = MuWMEmulator(name='gitm_and', loader=loader, debug=debug)
     emulator.code_start_address = AND_GATE_START_ADDR
     emulator.code_exit_addr = AND_GATE_END_ADDR
     
@@ -75,7 +75,7 @@ def emulate_and_gitm(in1, in2, debug=False):
     
     return result
 
-def emulate_or_gitm(in1, in2, debug=False):
+def emulate_gitm_or(in1, in2, debug=False):
     # Memory addresses (based on disassembly)
     IN1_ADDR = 0x81c0  # reg1
     IN2_ADDR = 0x79c0  # reg2
@@ -87,7 +87,7 @@ def emulate_or_gitm(in1, in2, debug=False):
     
     # Load ELF file
     loader = ELFLoader("gates/gitm/main_or.elf")
-    emulator = MuWMEmulator('gitm_or', loader, debug)
+    emulator = MuWMEmulator(name='gitm_or', loader=loader, debug=debug)
     emulator.code_start_address = OR_GATE_START_ADDR
     emulator.code_exit_addr = OR_GATE_END_ADDR
     
@@ -111,7 +111,7 @@ def emulate_or_gitm(in1, in2, debug=False):
     
     return result
 
-def emulate_not_gitm(input_val, debug=False):
+def emulate_gitm_not(input_val, debug=False):
     # Memory addresses (based on disassembly)
     IN1_ADDR = 0x81c0  # reg1
     IN2_ADDR = 0x79c0  # reg2 (also used as input)
@@ -124,7 +124,7 @@ def emulate_not_gitm(input_val, debug=False):
     
     # Load ELF file
     loader = ELFLoader("gates/gitm/main_not.elf")
-    emulator = MuWMEmulator('gitm_not', loader, debug)
+    emulator = MuWMEmulator(name='gitm_not', loader=loader, debug=debug)
     emulator.code_start_address = NOT_GATE_START_ADDR
     emulator.code_exit_addr = NOT_GATE_END_ADDR
     
@@ -146,7 +146,7 @@ def emulate_not_gitm(input_val, debug=False):
     
     return result
 
-def emulate_nand_gitm(in1, in2, debug=False):
+def emulate_gitm_nand(in1, in2, debug=False):
     # Memory addresses (based on disassembly)
     IN1_ADDR = 0x81c0
     IN2_ADDR = 0x79c0
@@ -162,7 +162,7 @@ def emulate_nand_gitm(in1, in2, debug=False):
 
     # Load ELF file
     loader = ELFLoader("gates/gitm/main_nand.elf")
-    emulator = MuWMEmulator('gitm_nand', loader, debug)
+    emulator = MuWMEmulator(name='gitm_nand', loader=loader, debug=debug)
     emulator.code_start_address = NAND_GATE_START_ADDR
     emulator.code_exit_addr = NAND_GATE_END_ADDR
 
@@ -186,7 +186,7 @@ def emulate_nand_gitm(in1, in2, debug=False):
     return result
 
 # OUT = (IN1 AND NOT IN3) OR (IN2 AND IN3)
-def emulate_mux_gitm(in1, in2, in3, debug=False):
+def emulate_gitm_mux(in1, in2, in3, debug=False):
     # Memory addresses (based on disassembly)
     IN1_ADDR = 0x81c0
     IN2_ADDR = 0x79c0
@@ -206,7 +206,7 @@ def emulate_mux_gitm(in1, in2, in3, debug=False):
 
     # Load ELF file
     loader = ELFLoader("gates/gitm/main_mux.elf")
-    emulator = MuWMEmulator('gitm_mux', loader, debug)
+    emulator = MuWMEmulator(name='gitm_mux', loader=loader, debug=debug)
     emulator.code_start_address = MUX_GATE_START_ADDR
     emulator.code_exit_addr = MUX_GATE_END_ADDR
 
@@ -229,7 +229,7 @@ def emulate_mux_gitm(in1, in2, in3, debug=False):
     result = emulator.cache.is_cached(OUT_ADDR)
     return result
 
-def emulate_xor_gitm(in1, in2, debug=False):
+def emulate_gitm_xor(in1, in2, debug=False):
     # Memory addresses (based on disassembly)
     IN1_ADDR = 0x81c0  # reg1
     IN2_ADDR = 0x79c0  # reg2
@@ -241,7 +241,7 @@ def emulate_xor_gitm(in1, in2, debug=False):
     
     # Load ELF file
     loader = ELFLoader("gates/gitm/main_xor.elf")
-    emulator = MuWMEmulator('gitm_xor', loader, debug)
+    emulator = MuWMEmulator(name='gitm_xor', loader=loader, debug=debug)
     emulator.code_start_address = XOR_GATE_START_ADDR
     emulator.code_exit_addr = XOR_GATE_END_ADDR
     

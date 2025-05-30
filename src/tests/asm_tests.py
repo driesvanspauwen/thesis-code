@@ -3,10 +3,10 @@ from loader import AsmLoader
 from gates.asm import *
 from unicorn.x86_const import *
 
-def emulate_assign_asm(in1, debug=False):
+def emulate_asm_assign(in1, debug=False):
     code = get_asm_exception_assign(in1)
     loader = AsmLoader(code)
-    emulator = MuWMEmulator('assign', loader, debug)
+    emulator = MuWMEmulator(name='assign', loader=loader, debug=debug)
 
     # Set input and output addresses of assign gate
     input_address = emulator.data_start_addr
@@ -20,10 +20,10 @@ def emulate_assign_asm(in1, debug=False):
 
     return emulator.cache.is_cached(output_address)
 
-def emulate_or_asm(in1, in2, debug=False):
+def emulate_asm_or(in1, in2, debug=False):
     code = get_asm_exception_or(in1, in2)
     loader = AsmLoader(code)
-    emulator = MuWMEmulator('or', loader, debug)
+    emulator = MuWMEmulator(name='or', loader=loader, debug=debug)
 
     emulator.logger.log(f"Starting emulation of OR({in1}, {in2})...")
 
@@ -41,10 +41,10 @@ def emulate_or_asm(in1, in2, debug=False):
 
     return emulator.cache.is_cached(output_address)
 
-def emulate_and_asm(in1, in2, debug=False):
+def emulate_asm_and(in1, in2, debug=False):
     code = get_asm_exception_and(in1, in2)
     loader = AsmLoader(code)
-    emulator = MuWMEmulator('and', loader, debug)
+    emulator = MuWMEmulator(name='and', loader=loader, debug=debug)
 
     emulator.logger.log(f"Starting emulation of AND({in1}, {in2})...")
 
@@ -63,10 +63,10 @@ def emulate_and_asm(in1, in2, debug=False):
     return emulator.cache.is_cached(output_address)
 
 # Test Out[0] = (In1[0] ∧ In2[0]) ∨ In3[0]
-def emulate_and_or_asm(in1, in2, in3, debug=False):
+def emulate_asm_and_or(in1, in2, in3, debug=False):
     code = get_asm_exception_and_or(in1, in2, in3)
     loader = AsmLoader(code)
-    emulator = MuWMEmulator('and_or', loader, debug)
+    emulator = MuWMEmulator(name='and_or', loader=loader, debug=debug)
 
     emulator.logger.log(f"Starting emulation of AND-OR({in1}, {in2}, {in3})...")
 
@@ -90,10 +90,10 @@ def emulate_and_or_asm(in1, in2, in3, debug=False):
 
     return result
 
-def emulate_not_asm(in1, debug=False):
+def emulate_asm_not(in1, debug=False):
     code = get_asm_exception_not(in1)
     loader = AsmLoader(code)
-    emulator = MuWMEmulator('not', loader, True)
+    emulator = MuWMEmulator(name='not', loader=loader, debug=debug)
 
     emulator.logger.log(f"Starting emulation of NOT({in1})...")
 

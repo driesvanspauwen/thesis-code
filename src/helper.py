@@ -52,3 +52,34 @@ def get_register_aliases(reg_id: int) -> Set[int]:
     
     # If register is not found in any family, return just the register itself
     return {reg_id}
+
+def compare_runs(function, inputs):
+    """
+    Can be used to show determinism of the emulator.
+    """
+    result1 = function(*inputs)
+    result2 = function(*inputs)
+    
+    if result1 != result2:
+        print(f"Non-deterministic result: {result1} vs {result2}")
+    else:
+        print(f"Consistent result: {result1} for inputs {inputs}")
+
+def verify_memory_layout(emulator):
+    """Verify memory regions don't overlap"""
+    regions = []
+    
+    # Add all mapped regions
+    for region in emulator.uc.mem_regions():
+        start, end, perms = region
+        regions.append((start, end, "mapped"))
+    
+    # Sort by start address
+    regions.sort(key=lambda x: x[0])
+    
+    # Check for overlaps
+    for i in range(len(regions) - 1):
+        if regions[i][1] > regions[i+1][0]:
+            print(f"WARNING: Memory overlap detected!")
+            print(f"  Region 1: 0x{regions[i][0]:x} - 0x{regions[i][1]:x}")
+            print(f"  Region 2: 0x{regions[i+1][0]:x} - 0x{regions[i+1][1]:x}")

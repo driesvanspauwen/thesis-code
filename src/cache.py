@@ -1,9 +1,64 @@
 from unicorn import Uc
 import binascii
+from abc import ABC, abstractmethod
+from unicorn import Uc
+from typing import Any, Optional
 
-class L1DCache:
+
+class Cache(ABC):
     """
-    A simple L1D cache model with LRU replacement policy
+    Abstract base class for cache implementations
+    """
+    
+    @abstractmethod
+    def get_set_index(self, address: int) -> int:
+        """Get the cache set index for a given address"""
+        pass
+    
+    @abstractmethod
+    def get_tag(self, address: int) -> int:
+        """Get the tag for a given address"""
+        pass
+    
+    @abstractmethod
+    def is_cached(self, address: int) -> bool:
+        """Check if an address is currently cached"""
+        pass
+
+    @abstractmethod
+    def read(self, address: int, mu: Uc) -> Any:
+        """Read data from cache or memory"""
+        pass
+    
+    @abstractmethod
+    def write(self, address: int, value: Any) -> None:
+        """Write data to cache"""
+        pass
+    
+    @abstractmethod
+    def flush(self) -> None:
+        """Flush the entire cache"""
+        pass
+    
+    @abstractmethod
+    def flush_address(self, address: int) -> None:
+        """Flush a specific address from cache"""
+        pass
+    
+    @abstractmethod
+    def reset(self) -> None:
+        """Reset cache to initial state"""
+        pass
+    
+    @abstractmethod
+    def pretty_print(self, max_sets: Optional[int] = None, data_preview_bytes: int = 16) -> None:
+        """Pretty print cache contents"""
+        pass
+
+
+class LRUCache():
+    """
+    A simple L1D set-associative cache model with LRU replacement policy
     """
     def __init__(self, amt_sets=64, amt_ways=8, line_size=64, debug=False):
         """

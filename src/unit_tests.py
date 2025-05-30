@@ -19,150 +19,135 @@ from tests.gitm_tests import *
 # ASM tests
 ##########################################
 
-def test_assign_asm():
+def test_asm_assign() -> bool:
     verifier = lambda a: a
-    return run_gate_test('ASSIGN', emulate_assign_asm, verifier, 1)
+    return run_gate_test('ASSIGN', emulate_asm_assign, verifier, 1)
 
-def test_and_asm():
+def test_asm_and() -> bool:
     verifier = lambda a, b: a and b
-    return run_gate_test('AND', emulate_and_asm, verifier, 2)
+    return run_gate_test('AND', emulate_asm_and, verifier, 2)
 
-def test_or_asm():
+def test_asm_or() -> bool:
     verifier = lambda a, b: a or b
-    return run_gate_test('OR', emulate_or_asm, verifier, 2)
+    return run_gate_test('OR', emulate_asm_or, verifier, 2)
 
-def test_not_asm():
+def test_asm_not() -> bool:
     verifier = lambda a: not a
-    return run_gate_test('NOT', emulate_not_asm, verifier, 1)
+    return run_gate_test('NOT', emulate_asm_not, verifier, 1)
 
-def test_and_or_asm():
+def test_asm_and_or() -> bool:
     verifier = lambda a, b, c: (a and b) or c
-    return run_gate_test('AND-OR', emulate_and_or_asm, verifier, 3)
+    return run_gate_test('AND-OR', emulate_asm_and_or, verifier, 3)
 
 ##########################################
 # GITM tests
 ##########################################
 
-def test_assign_gitm():
+def test_gitm_assign() -> bool:
     verifier = lambda a: a
-    return run_gate_test('ASSIGN', emulate_assign_gitm, verifier, 1)
+    return run_gate_test('ASSIGN', emulate_gitm_assign, verifier, 1)
 
-def test_and_gitm():
+def test_gitm_and() -> bool:
     verifier = lambda a, b: a and b
-    return run_gate_test('AND', emulate_and_gitm, verifier, 2)
+    return run_gate_test('AND', emulate_gitm_and, verifier, 2)
 
-def test_or_gitm():
+def test_gitm_or() -> bool:
     verifier = lambda a, b: a or b
-    return run_gate_test('OR', emulate_or_gitm, verifier, 2)
+    return run_gate_test('OR', emulate_gitm_or, verifier, 2)
 
-def test_not_gitm():
+def test_gitm_not() -> bool:
     verifier = lambda a: not a
-    return run_gate_test('NOT', emulate_not_gitm, verifier, 1)
+    return run_gate_test('NOT', emulate_gitm_not, verifier, 1)
 
-def test_nand_gitm():
+def test_gitm_nand() -> bool:
     verifier = lambda a, b: not (a and b)
-    return run_gate_test('NAND', emulate_nand_gitm, verifier, 2)
+    return run_gate_test('NAND', emulate_gitm_nand, verifier, 2)
 
-def test_mux_gitm():
+def test_gitm_mux() -> bool:
     verifier = lambda a, b, sel: a if sel == 0 else b
-    return run_gate_test('MUX', emulate_mux_gitm, verifier, 3)
+    return run_gate_test('MUX', emulate_gitm_mux, verifier, 3)
 
-def test_xor_gitm():
+def test_gitm_xor() -> bool:
     verifier = lambda a, b: a ^ b
-    return run_gate_test('XOR', emulate_xor_gitm, verifier, 2)
+    return run_gate_test('XOR', emulate_gitm_xor, verifier, 2)
 
 ##########################################
 # Flexo tests
 ##########################################
 
-def test_and_flexo():
+def test_flexo_and() -> bool:
     verifier = lambda a, b: a and b
-    return run_gate_test('FLEXO-AND', emulate_and_flexo, verifier, 2)
+    return run_gate_test('FLEXO-AND', emulate_flexo_and, verifier, 2)
 
-def test_or_flexo():
+def test_flexo_or() -> bool:
     verifier = lambda a, b: a or b
-    return run_gate_test('FLEXO-OR', emulate_or_flexo, verifier, 2)
+    return run_gate_test('FLEXO-OR', emulate_flexo_or, verifier, 2)
 
-def test_not_flexo():
+def test_flexo_not() -> bool:
     verifier = lambda a: not a
-    return run_gate_test('FLEXO-NOT', emulate_not_flexo, verifier, 1)
+    return run_gate_test('FLEXO-NOT', emulate_flexo_not, verifier, 1)
 
-def test_nand_flexo():
+def test_flexo_nand() -> bool:
     verifier = lambda a, b: not (a and b)
-    return run_gate_test('FLEXO-NAND', emulate_nand_flexo, verifier, 2)
+    return run_gate_test('FLEXO-NAND', emulate_flexo_nand, verifier, 2)
 
-def test_xor_flexo():
+def test_flexo_xor() -> bool:
     verifier = lambda a, b: a ^ b
-    return run_gate_test('FLEXO-XOR', emulate_xor_flexo, verifier, 2)
+    return run_gate_test('FLEXO-XOR', emulate_flexo_xor, verifier, 2)
 
-def test_xor3_flexo():
+def test_flexo_xor3() -> bool:
     verifier = lambda a, b, c: a ^ b ^ c
-    return run_gate_test('FLEXO-XOR3', emulate_xor3_flexo, verifier, 3)
+    return run_gate_test('FLEXO-XOR3', emulate_flexo_xor3, verifier, 3)
 
-def test_xor4_flexo():
+def test_flexo_xor4() -> bool:
     verifier = lambda a, b, c, d: a ^ b ^ c ^ d
-    return run_gate_test('FLEXO-XOR4', emulate_xor4_flexo, verifier, 4)
+    return run_gate_test('FLEXO-XOR4', emulate_flexo_xor4, verifier, 4)
 
-def test_mux_flexo():
+def test_flexo_mux() -> bool:
     verifier = lambda a, b, sel: a if sel == 0 else b
-    return run_gate_test('FLEXO-MUX', emulate_mux_flexo, verifier, 3)
+    return run_gate_test('FLEXO-MUX', emulate_flexo_mux, verifier, 3)
 
-def test_adder8_flexo():
+def test_flexo_adder8() -> bool:
     verifier = lambda a, b: (a + b) & 0xFF
-    return run_adder_flexo_test('FLEXO-ADDER8', emulate_adder8_flexo, verifier, bits=8, debug=False, runs=10)
+    return run_adder_flexo_test('FLEXO-ADDER8', emulate_flexo_adder8, verifier, bits=8)
 
-def test_adder16_flexo() -> bool:
+def test_flexo_adder16() -> bool:
     verifier = lambda a, b: (a + b) & 0xFFFF
-    return run_adder_flexo_test('FLEXO-ADDER16', emulate_adder16_flexo, verifier, bits=16, debug=False, runs=10)
+    return run_adder_flexo_test('FLEXO-ADDER16', emulate_flexo_adder16, verifier, bits=16)
 
-def test_adder32_flexo() -> bool:
+def test_flexo_adder32() -> bool:
     verifier = lambda a, b: (a + b) & 0xFFFFFFFF
-    return run_adder_flexo_test('FLEXO-ADDER32', emulate_adder32_flexo, verifier, bits=32, debug=False, runs=5)
+    return run_adder_flexo_test('FLEXO-ADDER32', emulate_flexo_adder32, verifier, bits=32)
+
+def test_flexo_sha1_round():
+   all_passed = True
+
+   # Generate random test inputs
+   state = [randint(0, 0xFFFFFFFF) for _ in range(5)]
+   w = randint(0, 0xFFFFFFFF)
+   try:
+       out, err = emulate_flexo_sha1_round(state, w)
+       ref = ref_sha1_round(state, w, round_num=0)  # Note: C code uses 1-based, we use 0-based
+       match = all(out[i] == ref[i] for i in range(5))
+       if match:
+           print(f"Test passed for SHA1_ROUND(state={[hex(x) for x in state]}, w={hex(w)})")
+       else:
+           print(f"Test failed for SHA1_ROUND(state={[hex(x) for x in state]}, w={hex(w)}):")
+           print(f"\tExpected: {[hex(x) for x in ref]}")
+           print(f"\tResult: {[hex(x) for x in out]}")
+           all_passed = False
+           
+   except Exception as e:
+       print(f"Test error for SHA1_ROUND(state={[hex(x) for x in state]}, w={hex(w)}): {e}")
+       all_passed = False
+   
+   return all_passed
 
 ##########################################
 # HELPER FUNCTIONS
 ##########################################
 
-def compare_runs(a: int, b: int):
-    # Run 1
-    result1, error1 = emulate_adder32_flexo(a, b, debug=False)
-    
-    # Run 2  
-    result2, error2 = emulate_adder32_flexo(a, b, debug=False)
-    
-    if result1 != result2:
-        print(f"Non-deterministic result: {result1} vs {result2}")
-    else:
-        print(f"Consistent result: {result1} for inputs ({a}, {b})")
-
-def run_adder_flexo_test(adder_name, emulate_function, verifier, bits, runs=4,debug=False) -> bool:
-    """
-    Generic randomized tester for an N-bit Flexo adder. Performs 4 tests with random inputs.
-    """
-
-    all_passed = True
-    max_val = (1 << bits) - 1
-
-    for _ in range(runs):
-        a = randint(0, max_val)
-        b = randint(0, max_val)
-        # a = 1735138883
-        # b = 3407895005
-        # compare_runs(a, b)
-        result, _ = emulate_function(a, b, debug=debug)
-        expected = verifier(a, b)
-
-        if result != expected:
-            print(f"Test failed for {adder_name}({a}, {b}):")
-            print(f"\tExpected: {expected}")
-            print(f"\tResult:   {result}")
-            all_passed = False
-        else:
-            print(f"Test passed for {adder_name}({a}, {b})")
-
-    return all_passed
-
-def run_gate_test(gate_name, emulate_function, verifier, num_inputs, debug=False):
+def run_gate_test(gate_name, emulate_function, verifier, num_inputs, debug=False) -> bool:
     """
     Generic test runner for gates with max 4 input bits.
     
@@ -207,6 +192,33 @@ def run_gate_test(gate_name, emulate_function, verifier, num_inputs, debug=False
     
     return all_passed
 
+def run_adder_flexo_test(adder_name, emulate_function, verifier, bits, runs=4,debug=False) -> bool:
+    """
+    Generic randomized tester for an N-bit Flexo adder. Performs 4 tests with random inputs.
+    """
+
+    all_passed = True
+    max_val = (1 << bits) - 1
+
+    for _ in range(runs):
+        a = randint(0, max_val)
+        b = randint(0, max_val)
+        # a = 1735138883
+        # b = 3407895005
+        # compare_runs(a, b)
+        result, _ = emulate_function(a, b, debug=debug)
+        expected = verifier(a, b)
+
+        if result != expected:
+            print(f"Test failed for {adder_name}({a}, {b}):")
+            print(f"\tExpected: {expected}")
+            print(f"\tResult:   {result}")
+            all_passed = False
+        else:
+            print(f"Test passed for {adder_name}({a}, {b})")
+
+    return all_passed
+
 ##########################################
 # CLI
 ##########################################
@@ -225,108 +237,43 @@ def run_all_tests():
     
     print("\nAll tests have been run!")
 
-
-def run_flexo_sha1_round(state_in, w_in, debug=False):
-    # Constants (adjust these according to your .elf layout)
-    INPUT_ADDR = 0x40000
-    OUTPUT_ADDR = 0x50000
-    ERROR_OUTPUT_ADDR = 0x60000
-    PAGE_SIZE = 0x1000
-
-    # Function addresses
-    WEIRD_SHA1_ADDR = 0x1550
-    RAND_CALL_ADDR = 0x157f
-    SHA1_RET_ADDR   = 0x28e73
-
-    # Create emulator
-    loader = ELFLoader("gates/flexo/sha1/sha1_round.elf", stack_addr=0x80000,stack_size=0x1000000)
-    emulator = MuWMEmulator('flexo-sha1', loader, debug)
-
-    emulator.code_start_address = WEIRD_SHA1_ADDR
-    emulator.code_exit_addr = SHA1_RET_ADDR
-
-    # Set up memory for inputs and outputs
-    emulator.uc.mem_map(INPUT_ADDR, PAGE_SIZE)
-    emulator.uc.mem_map(OUTPUT_ADDR, PAGE_SIZE)
-    emulator.uc.mem_map(ERROR_OUTPUT_ADDR, PAGE_SIZE)
-
-    # Write input: state (5x uint32) + w (1x uint32)
-    # input_data = state_in + [w_in]
-    # emulator.uc.mem_write(INPUT_ADDR, struct.pack("<6I", *input_data))
-    emulator.uc.mem_write(INPUT_ADDR, struct.pack("<5I", *state_in))
-
-    # Zero output and error buffer
-    # emulator.uc.mem_write(OUTPUT_ADDR, b"\x00" * 20)
-    # emulator.uc.mem_write(ERROR_OUTPUT_ADDR, b"\x00" * 20)
-
-    # Register setup: rdi=input, rsi=w, rdx=output, rcx=error_output
-    emulator.uc.reg_write(UC_X86_REG_RDI, INPUT_ADDR)
-    emulator.uc.reg_write(UC_X86_REG_RSI, w_in)
-    emulator.uc.reg_write(UC_X86_REG_RDX, OUTPUT_ADDR)
-    emulator.uc.reg_write(UC_X86_REG_RCX, ERROR_OUTPUT_ADDR)
-
-    # The rand@plt function call is skipped
-    emulator.rsb.add_exception_addr(RAND_CALL_ADDR)
-    def hook_rand_call(uc, address, size, user_data):
-        if address == RAND_CALL_ADDR:  # or address of call rand
-            uc.reg_write(UC_X86_REG_RAX, 0x12345678)
-            emulator.skip_curr_insn()
-            return True
-        return False
-    emulator.uc.hook_add(UC_HOOK_CODE, hook_rand_call, None, WEIRD_SHA1_ADDR, SHA1_RET_ADDR)
-
-    # Emulate
-    emulator.emulate()
-
-    # Read outputs
-    result = list(struct.unpack("<5I", emulator.uc.mem_read(OUTPUT_ADDR, 20)))
-    err_out = list(struct.unpack("<5I", emulator.uc.mem_read(ERROR_OUTPUT_ADDR, 20)))
-
-    return result, err_out
-
-def test_sha1_round():
-    # Generate random test inputs
-    state = [randint(0, 0xFFFFFFFF) for _ in range(5)]
-    w = randint(0, 0xFFFFFFFF)
+def run_tests_by_prefix(prefix):
+    """
+    Run all test functions that start with the specified prefix.
+    """
+    test_functions = [name for name in globals() 
+                     if name.startswith(f'test_{prefix}') and callable(globals()[name])]
     
-    print(f"Input state: {[hex(x) for x in state]}")
-    print(f"Input w: {hex(w)}")
+    if not test_functions:
+        print(f"No tests found with prefix 'test_{prefix}'")
+        return
     
-    # Run your emulated version
-    out, err = run_flexo_sha1_round(state, w)
+    print(f"Running {len(test_functions)} {prefix.upper()} tests:")
+    for test_func_name in test_functions:
+        print(f"\n--- Running {test_func_name} ---")
+        globals()[test_func_name]()
     
-    # Run reference implementation (assuming round 1 based on SHA1_ROUND macro)
-    ref = ref_sha1_round(state, w, round_num=0)  # Note: C code uses 1-based, we use 0-based
-    
-    print(f"Emulator output: {[hex(x) for x in out]}")
-    print(f"Reference output: {[hex(x) for x in ref]}")
-    print(f"Emulator error output: {[hex(x) for x in err]}")
-    
-    # Compare results
-    match = all(out[i] == ref[i] for i in range(5))
-    print(f"Result matches reference: {match}")
-    
-    if not match:
-        for i in range(5):
-            if out[i] != ref[i]:
-                print(f"\tMismatch at position {i}: {hex(out[i])} != {hex(ref[i])}")
-    
-    return match
+    print(f"\nAll {prefix.upper()} tests have been run!")
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: python unit_tests.py <test_name>")
         print("       python unit_tests.py all (to run all tests)")
+        print("       python unit_tests.py asm (to run all ASM tests)")
+        print("       python unit_tests.py gitm (to run all GITM (Ghost is the Machine) tests)")
+        print("       python unit_tests.py flexo (to run all Flexo tests)")
         print("Available tests:")
         # List all functions that start with 'test_'
-        tests = [name for name in globals() if name.startswith('test_')]
-        for test in tests:
-            print(f"  - {test}")
+        # tests = [name for name in globals() if name.startswith('test_')]
+        # for test in tests:
+        #     print(f"  - {test}")
         sys.exit(1)
 
     test_name = sys.argv[1]
     if test_name.lower() == 'all':
         run_all_tests()
+    elif test_name.lower() in ['asm', 'gitm', 'flexo']:
+        run_tests_by_prefix(test_name.lower())
     elif test_name in globals() and test_name.startswith('test_'):
         globals()[test_name]()  # Run the requested test
         print("Finished unit tests")

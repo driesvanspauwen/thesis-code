@@ -3,7 +3,7 @@ from unicorn.x86_const import *
 from helper import *
 from typing import List, Tuple, Dict, ByteString
 from logger import Logger
-from cache import L1DCache
+from cache import LRUCache
 from rsb import RSB
 from read_timer import Timer
 from loader import *
@@ -30,7 +30,7 @@ class MuWMEmulator():
         self.pending_fault_id: int = 0
 
         # cache
-        self.cache = L1DCache()
+        self.cache = LRUCache()
 
         # rsb
         self.rsb = RSB()
