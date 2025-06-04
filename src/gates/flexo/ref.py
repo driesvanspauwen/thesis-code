@@ -73,3 +73,51 @@ def ref_aes_round(input_block, key_block):
         output[i * 4 + 3] = (t ^ gf_time(shifted[i * 4 + 3] ^ shifted[i * 4 + 0]) ^ shifted[i * 4 + 3] ^ key_block[i * 4 + 3]) & 0xff
     
     return output
+
+def ref_simon32(input_block, key_block, rounds=32):
+    """Reference implementation of Simon32 encryption for testing"""
+    
+    def ror(x, r, bits=16):
+        """Rotate right for 16-bit values"""
+        return ((x >> r) | (x << (bits - r))) & ((1 << bits) - 1)
+    
+    def rol(x, r, bits=16):
+        """Rotate left for 16-bit values"""
+        return ((x << r) | (x >> (bits - r))) & ((1 << bits) - 1)
+    
+    def simon_round(x, y, k):
+        """Single Simon round"""
+        tmp = (rol(x, 1) & rol(x, 8)) ^ y ^ rol(x, 2)
+        y = x
+        x = tmp ^ k
+        return x & 0xFFFF, y & 0xFFFF
+    
+    # Convert byte arrays to 16-bit words (little-endian)
+    x = input_block[1] | (input_block[0] << 8)
+    y = input_block[3] | (input_block[2] << 8)
+    
+    # Key schedule - convert 8 bytes to 4 x 16-bit keys
+    keys = [0] * rounds
+    for i in range(4):
+        keys[3 - i] = key_block[i * 2 + 1] | (key_block[i * 2] << 8)
+    
+    # Key expansion
+    z0 = 0b10110011100001101010010001011111
+    for i in range(4, rounds):
+        tmp = ror(keys[i - 1], 3)
+        tmp ^= keys[i - 3]
+        tmp ^= ror(tmp, 1)
+        keys[i] = (~keys[i - 4] ^ tmp ^ 3 ^ ((z0 >> (i - 4)) & 1)) & 0xFFFF
+    
+    # Encryption rounds
+    for i in range(rounds):
+        x, y = simon_round(x, y, keys[i])
+    
+    # Convert back to bytes (little-endian)
+    output = [0] * 4
+    output[0] = (x >> 8) & 0xFF
+    output[1] = x & 0xFF
+    output[2] = (y >> 8) & 0xFF
+    output[3] = y & 0xFF
+    
+    return output

@@ -170,6 +170,32 @@ def test_flexo_aes_round():
     
     return all_passed
 
+def test_flexo_simon32():
+    all_passed = True
+    
+    # Generate random test inputs
+    input_block = [randint(0, 255) for _ in range(4)]   # 4-byte (32-bit) block
+    key_block = [randint(0, 255) for _ in range(8)]     # 8-byte (64-bit) key
+    
+    try:
+        out, err = emulate_flexo_simon32(input_block, key_block)
+        ref = ref_simon32(input_block, key_block)
+        
+        match = all(out[i] == ref[i] for i in range(4))
+        
+        if match:
+            print(f"Test passed for SIMON32(input={[hex(x) for x in input_block]}, key={[hex(x) for x in key_block[:4]]}...)")
+        else:
+            print(f"Test failed for SIMON32(input={[hex(x) for x in input_block]}, key={[hex(x) for x in key_block[:4]]}...):")
+            print(f"\tExpected: {[hex(x) for x in ref]}")
+            print(f"\tResult:   {[hex(x) for x in out]}")
+            all_passed = False
+    except Exception as e:
+        print(f"Test error for SIMON32(input={[hex(x) for x in input_block]}, key={[hex(x) for x in key_block[:4]]}...): {e}")
+        all_passed = False
+    
+    return all_passed
+
 ##########################################
 # HELPER FUNCTIONS
 ##########################################

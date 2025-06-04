@@ -5,6 +5,9 @@ from loader import ELFLoader
 from gates.asm import *
 from unicorn import *
 from unicorn.x86_const import *
+import time
+import struct
+from random import randint
 
 def emulate_flexo_and(in1, in2, debug=False):
     OUT_ADDR = 0x10000000
@@ -534,9 +537,10 @@ def emulate_flexo_adder32(a: int, b: int, debug: bool = False) -> Tuple[int, int
 
 def emulate_flexo_sha1_round(state_in, w_in, debug=False):
     # Constants
-    INPUT_ADDR = 0x40000
-    OUTPUT_ADDR = 0x50000
-    ERROR_OUTPUT_ADDR = 0x60000
+    INPUT_ADDR = 0x200000  # well above ELF segments
+    KEY_ADDR = 0x201000
+    OUTPUT_ADDR = 0x202000
+    ERROR_OUTPUT_ADDR = 0x203000
     PAGE_SIZE = 0x1000
 
     # Function addresses
@@ -586,10 +590,10 @@ def emulate_flexo_sha1_round(state_in, w_in, debug=False):
 
 def emulate_flexo_aes_round(input_block, key_block, debug=False):
     # Constants
-    INPUT_ADDR = 0x200000    # 2MB - well above ELF segments
-    KEY_ADDR = 0x201000      # 2MB + 4KB
-    OUTPUT_ADDR = 0x202000   # 2MB + 8KB
-    ERROR_OUTPUT_ADDR = 0x203000  # 2MB + 12KB
+    INPUT_ADDR = 0x200000  # well above ELF segments
+    KEY_ADDR = 0x201000
+    OUTPUT_ADDR = 0x202000
+    ERROR_OUTPUT_ADDR = 0x203000
     PAGE_SIZE = 0x1000
     
     # Function addresses
@@ -636,5 +640,60 @@ def emulate_flexo_aes_round(input_block, key_block, debug=False):
     # Read outputs
     result = list(emulator.uc.mem_read(OUTPUT_ADDR, 16))
     err_out = list(emulator.uc.mem_read(ERROR_OUTPUT_ADDR, 16))
+    
+    return result, err_out
+
+def emulate_flexo_simon32(input_block, key_block, debug=False):
+    # Constants - Use addresses that don't conflict with ELF segments
+    INPUT_ADDR = 0x200000  # well above ELF segments
+    KEY_ADDR = 0x201000
+    OUTPUT_ADDR = 0x202000
+    ERROR_OUTPUT_ADDR = 0x203000
+    PAGE_SIZE = 0x1000
+    
+    # Function addresses
+    WEIRD_SIMON_ADDR = 0x1440
+    RAND_CALL_ADDR = 0x1470
+    SIMON_RET_ADDR = 0x116246
+    
+    # Create emulator
+    loader = ELFLoader("gates/flexo/simon/simon32-14.elf")
+    emulator = MuWMEmulator(name='flexo-simon32', loader=loader, debug=debug)
+    emulator.code_start_address = WEIRD_SIMON_ADDR
+    emulator.code_exit_addr = SIMON_RET_ADDR
+    
+    # Set up memory for inputs and outputs
+    emulator.uc.mem_map(INPUT_ADDR, PAGE_SIZE)
+    emulator.uc.mem_map(KEY_ADDR, PAGE_SIZE)
+    emulator.uc.mem_map(OUTPUT_ADDR, PAGE_SIZE)
+    emulator.uc.mem_map(ERROR_OUTPUT_ADDR, PAGE_SIZE)
+    
+    # Write input: 4-byte block and 8-byte key
+    emulator.uc.mem_write(INPUT_ADDR, bytes(input_block))
+    emulator.uc.mem_write(KEY_ADDR, bytes(key_block))
+    
+    # Register setup: rdi=input, rsi=key, rdx=output, rcx=error_output
+    emulator.uc.reg_write(UC_X86_REG_RDI, INPUT_ADDR)
+    emulator.uc.reg_write(UC_X86_REG_RSI, KEY_ADDR)
+    emulator.uc.reg_write(UC_X86_REG_RDX, OUTPUT_ADDR)
+    emulator.uc.reg_write(UC_X86_REG_RCX, ERROR_OUTPUT_ADDR)
+    
+    # Hook rand@plt function call to make it deterministic
+    emulator.rsb.add_exception_addr(RAND_CALL_ADDR)
+    def hook_rand_call(uc, address, size, user_data):
+        if address == RAND_CALL_ADDR:
+            uc.reg_write(UC_X86_REG_RAX, 0x12345678)
+            emulator.skip_curr_insn()
+            return True
+        return False
+    
+    emulator.uc.hook_add(UC_HOOK_CODE, hook_rand_call, None, WEIRD_SIMON_ADDR, SIMON_RET_ADDR)
+    
+    # Emulate
+    emulator.emulate()
+    
+    # Read outputs
+    result = list(emulator.uc.mem_read(OUTPUT_ADDR, 4))
+    err_out = list(emulator.uc.mem_read(ERROR_OUTPUT_ADDR, 4))
     
     return result, err_out

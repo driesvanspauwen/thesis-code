@@ -25,6 +25,7 @@ class RSB:
         if self.stack:
             return self.stack.pop()
         else:
+            print("WARNING: RSB underflow, returning 0")
             return 0
     
     def is_empty(self) -> bool:
