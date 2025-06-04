@@ -5,7 +5,6 @@ from loader import ELFLoader
 from gates.asm import *
 from unicorn import *
 from unicorn.x86_const import *
-from cache import LRUCache, InfiniteCache
 
 def emulate_flexo_and(in1, in2, debug=False):
     OUT_ADDR = 0x10000000
@@ -546,7 +545,7 @@ def emulate_flexo_sha1_round(state_in, w_in, debug=False):
     SHA1_RET_ADDR   = 0x28e73
 
     # Create emulator
-    loader = ELFLoader("gates/flexo/sha1/sha1_round.elf", stack_addr=0x80000,stack_size=0x1000000)
+    loader = ELFLoader("gates/flexo/sha1/sha1_round.elf")
     emulator = MuWMEmulator(name='flexo-sha1', loader=loader, debug=debug)
 
     emulator.code_start_address = WEIRD_SHA1_ADDR
@@ -583,4 +582,59 @@ def emulate_flexo_sha1_round(state_in, w_in, debug=False):
     result = list(struct.unpack("<5I", emulator.uc.mem_read(OUTPUT_ADDR, 20)))
     err_out = list(struct.unpack("<5I", emulator.uc.mem_read(ERROR_OUTPUT_ADDR, 20)))
 
+    return result, err_out
+
+def emulate_flexo_aes_round(input_block, key_block, debug=False):
+    # Constants
+    INPUT_ADDR = 0x200000    # 2MB - well above ELF segments
+    KEY_ADDR = 0x201000      # 2MB + 4KB
+    OUTPUT_ADDR = 0x202000   # 2MB + 8KB
+    ERROR_OUTPUT_ADDR = 0x203000  # 2MB + 12KB
+    PAGE_SIZE = 0x1000
+    
+    # Function addresses
+    WEIRD_AES_ADDR = 0x1c30
+    RAND_CALL_ADDR = 0x1c60
+    AES_RET_ADDR = 0xb4f44
+    
+    # Create emulator
+    loader = ELFLoader("gates/flexo/aes/aes_round-16.elf")
+    emulator = MuWMEmulator(name='flexo-aes', loader=loader, debug=debug)
+    emulator.code_start_address = WEIRD_AES_ADDR
+    emulator.code_exit_addr = AES_RET_ADDR
+    
+    # Set up memory for inputs and outputs
+    emulator.uc.mem_map(INPUT_ADDR, PAGE_SIZE)
+    emulator.uc.mem_map(KEY_ADDR, PAGE_SIZE)
+    emulator.uc.mem_map(OUTPUT_ADDR, PAGE_SIZE)
+    emulator.uc.mem_map(ERROR_OUTPUT_ADDR, PAGE_SIZE)
+    
+    # Write input: 16-byte block and 16-byte key
+    emulator.uc.mem_write(INPUT_ADDR, bytes(input_block))
+    emulator.uc.mem_write(KEY_ADDR, bytes(key_block))
+    
+    # Register setup: rdi=input, rsi=key, rdx=output, rcx=error_output
+    emulator.uc.reg_write(UC_X86_REG_RDI, INPUT_ADDR)
+    emulator.uc.reg_write(UC_X86_REG_RSI, KEY_ADDR)
+    emulator.uc.reg_write(UC_X86_REG_RDX, OUTPUT_ADDR)
+    emulator.uc.reg_write(UC_X86_REG_RCX, ERROR_OUTPUT_ADDR)
+    
+    # Hook rand@plt function call to make it deterministic
+    emulator.rsb.add_exception_addr(RAND_CALL_ADDR)
+    def hook_rand_call(uc, address, size, user_data):
+        if address == RAND_CALL_ADDR:
+            uc.reg_write(UC_X86_REG_RAX, 0x12345678)
+            emulator.skip_curr_insn()
+            return True
+        return False
+    
+    emulator.uc.hook_add(UC_HOOK_CODE, hook_rand_call, None, WEIRD_AES_ADDR, AES_RET_ADDR)
+    
+    # Emulate
+    emulator.emulate()
+    
+    # Read outputs
+    result = list(emulator.uc.mem_read(OUTPUT_ADDR, 16))
+    err_out = list(emulator.uc.mem_read(ERROR_OUTPUT_ADDR, 16))
+    
     return result, err_out

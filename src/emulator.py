@@ -78,7 +78,6 @@ class MuWMEmulator():
         # hooks
         self.uc.hook_add(UC_HOOK_MEM_READ, self.mem_read_hook, self)
         self.uc.hook_add(UC_HOOK_MEM_WRITE, self.mem_write_hook, self)
-        # self.mu.hook_add(UC_HOOK_MEM_UNMAPPED, self.trace_mem_access, self)
         self.uc.hook_add(UC_HOOK_CODE, self.instruction_hook, self)
 
     def checkpoint(self, emulator: Uc, next_insn_addr: int):
@@ -170,13 +169,7 @@ class MuWMEmulator():
                 if misprediction:
                     self.logger.log(f"\tCurrent RSB stack: {self.rsb.stack}")
                     self.logger.log(f"\tRSB misprediction detected: RSB predicted 0x{predicted_ret_addr:x}, actual 0x{actual_ret_addr:x}, RSP located at 0x{rsp:x}")
-                    self.logger.log(f"\tAddress at rsp: 0x{actual_ret_addr:x}")
-                    test = int.from_bytes(uc.mem_read(rsp + 8, 8), byteorder='little')
-                    self.logger.log(f"\tAddress at rsp+8: 0x{test:x}")
-                    test2 = int.from_bytes(uc.mem_read(rsp + 16, 8), byteorder='little')
-                    self.logger.log(f"\tAddress at rsp+16: 0x{test2:x}")
-                    uc.reg_write(UC_X86_REG_RSP, rsp+8) # fix this line, it should add 8 to the rsp
-                    self.logger.log(f"\tRSP after fixing: 0x{uc.reg_read(UC_X86_REG_RSP):x}")
+                    uc.reg_write(UC_X86_REG_RSP, rsp+8) # pop return address from stack for after rollback
                     self.speculate_rsb_misprediction(actual_ret_addr, predicted_ret_addr)
 
                     return
@@ -237,13 +230,9 @@ class MuWMEmulator():
 
         self.previous_context = self.uc.context_save()
         
-        # this is in trace_instruction (start at X86FaultModelAbstract) but i just put it in instruction_hook
         if self.in_speculation:
             self.speculation_depth += self.REGULAR_INSTR_CYCLES
             self.logger.log(f"\tSpeculation depth: {self.speculation_depth}")
-            # rollback on a serializing instruction
-            # if self.current_instruction.name in self.uc_target_desc.barriers:
-            #     self.mu.emu_stop()
 
             # and on expired speculation window
             if self.speculation_depth > self.speculation_limit:
@@ -294,7 +283,7 @@ class MuWMEmulator():
     def rollback(self):
         self.logger.log(f"RSP before rollback: 0x{self.uc.reg_read(UC_X86_REG_RSP):x}")
         state, next_insn_addr, flags = self.checkpoints.pop()
-        # if not self.checkpoints:
+        
         # reset speculative state
         self.in_speculation = False
         self.speculation_depth = 0
@@ -338,8 +327,6 @@ class MuWMEmulator():
             return True
             
         regs_read, regs_written = insn.regs_access()
-        # self.logger.log(f"\tRegs read: {[f'{self.cs.reg_name(reg_id)}' for reg_id in regs_read]}")
-        # self.logger.log(f"\tRegs written: {[f'{self.cs.reg_name(reg_id)}' for reg_id in regs_written]}")
 
         # check if any read registers are pending
         max_cycle_wait = self.cycles_to_resolve_dep(insn)
@@ -442,8 +429,7 @@ class MuWMEmulator():
                     self.logger.log(f"\tSetting start address at 0x{start_address:x}")
                     continue
             
-            # i think this is called when instruction_hook stops emulation because spec window is exceeded
-            # in our case probably unnecessary because when spec window is exceeded we dont have any more instructions
+            # used to resume emulation after rollback
             if self.in_speculation:
                 start_address = self.rollback()
                 continue
@@ -452,18 +438,6 @@ class MuWMEmulator():
         self.persist_pending_loads()
         self.logger.log("Emulation finished")
         self.uc.emu_stop()
-    
-    def reset_state(self):
-        """Reset all emulator state for a fresh run"""
-        self.cache.reset()
-        self.rsb.stack.clear()
-        self.pending_registers.clear()
-        self.pending_memory_loads.clear()
-        self.in_speculation = False
-        self.speculation_depth = 0
-        self.speculation_limit = 0
-        self.checkpoints.clear()
-        self.store_logs.clear()
 
     def _pretty_print_pending_state(self, indent=0):
         """

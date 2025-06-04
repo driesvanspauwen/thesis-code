@@ -7,13 +7,14 @@ from emulator import MuWMEmulator
 from loader import *
 from gates.asm import *
 from unicorn.x86_const import *
-from gates.flexo.sha1.sha1_ref import ref_sha1_round
-# from tests.helper import run_gate_test, run_all_tests
 
 # Import tests
 from tests.asm_tests import *
 from tests.flexo_tests import *
 from tests.gitm_tests import *
+
+# Import reference implementations
+from gates.flexo.ref import *
 
 ##########################################
 # ASM tests
@@ -142,6 +143,32 @@ def test_flexo_sha1_round():
        all_passed = False
    
    return all_passed
+
+def test_flexo_aes_round():
+    all_passed = True
+    
+    # Generate random test inputs
+    input_block = [randint(0, 255) for _ in range(16)]
+    key_block = [randint(0, 255) for _ in range(16)]
+    
+    try:
+        out, err = emulate_flexo_aes_round(input_block, key_block)
+        ref = ref_aes_round(input_block, key_block)
+        
+        match = all(out[i] == ref[i] for i in range(16))
+        
+        if match:
+            print(f"Test passed for AES_ROUND(input={[hex(x) for x in input_block[:4]]}..., key={[hex(x) for x in key_block[:4]]}...)")
+        else:
+            print(f"Test failed for AES_ROUND(input={[hex(x) for x in input_block[:4]]}..., key={[hex(x) for x in key_block[:4]]}...):")
+            print(f"\tExpected: {[hex(x) for x in ref[:4]]}...")
+            print(f"\tResult:   {[hex(x) for x in out[:4]]}...")
+            all_passed = False
+    except Exception as e:
+        print(f"Test error for AES_ROUND(input={[hex(x) for x in input_block[:4]]}..., key={[hex(x) for x in key_block[:4]]}...): {e}")
+        all_passed = False
+    
+    return all_passed
 
 ##########################################
 # HELPER FUNCTIONS
