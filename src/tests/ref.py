@@ -128,9 +128,11 @@ def ref_sha1_2blocks(block1, block2):
     state = [0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0]
     
     # Process block1
+    print(f"Ref Processing block1: {[hex(x) for x in block1]}")
     ref_sha1_block(block1, state)
     
     # Process block2  
+    print(f"Ref Processing block2: {[hex(x) for x in block2]}")
     ref_sha1_block(block2, state)
     
     return state
@@ -151,153 +153,28 @@ def ref_sha1_block(block, state):
     # Save original state for final addition
     ori_state = list(state)
     
+    # Create a working copy of the state
+    working_state = list(state)
+    
     # Process 80 rounds
     for i in range(80):
+        print(f"Ref Round {i}: {[hex(x) for x in working_state]}")
         if i <= 19:
             # Round 1 (rounds 0-19): use round type 0
-            new_state = ref_sha1_round(state, w[i], round_num=0)
+            new_state = ref_sha1_round(working_state, w[i], round_num=0)
         elif i <= 39:
-            # Round 2 (rounds 20-39): use round type 1  
-            new_state = ref_sha1_round(state, w[i], round_num=1)
+            # Round 2 (rounds 20-39): use round type 1
+            new_state = ref_sha1_round(working_state, w[i], round_num=1)
         elif i <= 59:
             # Round 3 (rounds 40-59): use round type 2
-            new_state = ref_sha1_round(state, w[i], round_num=2)
+            new_state = ref_sha1_round(working_state, w[i], round_num=2)
         else:
             # Round 4 (rounds 60-79): use round type 3
-            new_state = ref_sha1_round(state, w[i], round_num=3)
+            new_state = ref_sha1_round(working_state, w[i], round_num=3)
         
-        # Update state for next round
-        state[:] = new_state
+        # Update working state for next round
+        working_state[:] = new_state
     
     # Add original state to final state (SHA-1 requirement)
     for i in range(5):
-        state[i] = (state[i] + ori_state[i]) & 0xFFFFFFFF
-
-def manual_sha1_comparison(block):
-    """Manually compute all 80 rounds for comparison"""
-    
-    def rol(x, n):
-        return ((x << n) | (x >> (32 - n))) & 0xFFFFFFFF
-    
-    # Expand block into w array
-    w = list(block)
-    for i in range(16, 80):
-        w.append(rol(w[i-3] ^ w[i-8] ^ w[i-14] ^ w[i-16], 1) & 0xFFFFFFFF)
-    
-    # Initialize state
-    state = [0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0]
-    initial_state = list(state)
-    
-    print("=== MANUAL SHA-1 ROUND-BY-ROUND COMPUTATION ===")
-    print(f"Initial state: {[hex(x) for x in state]}")
-    print(f"Block: {[hex(x) for x in block]}")
-    print()
-    
-    # Process all 80 rounds
-    for i in range(80):
-        if i <= 19:
-            round_type = 0
-        elif i <= 39:
-            round_type = 1
-        elif i <= 59:
-            round_type = 2
-        else:
-            round_type = 3
-            
-        old_state = list(state)
-        state = ref_sha1_round(state, w[i], round_num=round_type)
-        
-        print(f"Round {i:2d} (type {round_type}, w={hex(w[i])}):")
-        print(f"  Input:  {[hex(x) for x in old_state]}")
-        print(f"  Output: {[hex(x) for x in state]}")
-        print()
-    
-    # Add original state (SHA-1 requirement)
-    for i in range(5):
-        state[i] = (state[i] + initial_state[i]) & 0xFFFFFFFF
-    
-    print(f"Final state (after adding initial): {[hex(x) for x in state]}")
-    return state
-
-def debug_sha1_arithmetic():
-    """Debug the arithmetic computation specifically"""
-    
-    # Round 0 inputs
-    a, b, c, d, e = 0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0
-    w = 0x3193ca54
-    k = 0x5A827999  # Round 1 constant
-    
-    # Calculate f for round 0 (type 0)
-    f = (b & c) | ((~b) & d)
-    
-    print("=== DEBUGGING SHA-1 ARITHMETIC ===")
-    print(f"a = {hex(a)}")
-    print(f"b = {hex(b)}")
-    print(f"c = {hex(c)}")
-    print(f"d = {hex(d)}")
-    print(f"e = {hex(e)}")
-    print(f"w = {hex(w)}")
-    print(f"k = {hex(k)}")
-    print()
-    
-    # Step by step calculation
-    print("Step-by-step calculation:")
-    
-    # Calculate f
-    print(f"f = (b & c) | ((~b) & d)")
-    bc = b & c
-    not_b = (~b) & 0xFFFFFFFF
-    not_b_d = not_b & d
-    f_calc = bc | not_b_d
-    
-    print(f"  b & c = {hex(bc)}")
-    print(f"  ~b = {hex(not_b)}")
-    print(f"  (~b) & d = {hex(not_b_d)}")
-    print(f"  f = {hex(f_calc)} (expected: {hex(f)})")
-    assert f_calc == f
-    
-    # Calculate ROL(a, 5)
-    def rol(x, n):
-        return ((x << n) | (x >> (32 - n))) & 0xFFFFFFFF
-    
-    a_rol5 = rol(a, 5)
-    print(f"ROL(a, 5) = {hex(a_rol5)}")
-    
-    # Calculate temp step by step
-    print(f"\ntemp calculation:")
-    print(f"  ROL(a, 5) = {hex(a_rol5)}")
-    print(f"  f = {hex(f)}")
-    print(f"  e = {hex(e)}")
-    print(f"  w = {hex(w)}")
-    print(f"  k = {hex(k)}")
-    
-    # Intermediate sums
-    sum1 = (a_rol5 + f) & 0xFFFFFFFF
-    sum2 = (sum1 + e) & 0xFFFFFFFF
-    sum3 = (sum2 + w) & 0xFFFFFFFF
-    temp = (sum3 + k) & 0xFFFFFFFF
-    
-    print(f"  ROL(a,5) + f = {hex(sum1)}")
-    print(f"  + e = {hex(sum2)}")
-    print(f"  + w = {hex(sum3)}")
-    print(f"  + k = {hex(temp)}")
-    
-    print(f"\nReference expects: {hex(0xd1486307)}")
-    print(f"We calculated:     {hex(temp)}")
-    print(f"Emulator produces: {hex(0x9fb498b3)}")
-    print(f"Match ref: {temp == 0xd1486307}")
-    
-    # Let's see what could produce the emulator result
-    print(f"\n=== REVERSE ENGINEERING EMU RESULT ===")
-    emu_result = 0x9fb498b3
-    
-    # If everything else is correct, what would f need to be?
-    # temp = ROL(a,5) + f + e + w + k
-    # So: f = temp - ROL(a,5) - e - w - k
-    
-    f_needed = (emu_result - a_rol5 - e - w - k) & 0xFFFFFFFF
-    print(f"For emulator result, f would need to be: {hex(f_needed)}")
-    print(f"But f should be: {hex(f)}")
-    print(f"Difference: {hex((f - f_needed) & 0xFFFFFFFF)}")
-
-debug_sha1_arithmetic()
+        state[i] = (working_state[i] + ori_state[i]) & 0xFFFFFFFF

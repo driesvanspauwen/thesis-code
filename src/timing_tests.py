@@ -164,14 +164,16 @@ def time_flexo_sha1_round_average(num_iterations: int = 100) -> None:
 
 if __name__ == "__main__":
     # Bulk timing tests
-    print("=== Bulk Timing Tests ===")
-    time_flexo_and(tot_trials=1000)
-    print()
-    time_gitm_and(tot_trials=1000)
-    print()
-    time_gitm_mux(tot_trials=1000)
-    print()
+    # print("=== Bulk Timing Tests ===")
+    # time_flexo_and(tot_trials=1000)
+    # print()
+    # time_gitm_and(tot_trials=1000)
+    # print()
+    # time_gitm_mux(tot_trials=1000)
+    # print()
     
-    # SHA1 round timing tests
-    print("=== SHA1 Round Timing Tests ===")
-    time_flexo_sha1_round_average(num_iterations=100)
+    # # SHA1 round timing tests
+    # print("=== SHA1 Round Timing Tests ===")
+    # time_flexo_sha1_round_average(num_iterations=10)
+
+    time_flexo_and(tot_trials=1000)
