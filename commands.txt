@@ -1,1 +1,0 @@
-scp dries@aeolus.experiments.cs.kuleuven.be:/home/dries/thesis/Flexo/circuits/gates/test.elf ./

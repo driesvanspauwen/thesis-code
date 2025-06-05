@@ -38,6 +38,8 @@ class MuWMEmulator():
         # rsb
         self.rsb = RSB()
 
+        self.round_count: List[int] = None  # used for sha1_block emulation
+
         # speculation control
         self.in_speculation: bool = False
         self.speculation_depth: int = 0
@@ -454,5 +456,7 @@ class MuWMEmulator():
         """
         Log a message using the logger.
         """
-        if 0xa2820 <= self.curr_insn_address <= 0xa2d19: # in sha1_block
+        # if 0xa2820 <= self.curr_insn_address <= 0xa2d19 or \
+        #     (self.round_count is not None and self.round_count[0] == 65): # in sha1_block
+        if 0xa2820 <= self.curr_insn_address <= 0xa2d19:
             self.logger.log(message)
