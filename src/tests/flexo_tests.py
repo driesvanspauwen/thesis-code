@@ -700,8 +700,6 @@ def emulate_flexo_simon32(input_block, key_block, debug=False):
     return result, err_out
 
 def emulate_flexo_sha1_2blocks(block1, block2, debug=False):
-    debug = True
-
     # Constants
     INPUT_ADDR = 0x200000
     STATES_ADDR = 0x201000
@@ -739,16 +737,80 @@ def emulate_flexo_sha1_2blocks(block1, block2, debug=False):
     emulator.uc.reg_write(UC_X86_REG_RDX, 0)               # do_ref = false
 
     # Hook the weird round functions to make rand() deterministic
-    def hook_dyn_calls(uc, address, size, user_data):
-        # Add addresses for rand calls within each weird function
-        if address in [0x158f, 0x28ebf, 0x5084f, 0x7a58f]:  # You may need to adjust these
+    def hook_dyn_calls(uc: Uc, address, size, user_data):
+        # Handle rand calls within weird functions
+        if address in [0x158f, 0x28ebf, 0x5084f, 0x7a58f]:
             uc.reg_write(UC_X86_REG_RAX, 0x12345678)
             emulator.skip_curr_insn()
             return True
-        # Handle dynamic calls in sha1_block
-        elif address in [0xa284f, 0xa2869]:
+        
+        # Handle memset call at 0xa284f
+        elif address == 0xa284f:  # memset@plt
+            # memset(rdi, rsi, rdx) - set memory
+            rdi = uc.reg_read(UC_X86_REG_RDI)  # destination
+            rsi = uc.reg_read(UC_X86_REG_RSI)  # value (should be 0)
+            rdx = uc.reg_read(UC_X86_REG_RDX)  # size (should be 0xa0 = 160 bytes)
+            
+            print(f"MEMSET: addr={hex(rdi)}, value={rsi}, size={rdx}")
+            
+            # Implement memset: fill memory with the specified value
+            data = bytes([rsi & 0xFF] * int(rdx))   # Convert rdx to int
+            uc.mem_write(rdi, data)
+            
             emulator.skip_curr_insn()
             return True
+        
+        # Handle memcpy call at 0xa2869  
+        elif address == 0xa2869:  # memcpy@plt
+            rdi = int(uc.reg_read(UC_X86_REG_RDI))
+            rsi = int(uc.reg_read(UC_X86_REG_RSI))
+            rdx = int(uc.reg_read(UC_X86_REG_RDX))
+
+            print(f"MEMCPY: dest={hex(rdi)}, src={hex(rsi)}, size={rdx}")
+            print(f"  (types: rdi={type(rdi)}, rsi={type(rsi)}, rdx={type(rdx)})")
+
+            # First, just try the read:
+            try:
+                raw_chunk = uc.mem_read(rsi, rdx)
+            except Exception as e_read:
+                print(f"  ERROR reading src: {e_read!r}")
+                emulator.skip_curr_insn()
+                return True
+
+            try:
+                chunk = bytes(raw_chunk)                  # ← IMPORTANT: make it a real bytes
+            except Exception as e_cast:
+                print(f"  ERROR casting to bytes: {e_cast!r}")
+                emulator.skip_curr_insn()
+                return True
+
+            try:
+                uc.mem_write(rdi, chunk)
+                print(f"  Copied {rdx} bytes from {hex(rsi)} to {hex(rdi)}")
+            except Exception as e_write:
+                print(f"  ERROR writing to dst: {e_write!r}")
+                emulator.skip_curr_insn()
+                return True
+
+            print(f"  Copied {rdx} bytes from {hex(rsi)} to {hex(rdi)}")
+
+            # Now read back first 16 bytes to verify:
+            if rdx >= 16:
+                try:
+                    raw = uc.mem_read(rdi, 16)
+                    print(f"  [debug] post‐write raw type: {type(raw)}, length: {len(raw)}")
+                    if not isinstance(raw, bytes):
+                        raw = bytes(raw)
+                    if len(raw) != 16:
+                        raise ValueError(f"Expected 16 bytes, got {len(raw)}")
+                    words = struct.unpack("<4I", raw)
+                    print(f"  First 4 words copied: {[hex(w) for w in words]}")
+                except Exception as e_verify:
+                    print(f"  ERROR verifying copied data: {e_verify!r}")
+
+            emulator.skip_curr_insn()
+            return True
+
         return False
     
     emulator.uc.hook_add(UC_HOOK_CODE, hook_dyn_calls, None, 0x1560, 0xa3530) # start round1, finish __DualGate__2_1_6
@@ -1360,5 +1422,122 @@ def emulate_flexo_sha1_1block_full_debug(block, debug=False):
     
     print(f"Final reference state: {[hex(x) for x in final_ref]}")
     print(f"Final match: {all(final_state[i] == final_ref[i] for i in range(5))}")
+    
+    return final_state
+
+
+# 2BLOCK
+def emulate_flexo_sha1_2blocks(block1, block2, debug=False):
+    """Process 2 blocks sequentially using the working 1-block function"""
+    
+    # Process first block with initial state
+    print("=== PROCESSING FIRST BLOCK ===")
+    initial_state = [0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0]
+    
+    # Use the working 1-block function
+    intermediate_state = emulate_flexo_sha1_1block_with_state(block1, initial_state, debug)
+    print(f"Intermediate state after first block: {[hex(x) for x in intermediate_state]}")
+    
+    # Process second block with intermediate state
+    print("\n=== PROCESSING SECOND BLOCK ===")
+    final_state = emulate_flexo_sha1_1block_with_state(block2, intermediate_state, debug)
+    print(f"Final state after second block: {[hex(x) for x in final_state]}")
+    
+    return final_state
+
+def emulate_flexo_sha1_1block_with_state(block, input_state, debug=False):
+    """Modified 1-block function that accepts custom input state"""
+    
+    INPUT_ADDR = 0x200000  
+    STATES_ADDR = 0x201000
+    PAGE_SIZE = 0x1000
+    SHA1_BLOCK_ADDR = 0xa2820
+    SHA1_BLOCK_RET_ADDR = 0xa2cdf
+    
+    # Create a FRESH emulator instance for each block
+    loader = ELFLoader("gates/flexo/sha1/sha1_2blocks-6.elf")
+    emulator = MuWMEmulator(name=f'flexo-sha1-block', loader=loader, debug=False)
+
+    emulator.uc.mem_map(INPUT_ADDR, PAGE_SIZE)
+    emulator.uc.mem_map(STATES_ADDR, PAGE_SIZE)
+    
+    # Use the provided input state instead of hardcoded initial state
+    emulator.uc.mem_write(STATES_ADDR, struct.pack("<5I", *input_state))
+    
+    def hook_dyn_calls(uc: Uc, address, size, user_data):
+        # Handle rand calls within weird functions
+        if address in [0x158f, 0x28ebf, 0x5084f, 0x7a58f]:
+            uc.reg_write(UC_X86_REG_RAX, 0x12345678)
+            emulator.skip_curr_insn()
+            return True
+        
+        # Handle memset call at 0xa284f
+        elif address == 0xa284f:  # memset@plt
+            rdi = uc.reg_read(UC_X86_REG_RDI)
+            rsi = uc.reg_read(UC_X86_REG_RSI)
+            rdx = uc.reg_read(UC_X86_REG_RDX)
+            
+            if debug:
+                print(f"MEMSET: addr={hex(rdi)}, value={rsi}, size={rdx}")
+            
+            data = bytes([rsi & 0xFF] * int(rdx))
+            uc.mem_write(rdi, data)
+            
+            emulator.skip_curr_insn()
+            return True
+        
+        # Handle memcpy call at 0xa2869  
+        elif address == 0xa2869:  # memcpy@plt
+            rdi = int(uc.reg_read(UC_X86_REG_RDI))
+            rsi = int(uc.reg_read(UC_X86_REG_RSI))
+            rdx = int(uc.reg_read(UC_X86_REG_RDX))
+
+            if debug:
+                print(f"MEMCPY: dest={hex(rdi)}, src={hex(rsi)}, size={rdx}")
+
+            try:
+                raw_chunk = uc.mem_read(rsi, rdx)
+                chunk = bytes(raw_chunk)
+                uc.mem_write(rdi, chunk)
+                
+                if debug:
+                    print(f"  Copied {rdx} bytes from {hex(rsi)} to {hex(rdi)}")
+                    
+                    if rdx >= 16:
+                        raw = uc.mem_read(rdi, 16)
+                        if not isinstance(raw, bytes):
+                            raw = bytes(raw)
+                        words = struct.unpack("<4I", raw)
+                        print(f"  First 4 words copied: {[hex(w) for w in words]}")
+                        
+            except Exception as e:
+                print(f"  ERROR in memcpy: {e}")
+
+            emulator.skip_curr_insn()
+            return True
+
+        return False
+    
+    emulator.uc.hook_add(UC_HOOK_CODE, hook_dyn_calls, None, 0x1560, 0xa3530)
+
+    # Execute
+    emulator.uc.mem_write(INPUT_ADDR, struct.pack("<16I", *block))
+    emulator.code_start_address = SHA1_BLOCK_ADDR
+    emulator.code_exit_addr = SHA1_BLOCK_RET_ADDR
+    
+    emulator.uc.reg_write(UC_X86_REG_RDI, INPUT_ADDR)
+    emulator.uc.reg_write(UC_X86_REG_RSI, STATES_ADDR)
+    emulator.uc.reg_write(UC_X86_REG_RDX, 0)
+    
+    if debug:
+        print(f"Starting SHA-1 block with input state: {[hex(x) for x in input_state]}")
+    
+    emulator.emulate()
+    
+    # Read final result
+    final_state = list(struct.unpack("<5I", emulator.uc.mem_read(STATES_ADDR, 20)))
+    
+    if debug:
+        print(f"Block result: {[hex(x) for x in final_state]}")
     
     return final_state
