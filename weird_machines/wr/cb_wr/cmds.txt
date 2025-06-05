@@ -1,9 +1,0 @@
-Create binary:
-gcc -m64 -o cb_wr.bin cb_wr.c
-
-Create executable:
-gcc -m64 -o cb_wr_test cb_wr_test.c
-
-Dump binary addresses:
-objdump -t cb_wr.bin
-
