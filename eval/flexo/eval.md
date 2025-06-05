@@ -156,3 +156,46 @@ RET_WM_DIV_ROUNDS=1, WR_OFFSET=192
 Accuracy: 0.00000%, Error detected: 100.00000%, Undetected error: 0.00000%
 Time usage: 250.123 (us)
 over 1000000 iterations.
+
+## AES
+for some reason, build with manual commands fails (segmentation fault)
+using reproduce mechanism works:
+
+```
+dries@aeolus:~/thesis/Flexo/reproduce$ python3 ./scripts/run_WM.py
+Best window size for aes_round: 16 (60.90%, 1335.87 us)                         
+Best window size for aes_round (EC): 9 (100.00%, 2025.90 us)                    
+[*] Done measuring aes_round                                                    
+[*] Done measuring aes_round (EC)                                               
+Circuit,             Accuracy,        Runtime
+aes_round,             53.20%,     1288.22 us
+aes_round (EC),       100.00%,     2674.95 us
+```
+
+## Simon32, SHA1-2block, AES-block
+using reproduce mechanism:
+
+dries@aeolus:~/thesis/Flexo/reproduce$ python3 ./scripts/run_WM.py
+Best window size for simon32: 14 (54.90%, 1718.29 us)                           
+Best window size for simon32 (EC): 10 (98.00%, 6571.71 us)                      
+Best window size for sha1_2blocks (EC): 6 (100.00%, 51129.53 us)                
+Best window size for aes_block (EC): 10 (100.00%, 206173.85 us)                 
+[*] Done measuring simon32                                                      
+[*] Done measuring simon32 (EC)                                                 
+[*] Done measuring sha1_2blocks (EC)                                            
+[*] Done measuring aes_block (EC)                                               
+Circuit,             Accuracy,        Runtime
+simon32,               51.40%,     1774.47 us
+simon32 (EC),          99.90%,     4160.57 us
+sha1_2blocks (EC),     98.60%,    53407.42 us
+aes_block (EC),        99.80%,   210061.64 us
+
+## SHA 1 round
+dries@aeolus:~/thesis/Flexo/reproduce$ python3 ./scripts/run_WM.py
+Best window size for sha1_round: 6 (97.10%, 250.85 us)                          
+Best window size for sha1_round (EC): 3 (100.00%, 272.73 us)                    
+[*] Done measuring sha1_round                                                   
+[*] Done measuring sha1_round (EC)                                              
+Circuit,             Accuracy,        Runtime
+sha1_round,            91.90%,      262.30 us
+sha1_round (EC),      100.00%,      274.48 us
