@@ -1,6 +1,6 @@
 from tests.flexo_tests import *
 from tests.gitm_tests import *
-from gates.flexo.ref import ref_sha1_round
+from tests.ref import ref_sha1_round
 import time
 from random import randint
 

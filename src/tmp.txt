@@ -1,0 +1,7 @@
+(venv) root@9f376a38db3d:/code/src# python unit_tests.py test_flexo_sha1_1block
+Reference final state: ['0x2a7d8fd4', '0x8c4c1505', '0xdbc78126', '0xf6f22dd4', '0x47c4467a']
+Testing with block1: ['0x3193ca54', '0x90e5e945', '0x29645f8b', '0x6ed4e94b', '0x8d9fe5b9', '0x8101e89a', '0x25ece845', '0xb80e3b0d', '0x57708107', '0x6057c82', '0x56eaa301', '0xbe99854a', '0xe266d0', '0xdeea959e', '0x2dcaabd5', '0x6a1eccda']
+Reference result: ['0xab6d6c0f', '0xd438cf7c', '0x372d9138', '0xc20008f1', '0x884228d0']
+Processing first block...
+Emulator result: ['0x92b404e5', '0x56588ced', '0x6c1acd4e', '0xbf053f68', '0x9f73a93']
+Finished unit tests

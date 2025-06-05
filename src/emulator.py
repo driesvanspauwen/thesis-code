@@ -84,13 +84,13 @@ class MuWMEmulator():
         flags = emulator.reg_read(UC_X86_REG_EFLAGS)
         context = emulator.context_save()
         self.store_logs.append([])
-        self.logger.log(f"\tCheckpoint at 0x{next_insn_addr:x}")
+        self.log(f"\tCheckpoint at 0x{next_insn_addr:x}")
         self.checkpoints.append((context, next_insn_addr, flags))
 
     def speculate_fault(self, errno: int) -> int:
         # speculates only division by zero errors currently
         if not errno == 21:
-            self.logger.log(f"Unhandled fault: {errno}")
+            self.log(f"Unhandled fault: {errno}")
             return 0
         
         # normally, the fault handler would be called after rollback, which continues execution 256 bytes after the faulty instruction
@@ -134,7 +134,7 @@ class MuWMEmulator():
         try:
             insn_bytes = uc.mem_read(address, size)
         except UcError as e:
-            self.logger.log(f"\tError reading instruction bytes at 0x{address:x}: {e}")
+            self.log(f"\tError reading instruction bytes at 0x{address:x}: {e}")
             return
         
         for insn in self.cs.disasm(insn_bytes, address, 1):
@@ -143,10 +143,10 @@ class MuWMEmulator():
             self.curr_insn = insn
             self.curr_insn_address = address
             self.next_insn_addr = address + size
-            self.logger.log(f"Executing 0x{address:x}: {insn.mnemonic} {insn.op_str}")
+            self.log(f"Executing 0x{address:x}: {insn.mnemonic} {insn.op_str}")
 
             if address == 0x3841 or address == 0x3842 or address == 0x3843:
-                self.logger.log(f"\tRSP: 0x{uc.reg_read(UC_X86_REG_RSP):x}")
+                self.log(f"\tRSP: 0x{uc.reg_read(UC_X86_REG_RSP):x}")
 
             if address == self.code_exit_addr:
                 self.finish_emulation()
@@ -154,21 +154,21 @@ class MuWMEmulator():
 
             if insn.mnemonic == "call":
                 return_addr = address + insn.size
-                self.logger.log(f"\tCall instruction detected, adding to RSB: 0x{return_addr:x}")
+                self.log(f"\tCall instruction detected, adding to RSB: 0x{return_addr:x}")
 
                 self.rsb.add_ret_addr(return_addr)
             
             if insn.mnemonic == "ret":
                 predicted_ret_addr = self.rsb.pop_ret_addr()
-                self.logger.log(f"\tReturn instruction detected, popping from RSB: 0x{predicted_ret_addr:x}")
+                self.log(f"\tReturn instruction detected, popping from RSB: 0x{predicted_ret_addr:x}")
 
                 rsp = uc.reg_read(UC_X86_REG_RSP)
                 actual_ret_addr = int.from_bytes(uc.mem_read(rsp, 8), byteorder='little')
 
                 misprediction = predicted_ret_addr != actual_ret_addr and predicted_ret_addr != 0
                 if misprediction:
-                    self.logger.log(f"\tCurrent RSB stack: {self.rsb.stack}")
-                    self.logger.log(f"\tRSB misprediction detected: RSB predicted 0x{predicted_ret_addr:x}, actual 0x{actual_ret_addr:x}, RSP located at 0x{rsp:x}")
+                    self.log(f"\tCurrent RSB stack: {self.rsb.stack}")
+                    self.log(f"\tRSB misprediction detected: RSB predicted 0x{predicted_ret_addr:x}, actual 0x{actual_ret_addr:x}, RSP located at 0x{rsp:x}")
                     uc.reg_write(UC_X86_REG_RSP, rsp+8) # pop return address from stack for after rollback
                     self.speculate_rsb_misprediction(actual_ret_addr, predicted_ret_addr)
 
@@ -207,7 +207,7 @@ class MuWMEmulator():
                         flush_addr = base_value + index_value + op.mem.disp
                         
                         # Flush this address from the cache
-                        self.logger.log(f"\tFlushing address 0x{flush_addr:x} from cache")
+                        self.log(f"\tFlushing address 0x{flush_addr:x} from cache")
                         self.cache.flush_address(flush_addr)
                         break
                 
@@ -216,7 +216,7 @@ class MuWMEmulator():
 
             # Check if instruction is mfence
             if insn.mnemonic == "mfence":
-                self.logger.log(f"\tMFENCE encountered, serializing all memory operations")
+                self.log(f"\tMFENCE encountered, serializing all memory operations")
                 self.persist_pending_loads()  # Complete all prior memory ops
                 self.pending_registers.clear()  # Clear pending registers
                 self.skip_curr_insn()
@@ -224,7 +224,7 @@ class MuWMEmulator():
 
             # Check if we should execute this instruction based on dependencies
             if not self.can_resolve_deps(insn):
-                self.logger.log(f"\tSkipping instruction (resolving dependencies will exceed speculation limit)")
+                self.log(f"\tSkipping instruction (resolving dependencies will exceed speculation limit)")
                 self.skip_curr_insn()
                 return
 
@@ -232,11 +232,11 @@ class MuWMEmulator():
         
         if self.in_speculation:
             self.speculation_depth += self.REGULAR_INSTR_CYCLES
-            self.logger.log(f"\tSpeculation depth: {self.speculation_depth}")
+            self.log(f"\tSpeculation depth: {self.speculation_depth}")
 
             # and on expired speculation window
             if self.speculation_depth > self.speculation_limit:
-                self.logger.log(f"\tSpeculation window exceeded (depth: {self.speculation_depth}, limit: {self.speculation_limit})")
+                self.log(f"\tSpeculation window exceeded (depth: {self.speculation_depth}, limit: {self.speculation_limit})")
                 self.uc.emu_stop()
 
     def mem_read_hook(self, uc: Uc, access, address: int, size: int, value, user_data):
@@ -250,15 +250,15 @@ class MuWMEmulator():
                 self.pending_registers[reg] = self.CACHE_MISS_CYCLES
                 if self.in_speculation:
                     if self.CACHE_MISS_CYCLES > self.speculation_limit:
-                        self.logger.log(f"\tSkipping instruction (execution will exceed speculation limit)")
+                        self.log(f"\tSkipping instruction (execution will exceed speculation limit)")
                         self.skip_curr_insn()
                     else:
                         self.speculation_depth += self.CACHE_MISS_CYCLES
-                        self.logger.log(f"\tReading cache address 0x{address:x}")
+                        self.log(f"\tReading cache address 0x{address:x}")
                         self.cache.read(address, uc)
                 else:
                     self.cache.read(address, uc)
-            self.logger.log(f"\tMemory read: address=0x{address:x}, size={size}, CACHE MISS")
+            self.log(f"\tMemory read: address=0x{address:x}, size={size}, CACHE MISS")
         
         # cache hit: remove address and registers from pending
         else:
@@ -268,7 +268,7 @@ class MuWMEmulator():
             for reg in regs_written:
                 self.remove_pending_register(reg)
 
-            self.logger.log(f"\tMemory read: address=0x{address:x}, size={size}, CACHE HIT")
+            self.log(f"\tMemory read: address=0x{address:x}, size={size}, CACHE HIT")
         
         self._pretty_print_pending_state(indent=1)
 
@@ -278,10 +278,10 @@ class MuWMEmulator():
             # store the original value in case we need to rollback
             original_value = uc.mem_read(address, size)
             self.store_logs[-1].append((address, original_value))
-        self.logger.log(f"\tMemory write: address=0x{address:x}, size={size}, value=0x{value:x}")
+        self.log(f"\tMemory write: address=0x{address:x}, size={size}, value=0x{value:x}")
 
     def rollback(self):
-        self.logger.log(f"RSP before rollback: 0x{self.uc.reg_read(UC_X86_REG_RSP):x}")
+        self.log(f"RSP before rollback: 0x{self.uc.reg_read(UC_X86_REG_RSP):x}")
         state, next_insn_addr, flags = self.checkpoints.pop()
         
         # reset speculative state
@@ -289,7 +289,7 @@ class MuWMEmulator():
         self.speculation_depth = 0
         self.speculation_limit = 0
         self.persist_pending_loads()
-        self.logger.log(f"\tRollback complete")
+        self.log(f"\tRollback complete")
         
         # restore registers
         self.uc.context_restore(state)
@@ -303,7 +303,7 @@ class MuWMEmulator():
         # restore flags
         self.uc.reg_write(UC_X86_REG_EFLAGS, flags)
 
-        self.logger.log(f"RSP after rollback: 0x{self.uc.reg_read(UC_X86_REG_RSP):x}")
+        self.log(f"RSP after rollback: 0x{self.uc.reg_read(UC_X86_REG_RSP):x}")
 
         return next_insn_addr
     
@@ -311,7 +311,7 @@ class MuWMEmulator():
         """
         Persist pending memory loads to the cache.
         """
-        self.logger.log("Persisting pending memory loads...")
+        self.log("Persisting pending memory loads...")
         self._pretty_print_pending_state(indent=1)
         for address in self.pending_memory_loads:
             self.cache.write(address, self.uc.mem_read(address, self.cache.line_size))
@@ -330,7 +330,7 @@ class MuWMEmulator():
 
         # check if any read registers are pending
         max_cycle_wait = self.cycles_to_resolve_dep(insn)
-        self.logger.log(f"\tCycles to resolve deps: {max_cycle_wait}")
+        self.log(f"\tCycles to resolve deps: {max_cycle_wait}")
 
         # no dependencies
         if max_cycle_wait == 0:
@@ -352,8 +352,8 @@ class MuWMEmulator():
         regs_read, _ = insn.regs_access()
         max_cycle_wait = 0
 
-        self.logger.log(f"\tRegs read: {[f'{self.cs.reg_name(reg_id)}' for reg_id in regs_read]}")
-        self.logger.log(f"\tPending registers: {[f'{self.cs.reg_name(reg_id)}' for reg_id in self.pending_registers.keys()]}")
+        self.log(f"\tRegs read: {[f'{self.cs.reg_name(reg_id)}' for reg_id in regs_read]}")
+        self.log(f"\tPending registers: {[f'{self.cs.reg_name(reg_id)}' for reg_id in self.pending_registers.keys()]}")
         
         for reg_read in regs_read:
             # Check direct dependencies
@@ -381,7 +381,7 @@ class MuWMEmulator():
         # Remove the register and all its aliases from pending_registers
         for alias in aliases:
             if alias in self.pending_registers:
-                self.logger.log(f"\tRemoving pending register {self.cs.reg_name(alias)}")
+                self.log(f"\tRemoving pending register {self.cs.reg_name(alias)}")
                 self.pending_registers.pop(alias)
 
     
@@ -395,21 +395,21 @@ class MuWMEmulator():
                 return
 
             try:
-                self.logger.log(f"(Re)starting emulation with start address 0x{start_address:x}, exit address 0x{self.code_exit_addr:x}")
-                self.logger.log(f"Execution mode: {'speculative (limit: ' + str(self.speculation_limit) + ')' if self.in_speculation else 'normal'}")
+                self.log(f"(Re)starting emulation with start address 0x{start_address:x}, exit address 0x{self.code_exit_addr:x}")
+                self.log(f"Execution mode: {'speculative (limit: ' + str(self.speculation_limit) + ')' if self.in_speculation else 'normal'}")
                 self.uc.emu_start(start_address, -1)
 
                 if self.curr_insn_address == self.code_exit_addr:
                     return
                 
             except UcError as e:
-                self.logger.log(f"\tError interpreting instruction at 0x{self.curr_insn.address:x}: {e}")
+                self.log(f"\tError interpreting instruction at 0x{self.curr_insn.address:x}: {e}")
                 self.pending_fault_id = int(e.errno)
             
             except Exception as e:
                 error_msg = f"Unhandled exception (stopping emulation): {e}"
                 stack_trace = traceback.format_exc()
-                self.logger.log(f"{error_msg}\n{stack_trace}")
+                self.log(f"{error_msg}\n{stack_trace}")
                 print(f"{error_msg}\n{stack_trace}")
                 self.finish_emulation()
                 return
@@ -426,7 +426,7 @@ class MuWMEmulator():
 
                 self.pending_fault_id = 0
                 if start_address and start_address != self.code_exit_addr:
-                    self.logger.log(f"\tSetting start address at 0x{start_address:x}")
+                    self.log(f"\tSetting start address at 0x{start_address:x}")
                     continue
             
             # used to resume emulation after rollback
@@ -436,7 +436,7 @@ class MuWMEmulator():
     
     def finish_emulation(self):
         self.persist_pending_loads()
-        self.logger.log("Emulation finished")
+        self.log("Emulation finished")
         self.uc.emu_stop()
 
     def _pretty_print_pending_state(self, indent=0):
@@ -444,8 +444,15 @@ class MuWMEmulator():
         Pretty prints the current state of pending memory loads and registers.
         """
         indent_str = "\t" * indent
-        self.logger.log(f"{indent_str}Pending memory loads: {[f'0x{address:x}' for address in self.pending_memory_loads]}")
+        self.log(f"{indent_str}Pending memory loads: {[f'0x{address:x}' for address in self.pending_memory_loads]}")
         
         # Update to show both register names and cycle counts
         reg_entries = [f"{self.cs.reg_name(reg_id)}:{cycles}" for reg_id, cycles in self.pending_registers.items()]
-        self.logger.log(f"{indent_str}Pending registers: {reg_entries}")
+        self.log(f"{indent_str}Pending registers: {reg_entries}")
+    
+    def log(self, message: str):
+        """
+        Log a message using the logger.
+        """
+        if 0xa2820 <= self.curr_insn_address <= 0xa2d19: # in sha1_block
+            self.logger.log(message)

@@ -8,6 +8,7 @@ from unicorn.x86_const import *
 import time
 import struct
 from random import randint
+from tests.ref import *
 
 def emulate_flexo_and(in1, in2, debug=False):
     OUT_ADDR = 0x10000000
@@ -697,3 +698,667 @@ def emulate_flexo_simon32(input_block, key_block, debug=False):
     err_out = list(emulator.uc.mem_read(ERROR_OUTPUT_ADDR, 4))
     
     return result, err_out
+
+def emulate_flexo_sha1_2blocks(block1, block2, debug=False):
+    debug = True
+
+    # Constants
+    INPUT_ADDR = 0x200000
+    STATES_ADDR = 0x201000
+    PAGE_SIZE = 0x1000
+
+    # Function addresses
+    SHA1_BLOCK_ADDR = 0xa2820
+    SHA1_BLOCK_RET_ADDR = 0xa2cdf
+    
+    # Round function addresses (you need to provide these)
+    WEIRD_SHA1_ROUND1_ADDR = 0x1560  # You need to find
+    WEIRD_SHA1_ROUND2_ADDR = 0x28e90  # You need to find  
+    WEIRD_SHA1_ROUND3_ADDR = 0x50820  # You need to find
+    WEIRD_SHA1_ROUND4_ADDR = 0x7a560  # You need to find
+
+    # Create emulator
+    loader = ELFLoader("gates/flexo/sha1/sha1_2blocks-6.elf")
+    emulator = MuWMEmulator(name='flexo-sha1-2blocks', loader=loader, debug=debug)
+
+    # Set up memory
+    emulator.uc.mem_map(INPUT_ADDR, PAGE_SIZE * 3)  # Space for both blocks + states
+    
+    # Initialize SHA-1 state (standard initial values)
+    initial_state = [0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0]
+    emulator.uc.mem_write(STATES_ADDR, struct.pack("<5I", *initial_state))
+    
+    # Process first block
+    emulator.uc.mem_write(INPUT_ADDR, struct.pack("<16I", *block1))
+    emulator.code_start_address = SHA1_BLOCK_ADDR
+    emulator.code_exit_addr = SHA1_BLOCK_RET_ADDR
+    
+    # Set up registers for sha1_block(block1, states, false)
+    emulator.uc.reg_write(UC_X86_REG_RDI, INPUT_ADDR)      # block pointer
+    emulator.uc.reg_write(UC_X86_REG_RSI, STATES_ADDR)     # states pointer  
+    emulator.uc.reg_write(UC_X86_REG_RDX, 0)               # do_ref = false
+
+    # Hook the weird round functions to make rand() deterministic
+    def hook_dyn_calls(uc, address, size, user_data):
+        # Add addresses for rand calls within each weird function
+        if address in [0x158f, 0x28ebf, 0x5084f, 0x7a58f]:  # You may need to adjust these
+            uc.reg_write(UC_X86_REG_RAX, 0x12345678)
+            emulator.skip_curr_insn()
+            return True
+        # Handle dynamic calls in sha1_block
+        elif address in [0xa284f, 0xa2869]:
+            emulator.skip_curr_insn()
+            return True
+        return False
+    
+    emulator.uc.hook_add(UC_HOOK_CODE, hook_dyn_calls, None, 0x1560, 0xa3530) # start round1, finish __DualGate__2_1_6
+
+    # Emulate first block
+    print("Processing first block...")
+    emulator.emulate()
+    
+    # Get intermediate state after first block
+    intermediate_state = list(struct.unpack("<5I", emulator.uc.mem_read(STATES_ADDR, 20)))
+    print(f"Intermediate state after first block: {[hex(x) for x in intermediate_state]}")
+    
+    # Process second block
+    print("Processing second block...")
+    emulator.uc.mem_write(INPUT_ADDR, struct.pack("<16I", *block2))
+    
+    # Reset registers for second block
+    emulator.uc.reg_write(UC_X86_REG_RDI, INPUT_ADDR)
+    emulator.uc.reg_write(UC_X86_REG_RSI, STATES_ADDR)
+    emulator.uc.reg_write(UC_X86_REG_RDX, 0)
+    
+    # Emulate second block
+    emulator.emulate()
+    
+    # Read final result
+    final_state = list(struct.unpack("<5I", emulator.uc.mem_read(STATES_ADDR, 20)))
+    
+    return final_state
+
+def emulate_flexo_sha1_1block(block1, debug=False):
+    debug = True
+
+    # Constants
+    INPUT_ADDR = 0x200000
+    STATES_ADDR = 0x201000
+    PAGE_SIZE = 0x1000
+
+    # Function addresses
+    SHA1_BLOCK_ADDR = 0xa2820
+    SHA1_BLOCK_RET_ADDR = 0xa2cdf
+    
+    # Round function addresses (you need to provide these)
+    WEIRD_SHA1_ROUND1_ADDR = 0x1560  # You need to find
+    WEIRD_SHA1_ROUND2_ADDR = 0x28e90  # You need to find  
+    WEIRD_SHA1_ROUND3_ADDR = 0x50820  # You need to find
+    WEIRD_SHA1_ROUND4_ADDR = 0x7a560  # You need to find
+
+    # Create emulator
+    loader = ELFLoader("gates/flexo/sha1/sha1_2blocks-6.elf")
+    emulator = MuWMEmulator(name='flexo-sha1-2blocks', loader=loader, debug=debug)
+
+    # Set up memory
+    emulator.uc.mem_map(INPUT_ADDR, PAGE_SIZE * 3)  # Space for both blocks + states
+    
+    # Initialize SHA-1 state (standard initial values)
+    initial_state = [0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0]
+    emulator.uc.mem_write(STATES_ADDR, struct.pack("<5I", *initial_state))
+    
+    # Process first block
+    emulator.uc.mem_write(INPUT_ADDR, struct.pack("<16I", *block1))
+    emulator.code_start_address = SHA1_BLOCK_ADDR
+    emulator.code_exit_addr = SHA1_BLOCK_RET_ADDR
+    
+    # Set up registers for sha1_block(block1, states, false)
+    emulator.uc.reg_write(UC_X86_REG_RDI, INPUT_ADDR)      # block pointer
+    emulator.uc.reg_write(UC_X86_REG_RSI, STATES_ADDR)     # states pointer  
+    emulator.uc.reg_write(UC_X86_REG_RDX, 0)               # do_ref = false
+
+    # Hook the weird round functions to make rand() deterministic
+    def hook_dyn_calls(uc, address, size, user_data):
+        # Add addresses for rand calls within each weird function
+        if address in [0x158f, 0x28ebf, 0x5084f, 0x7a58f]:  # You may need to adjust these
+            uc.reg_write(UC_X86_REG_RAX, 0x12345678)
+            emulator.skip_curr_insn()
+            return True
+        # Handle dynamic calls in sha1_block
+        elif address in [0xa284f, 0xa2869]:
+            emulator.skip_curr_insn()
+            return True
+        return False
+    
+    emulator.uc.hook_add(UC_HOOK_CODE, hook_dyn_calls, None, 0x1560, 0xa3530) # start round1, finish __DualGate__2_1_6
+
+    # Emulate first block
+    print("Processing first block...")
+    emulator.emulate()
+    
+    # Get intermediate state after first block
+    result = list(struct.unpack("<5I", emulator.uc.mem_read(STATES_ADDR, 20)))
+    print(f"Result after 1 block:: {[hex(x) for x in result]}")
+    
+    return result
+
+class SHA1ReferenceTracker:
+    def __init__(self, block, initial_state):
+        self.block = block
+        self.state = list(initial_state)
+        self.original_state = list(initial_state)
+        self.current_round = 0
+        
+        # Expand w array once
+        def rol(x, n):
+            return ((x << n) | (x >> (32 - n))) & 0xFFFFFFFF
+        
+        self.w = list(block)
+        for i in range(16, 80):
+            self.w.append(rol(self.w[i-3] ^ self.w[i-8] ^ self.w[i-14] ^ self.w[i-16], 1) & 0xFFFFFFFF)
+    
+    def step_to_round(self, target_round):
+        """Advance reference state to target_round"""
+        while self.current_round < target_round:
+            round_type = 0 if self.current_round <= 19 else 1 if self.current_round <= 39 else 2 if self.current_round <= 59 else 3
+            self.state = ref_sha1_round(self.state, self.w[self.current_round], round_num=round_type)
+            self.current_round += 1
+        
+        return list(self.state)
+    
+    def get_final_state(self):
+        """Get final state after all rounds + original state addition"""
+        self.step_to_round(80)
+        final_state = []
+        for i in range(5):
+            final_state.append((self.state[i] + self.original_state[i]) & 0xFFFFFFFF)
+        return final_state
+
+def emulate_flexo_sha1_1block_with_round_debugging(block, debug=False):
+    # Constants
+    INPUT_ADDR = 0x200000  
+    STATES_ADDR = 0x201000
+    PAGE_SIZE = 0x1000
+
+    # Function addresses (you need to provide these)
+    SHA1_BLOCK_ADDR = 0xa2820
+    SHA1_BLOCK_RET_ADDR = 0xa2cdf
+    
+    # Round function return addresses (you need to find these)
+    WEIRD_SHA1_ROUND1_RET = 0x28e83
+    WEIRD_SHA1_ROUND2_RET = 0x50813
+    WEIRD_SHA1_ROUND3_RET = 0x7a556
+    WEIRD_SHA1_ROUND4_RET = 0xa2816
+
+    # Create emulator
+    loader = ELFLoader("gates/flexo/sha1/sha1_2blocks-6.elf")
+    emulator = MuWMEmulator(name='flexo-sha1-debug', loader=loader, debug=debug)
+
+    # Set up memory
+    emulator.uc.mem_map(INPUT_ADDR, PAGE_SIZE)
+    emulator.uc.mem_map(STATES_ADDR, PAGE_SIZE)
+    
+    # Initialize SHA-1 state
+    initial_state = [0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0]
+    emulator.uc.mem_write(STATES_ADDR, struct.pack("<5I", *initial_state))
+    
+    # Prepare reference computation
+    ref_state = list(initial_state)
+    
+    # Expand block into w array for reference
+    def rol(x, n):
+        return ((x << n) | (x >> (32 - n))) & 0xFFFFFFFF
+    
+    w = list(block)
+    for i in range(16, 80):
+        w.append(rol(w[i-3] ^ w[i-8] ^ w[i-14] ^ w[i-16], 1) & 0xFFFFFFFF)
+    
+    # Round tracking
+    current_round = 0
+    round_mismatches = []
+    
+    def get_round_type(round_num):
+        if round_num <= 19:
+            return 0
+        elif round_num <= 39:
+            return 1
+        elif round_num <= 59:
+            return 2
+        else:
+            return 3
+    
+    # def hook_round_returns(uc, address, size, user_data):
+    #     nonlocal current_round, ref_state
+        
+    #     # Check if we're at a round function return
+    #     if address in [WEIRD_SHA1_ROUND1_RET, WEIRD_SHA1_ROUND2_RET, 
+    #                   WEIRD_SHA1_ROUND3_RET, WEIRD_SHA1_ROUND4_RET]:
+            
+    #         # Read current emulator state
+    #         emu_state = list(struct.unpack("<5I", uc.mem_read(STATES_ADDR, 20)))
+            
+    #         # Update reference state for this round
+    #         round_type = get_round_type(current_round)
+    #         w_value = w[current_round]
+    #         ref_state = ref_sha1_round(ref_state, w_value, round_num=round_type)
+            
+    #         # Compare states
+    #         match = all(emu_state[i] == ref_state[i] for i in range(5))
+            
+    #         if debug or not match:
+    #             print(f"Round {current_round:2d} (type {round_type}, w={hex(w_value)}):")
+    #             print(f"  REF: {[hex(x) for x in ref_state]}")
+    #             print(f"  EMU: {[hex(x) for x in emu_state]}")
+    #             if not match:
+    #                 print(f"  *** MISMATCH ***")
+    #                 round_mismatches.append(current_round)
+    #             print()
+            
+    #         current_round += 1
+        
+    #     return False
+    
+    def hook_dyn_calls(uc, address, size, user_data):
+        # Add addresses for rand calls within each weird function
+        if address in [0x158f, 0x28ebf, 0x5084f, 0x7a58f]:  # You may need to adjust these
+            uc.reg_write(UC_X86_REG_RAX, 0x12345678)
+            emulator.skip_curr_insn()
+            return True
+        # Handle dynamic calls in sha1_block
+        elif address in [0xa284f, 0xa2869]:
+            emulator.skip_curr_insn()
+            return True
+        return False
+    emulator.uc.hook_add(UC_HOOK_CODE, hook_dyn_calls, None, 0x1560, 0xa3530) # start round1, finish __DualGate__2_1_6
+    
+    state_changes = []
+    
+    def hook_state_writes(uc, type, address, size, value, user_data):
+        if address >= STATES_ADDR and address < STATES_ADDR + 20:
+            # State memory being written
+            current_state = list(struct.unpack("<5I", uc.mem_read(STATES_ADDR, 20)))
+            state_changes.append(current_state.copy())
+            if debug:
+                print(f"State update at {hex(address)}: {[hex(x) for x in current_state]}")
+        return False
+    
+    # Hook memory writes
+    emulator.uc.hook_add(UC_HOOK_MEM_WRITE, hook_state_writes)
+    
+    # Add hooks
+    # emulator.uc.hook_add(UC_HOOK_CODE, hook_round_returns, None, 0x1560, 0xa3530)
+
+    # Process the block
+    emulator.uc.mem_write(INPUT_ADDR, struct.pack("<16I", *block))
+    emulator.code_start_address = SHA1_BLOCK_ADDR
+    emulator.code_exit_addr = SHA1_BLOCK_RET_ADDR
+    
+    emulator.uc.reg_write(UC_X86_REG_RDI, INPUT_ADDR)
+    emulator.uc.reg_write(UC_X86_REG_RSI, STATES_ADDR)
+    emulator.uc.reg_write(UC_X86_REG_RDX, 0)  # do_ref = false
+    
+    print(f"Starting SHA-1 block processing with {len(block)} words...")
+    print(f"Initial state: {[hex(x) for x in initial_state]}")
+    print()
+    
+    emulator.emulate()
+    
+    # Read final emulator result
+    final_emu_state = list(struct.unpack("<5I", emulator.uc.mem_read(STATES_ADDR, 20)))
+    
+    # Calculate final reference result (add original state)
+    for i in range(5):
+        ref_state[i] = (ref_state[i] + initial_state[i]) & 0xFFFFFFFF
+    
+    print("=== FINAL COMPARISON ===")
+    print(f"Reference final: {[hex(x) for x in ref_state]}")
+    print(f"Emulator final:  {[hex(x) for x in final_emu_state]}")
+    print(f"Final match: {all(ref_state[i] == final_emu_state[i] for i in range(5))}")
+    
+    if round_mismatches:
+        print(f"Round mismatches occurred at rounds: {round_mismatches}")
+    else:
+        print("All rounds matched!")
+    
+    return final_emu_state, ref_state, round_mismatches
+
+# was monitoring memory instead of stack -- sha1_block uses stack for intermediate state
+# def emulate_flexo_sha1_1block_full_debug(block, debug=False):
+#     # Same setup as before...
+#     INPUT_ADDR = 0x200000  
+#     STATES_ADDR = 0x201000
+#     PAGE_SIZE = 0x1000
+#     SHA1_BLOCK_ADDR = 0xa2820
+#     SHA1_BLOCK_RET_ADDR = 0xa2cdf
+    
+#     loader = ELFLoader("gates/flexo/sha1/sha1_2blocks-6.elf")
+#     emulator = MuWMEmulator(name='flexo-sha1-debug', loader=loader, debug=debug)
+    
+#     emulator.uc.mem_map(INPUT_ADDR, PAGE_SIZE)
+#     emulator.uc.mem_map(STATES_ADDR, PAGE_SIZE)
+    
+#     initial_state = [0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0]
+#     emulator.uc.mem_write(STATES_ADDR, struct.pack("<5I", *initial_state))
+    
+#     def hook_everything(uc, address, size, user_data):
+#         # Hook function calls
+#         if size >= 5:
+#             insn = uc.mem_read(address, min(size, 5))
+#             if insn[0] == 0xe8:  # CALL rel32
+#                 rel_offset = struct.unpack("<i", insn[1:5])[0]
+#                 target = (address + size + rel_offset) & 0xFFFFFFFF
+#                 print(f"CALL at {hex(address)} -> {hex(target)}")
+        
+#         # Hook round function entries
+#         if address in [0x1560, 0x28e90, 0x50820, 0x7a560]:
+#             rdi = uc.reg_read(UC_X86_REG_RDI)
+#             rsi = uc.reg_read(UC_X86_REG_RSI)  
+#             print(f"Round function {hex(address)} - RDI: {hex(rdi)}, RSI: {hex(rsi)}")
+#             if rdi >= STATES_ADDR and rdi < STATES_ADDR + 100:
+#                 try:
+#                     state = list(struct.unpack("<5I", uc.mem_read(rdi, 20)))
+#                     print(f"  Input state: {[hex(x) for x in state]}")
+#                 except:
+#                     pass
+        
+#         return False
+    
+#     def hook_state_writes(uc, type, address, size, value, user_data):
+#         if address >= STATES_ADDR and address < STATES_ADDR + 20:
+#             current_state = list(struct.unpack("<5I", uc.mem_read(STATES_ADDR, 20)))
+#             offset = (address - STATES_ADDR) // 4
+#             print(f"State[{offset}] = {hex(value)} -> {[hex(x) for x in current_state]}")
+#         return False
+    
+#     def hook_dyn_calls(uc, address, size, user_data):
+#         # Add addresses for rand calls within each weird function
+#         if address in [0x158f, 0x28ebf, 0x5084f, 0x7a58f]:  # You may need to adjust these
+#             uc.reg_write(UC_X86_REG_RAX, 0x12345678)
+#             emulator.skip_curr_insn()
+#             return True
+#         # Handle dynamic calls in sha1_block
+#         elif address in [0xa284f, 0xa2869]:
+#             emulator.skip_curr_insn()
+#             return True
+#         return False
+#     emulator.uc.hook_add(UC_HOOK_CODE, hook_dyn_calls, None, 0x1560, 0xa3530) # start round1, finish __DualGate__2_1_6
+
+#     # Add all hooks
+#     emulator.uc.hook_add(UC_HOOK_CODE, hook_everything, None, 0x1000, 0xb0000)
+#     emulator.uc.hook_add(UC_HOOK_MEM_WRITE, hook_state_writes)
+    
+#     # Same execution as before...
+#     emulator.uc.mem_write(INPUT_ADDR, struct.pack("<16I", *block))
+#     emulator.code_start_address = SHA1_BLOCK_ADDR
+#     emulator.code_exit_addr = SHA1_BLOCK_RET_ADDR
+    
+#     emulator.uc.reg_write(UC_X86_REG_RDI, INPUT_ADDR)
+#     emulator.uc.reg_write(UC_X86_REG_RSI, STATES_ADDR)
+#     emulator.uc.reg_write(UC_X86_REG_RDX, 0)
+    
+#     print("Starting debug emulation...")
+#     emulator.emulate()
+    
+#     final_state = list(struct.unpack("<5I", emulator.uc.mem_read(STATES_ADDR, 20)))
+#     return final_state
+
+def emulate_flexo_sha1_1block_full_debug(block, debug=False):
+    INPUT_ADDR = 0x200000  
+    STATES_ADDR = 0x201000
+    PAGE_SIZE = 0x1000
+    SHA1_BLOCK_ADDR = 0xa2820
+    SHA1_BLOCK_RET_ADDR = 0xa2cdf
+    
+    loader = ELFLoader("gates/flexo/sha1/sha1_2blocks-6.elf")
+    emulator = MuWMEmulator(name='flexo-sha1-debug', loader=loader, debug=debug)
+
+    emulator.uc.mem_map(INPUT_ADDR, PAGE_SIZE)
+    emulator.uc.mem_map(STATES_ADDR, PAGE_SIZE)
+    
+    initial_state = [0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0]
+    emulator.uc.mem_write(STATES_ADDR, struct.pack("<5I", *initial_state))
+    
+    # Prepare reference calculation for comparison
+    def rol(x, n):
+        return ((x << n) | (x >> (32 - n))) & 0xFFFFFFFF
+    
+    w = list(block)
+    for i in range(16, 80):
+        w.append(rol(w[i-3] ^ w[i-8] ^ w[i-14] ^ w[i-16], 1) & 0xFFFFFFFF)
+    
+    ref_state = list(initial_state)
+    round_count = 0
+    
+    def get_round_type(round_num):
+        if round_num <= 19:
+            return 0
+        elif round_num <= 39:
+            return 1
+        elif round_num <= 59:
+            return 2
+        else:
+            return 3
+    
+    def hook_weird_function_entries(uc, address, size, user_data):
+        nonlocal round_count, ref_state
+        
+        # Hook the actual weird function addresses (not the CALL instructions)
+        if address in [0x1560, 0x28e90, 0x50820, 0x7a560]:  # Weird function entry points
+            # Read parameters according to x86-64 calling convention
+            rdi = uc.reg_read(UC_X86_REG_RDI)  # input state pointer
+            rsi = uc.reg_read(UC_X86_REG_RSI)  # w value
+            rdx = uc.reg_read(UC_X86_REG_RDX)  # output state pointer
+            rcx = uc.reg_read(UC_X86_REG_RCX)  # error output pointer
+            
+            try:
+                # Read input state
+                input_state = list(struct.unpack("<5I", uc.mem_read(rdi, 20)))
+                
+                # Calculate reference for this round
+                round_type = get_round_type(round_count)
+                w_value = w[round_count] if round_count < 80 else 0
+                ref_output = ref_sha1_round(input_state, w_value, round_num=round_type)
+                
+                print(f"\nRound {round_count} (type {round_type}, w={hex(w_value)}):")
+                print(f"  EMU Input:  {[hex(x) for x in input_state]}")
+                print(f"  REF Output: {[hex(x) for x in ref_output]}")
+                
+                # Update reference state for next round
+                ref_state = ref_output
+                round_count += 1
+                
+            except Exception as e:
+                print(f"Error reading weird function parameters: {e}")
+        
+        return False
+    
+    def hook_weird_function_detailed_params(uc, address, size, user_data):
+        if address == 0x1560:  # First weird round function
+            rdi = uc.reg_read(UC_X86_REG_RDI)  # input state pointer
+            rsi = uc.reg_read(UC_X86_REG_RSI)  # w value
+            rdx = uc.reg_read(UC_X86_REG_RDX)  # output state pointer
+            rcx = uc.reg_read(UC_X86_REG_RCX)  # error output pointer
+            
+            print(f"\n=== WEIRD FUNCTION PARAMETERS ===")
+            print(f"RDI (input ptr): {hex(rdi)}")
+            print(f"RSI (w value): {hex(rsi)}")
+            print(f"RDX (output ptr): {hex(rdx)}")
+            print(f"RCX (error ptr): {hex(rcx)}")
+            
+            # Read the actual input state
+            try:
+                input_state = list(struct.unpack("<5I", uc.mem_read(rdi, 20)))
+                print(f"Input state: {[hex(x) for x in input_state]}")
+                
+                # Verify this matches what we expect
+                expected = [0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0]
+                print(f"Expected:    {[hex(x) for x in expected]}")
+                print(f"Match: {input_state == expected}")
+                
+            except:
+                print("Could not read input state")
+        
+        return False
+    
+    def hook_function_calls(uc, address, size, user_data):
+        # Hook the CALL instructions to get the RDX parameter (output pointer)
+        if address in [0xa29b8, 0xa2a8a, 0xa2b57, 0xa2c0a]:  # CALL to weird functions
+            # The RDX register should contain the output pointer
+            rdx = uc.reg_read(UC_X86_REG_RDX)
+            
+            # Store this for later when we want to read the output
+            setattr(hook_function_calls, 'last_output_ptr', rdx)
+        
+        # After a weird function returns, read its output
+        elif address in [0xa29bd, 0xa2a8f, 0xa2b5c, 0xa2c0f]:  # Instructions after CALL returns
+            if hasattr(hook_function_calls, 'last_output_ptr'):
+                try:
+                    output_ptr = hook_function_calls.last_output_ptr
+                    output_state = list(struct.unpack("<5I", uc.mem_read(output_ptr, 20)))
+                    print(f"  EMU Output: {[hex(x) for x in output_state]}")
+                    
+                    # Compare with reference
+                    if round_count > 0:  # We should have calculated ref in the entry hook
+                        ref_output = ref_state  # This should be the expected output
+                        match = all(output_state[i] == ref_output[i] for i in range(5))
+                        if not match:
+                            print(f"  *** MISMATCH ***")
+                        else:
+                            print(f"  ✓ MATCH")
+                        
+                except Exception as e:
+                    print(f"Error reading output state: {e}")
+        
+    def hook_dyn_calls(uc: Uc, address, size, user_data):
+        # Handle rand calls within weird functions
+        if address in [0x158f, 0x28ebf, 0x5084f, 0x7a58f]:
+            uc.reg_write(UC_X86_REG_RAX, 0x12345678)
+            emulator.skip_curr_insn()
+            return True
+        
+        # Handle memset call at 0xa284f
+        elif address == 0xa284f:  # memset@plt
+            # memset(rdi, rsi, rdx) - set memory
+            rdi = uc.reg_read(UC_X86_REG_RDI)  # destination
+            rsi = uc.reg_read(UC_X86_REG_RSI)  # value (should be 0)
+            rdx = uc.reg_read(UC_X86_REG_RDX)  # size (should be 0xa0 = 160 bytes)
+            
+            print(f"MEMSET: addr={hex(rdi)}, value={rsi}, size={rdx}")
+            
+            # Implement memset: fill memory with the specified value
+            data = bytes([rsi & 0xFF] * int(rdx))   # Convert rdx to int
+            uc.mem_write(rdi, data)
+            
+            emulator.skip_curr_insn()
+            return True
+        
+        # Handle memcpy call at 0xa2869  
+        elif address == 0xa2869:  # memcpy@plt
+            rdi = int(uc.reg_read(UC_X86_REG_RDI))
+            rsi = int(uc.reg_read(UC_X86_REG_RSI))
+            rdx = int(uc.reg_read(UC_X86_REG_RDX))
+
+            print(f"MEMCPY: dest={hex(rdi)}, src={hex(rsi)}, size={rdx}")
+            print(f"  (types: rdi={type(rdi)}, rsi={type(rsi)}, rdx={type(rdx)})")
+
+            # First, just try the read:
+            try:
+                raw_chunk = uc.mem_read(rsi, rdx)
+            except Exception as e_read:
+                print(f"  ERROR reading src: {e_read!r}")
+                emulator.skip_curr_insn()
+                return True
+
+            try:
+                chunk = bytes(raw_chunk)                  # ← IMPORTANT: make it a real bytes
+            except Exception as e_cast:
+                print(f"  ERROR casting to bytes: {e_cast!r}")
+                emulator.skip_curr_insn()
+                return True
+
+            try:
+                uc.mem_write(rdi, chunk)
+                print(f"  Copied {rdx} bytes from {hex(rsi)} to {hex(rdi)}")
+            except Exception as e_write:
+                print(f"  ERROR writing to dst: {e_write!r}")
+                emulator.skip_curr_insn()
+                return True
+
+            print(f"  Copied {rdx} bytes from {hex(rsi)} to {hex(rdi)}")
+
+            # Now read back first 16 bytes to verify:
+            if rdx >= 16:
+                try:
+                    raw = uc.mem_read(rdi, 16)
+                    print(f"  [debug] post‐write raw type: {type(raw)}, length: {len(raw)}")
+                    if not isinstance(raw, bytes):
+                        raw = bytes(raw)
+                    if len(raw) != 16:
+                        raise ValueError(f"Expected 16 bytes, got {len(raw)}")
+                    words = struct.unpack("<4I", raw)
+                    print(f"  First 4 words copied: {[hex(w) for w in words]}")
+                except Exception as e_verify:
+                    print(f"  ERROR verifying copied data: {e_verify!r}")
+
+            emulator.skip_curr_insn()
+            return True
+
+        return False
+
+    
+    def hook_sha1_block_call_setup(uc, address, size, user_data):
+        # Hook right before the call to weird function
+        if address == 0xa29b8:  # CALL to __weird__sha1_round1
+            rsp = uc.reg_read(UC_X86_REG_RSP)
+            
+            # Read what should be the w value
+            try:
+                w_from_stack = struct.unpack("<I", uc.mem_read(rsp + 0x70, 4))[0]
+                print(f"Value at [rsp+0x70] (should be w): {hex(w_from_stack)}")
+                
+                # Also check RSI before the call
+                rsi_before = uc.reg_read(UC_X86_REG_RSI)
+                print(f"RSI before call: {hex(rsi_before)}")
+                
+                # Check what was loaded into ESI at 0xa2992
+                print(f"Expected w for round 0: 0x3193ca54")
+                
+            except Exception as e:
+                print(f"Error reading stack: {e}")
+        
+        return False
+    
+    emulator.uc.hook_add(UC_HOOK_CODE, hook_dyn_calls, None, 0x1560, 0xa3530) # start round1, finish __DualGate__2_1_6
+    
+    # Add hooks
+    emulator.uc.hook_add(UC_HOOK_CODE, hook_weird_function_entries, None, 0x1560, 0xa3530)
+    emulator.uc.hook_add(UC_HOOK_CODE, hook_weird_function_detailed_params, None, 0x1560, 0xa3530)
+    emulator.uc.hook_add(UC_HOOK_CODE, hook_sha1_block_call_setup, None, 0x1560, 0xa3530)
+    emulator.uc.hook_add(UC_HOOK_CODE, hook_function_calls, None, 0xa2000, 0xa3000)
+
+    # Execute
+    emulator.uc.mem_write(INPUT_ADDR, struct.pack("<16I", *block))
+    emulator.code_start_address = SHA1_BLOCK_ADDR
+    emulator.code_exit_addr = SHA1_BLOCK_RET_ADDR
+    
+    emulator.uc.reg_write(UC_X86_REG_RDI, INPUT_ADDR)
+    emulator.uc.reg_write(UC_X86_REG_RSI, STATES_ADDR)
+    emulator.uc.reg_write(UC_X86_REG_RDX, 0)
+    
+    print(f"Starting SHA-1 block with initial state: {[hex(x) for x in initial_state]}")
+    
+    emulator.emulate()
+    
+    # Read final result
+    final_state = list(struct.unpack("<5I", emulator.uc.mem_read(STATES_ADDR, 20)))
+    print(f"\nFinal emulator state: {[hex(x) for x in final_state]}")
+    
+    # Calculate final reference (add initial state)
+    final_ref = list(ref_state)
+    for i in range(5):
+        final_ref[i] = (final_ref[i] + initial_state[i]) & 0xFFFFFFFF
+    
+    print(f"Final reference state: {[hex(x) for x in final_ref]}")
+    print(f"Final match: {all(final_state[i] == final_ref[i] for i in range(5))}")
+    
+    return final_state

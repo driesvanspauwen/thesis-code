@@ -1,8 +1,7 @@
 import sys
 import struct
 import itertools
-from random import randint
-from random import randint
+import random
 from emulator import MuWMEmulator
 from loader import *
 from gates.asm import *
@@ -14,7 +13,7 @@ from tests.flexo_tests import *
 from tests.gitm_tests import *
 
 # Import reference implementations
-from gates.flexo.ref import *
+from tests.ref import *
 
 ##########################################
 # ASM tests
@@ -195,6 +194,58 @@ def test_flexo_simon32():
         all_passed = False
     
     return all_passed
+
+def test_flexo_sha1_2blocks():
+    all_passed = True
+    
+    # Generate random test inputs (2 blocks of 16 words each)
+    block1 = [randint(0, 0xFFFFFFFF) for _ in range(16)]
+    block2 = [randint(0, 0xFFFFFFFF) for _ in range(16)]
+
+    print(f"Testing SHA1_2BLOCKS with:\n\tBlock 1: {[hex(x) for x in block1]}\n\tBlock 2: {[hex(x) for x in block2]}")
+    
+    try:
+        result = emulate_flexo_sha1_2blocks(block1, block2)
+        reference = ref_sha1_2blocks(block1, block2)  # You'll need to implement this
+        
+        match = all(result[i] == reference[i] for i in range(5))
+        if match:
+            print(f"Test passed for SHA1_2BLOCKS")
+        else:
+            print(f"Test failed for SHA1_2BLOCKS:")
+            print(f"\tExpected: {[hex(x) for x in reference]}")
+            print(f"\tResult: {[hex(x) for x in result]}")
+            all_passed = False
+            
+    except Exception as e:
+        print(f"Test error for SHA1_2BLOCKS: {e}")
+        all_passed = False
+        
+    return all_passed
+
+def test_flexo_sha1_1block():
+    """Test just the first block processing"""
+    # Use a simple, known block for testing
+    random.seed(12345)
+    block1 = [random.randint(0, 0xFFFFFFFF) for _ in range(16)]  # All zeros for easy debugging
+    
+    print(f"Testing with block1: {[hex(x) for x in block1]}")
+    
+    # Reference calculation
+    ref_state = [0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0]
+    ref_sha1_block(block1, ref_state)
+    print(f"Reference result: {[hex(x) for x in ref_state]}")
+    
+    # Emulator calculation  
+    emu_result = emulate_flexo_sha1_1block_full_debug(
+        block1, debug=True
+    )
+    print(f"Emulator result: {[hex(x) for x in emu_result]}")
+    # print(f"Reference result: {[hex(x) for x in ref_result]}")
+    # print(f"Mismatches: {mismatches}")
+    # print(f"\tAmount of mismatches: {len(mismatches)}")
+    
+    return all(ref_state[i] == emu_result[i] for i in range(5))
 
 ##########################################
 # HELPER FUNCTIONS
